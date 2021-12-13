@@ -1,5 +1,66 @@
 {
-  "bundles": {
-    "Shopware\\Core\\Framework\\Framework": ["all"]
-  }
+    "copy-from-recipe": {
+        "bin/": "%BIN_DIR%/",
+        "config/": "%CONFIG_DIR%/",
+        "custom/": "custom/",
+        "public/": "%PUBLIC_DIR%/",
+        "var/": "var/",
+        "root/": ""
+    },
+    "bundles": {
+        "Shopware\\Core\\Framework\\Framework": [
+            "all"
+        ],
+        "Shopware\\Core\\System\\System": [
+            "all"
+        ],
+        "Shopware\\Core\\Content\\Content": [
+            "all"
+        ],
+        "Shopware\\Core\\Checkout\\Checkout": [
+            "all"
+        ],
+        "Shopware\\Core\\Profiling\\Profiling": [
+            "dev"
+        ],
+        "Shopware\\Core\\Maintenance\\Maintenance": [
+            "all"
+        ]
+    },
+    "env": {
+        "APP_URL": "http://localhost",
+        "APP_SECRET": "%generate(secret)%",
+        "INSTANCE_ID": "%generate(secret)%",
+        "BLUE_GREEN_DEPLOYMENT": "0",
+        "MAILER_URL": "null://localhost",
+        "DATABASE_URL": "mysql://root:root@localhost/shopware"
+    },
+    "gitignore": [
+        "custom/*",
+        "!custom/plugins/.gitkeep",
+        "!custom/static-plugins/",
+        "/public/fonts/*",
+        "!/public/fonts/.gitkeep",
+        "/public/img/*",
+        "!/public/img/.gitkeep",
+        "/public/css/*",
+        "!/public/css/.gitkeep",
+        "/public/js/*",
+        "!/public/js/.gitkeep",
+        "/public/media/*",
+        "!/public/media/.gitkeep",
+        "/public/theme/*",
+        "!/public/theme/.gitkeep",
+        "/public/thumbnail/*",
+        "!/public/thumbnail/.gitkeep",
+        "/public/assets/*",
+        "/public/sitemap/*",
+        "!/public/sitemap/.gitkeep",
+        "/public/bundles/*",
+        "!/public/bundles/.gitkeep",
+        "/files/*",
+        "/var/*",
+        "!/var/log/.gitkeep",
+        "!/var/cache/.gitkeep"
+    ]
 }
