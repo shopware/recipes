@@ -28,6 +28,7 @@
         ]
     },
     "env": {
+        "APP_ENV": "prod",
         "APP_URL": "http://localhost",
         "APP_SECRET": "%generate(secret)%",
         "INSTANCE_ID": "%generate(secret)%",
@@ -62,5 +63,23 @@
         "/var/*",
         "!/var/log/.gitkeep",
         "!/var/cache/.gitkeep"
-    ]
+    ],
+    "composer-scripts": {
+        "pre-install-cmd": [
+            "[ ! -f vendor/autoload.php ] || $PHP_BINARY bin/console system:update:prepare"
+        ],
+        "pre-update-cmd": [
+            "[ ! -f vendor/autoload.php ] || $PHP_BINARY bin/console system:update:prepare"
+        ],
+        "post-install-cmd": [
+            "@composer install --working-dir vendor/shopware/recovery --no-interaction --no-scripts",
+            "@composer install --working-dir=vendor/shopware/recovery/Common --no-interaction --optimize-autoloader --no-suggest",
+            "[ ! -f vendor/autoload.php ] || $PHP_BINARY bin/console system:update:finish"
+        ],
+        "post-update-cmd": [
+            "@composer install --working-dir vendor/shopware/recovery --no-interaction --no-scripts",
+            "@composer install --working-dir=vendor/shopware/recovery/Common --no-interaction --optimize-autoloader --no-suggest",
+            "[ ! -f vendor/autoload.php ] || $PHP_BINARY bin/console system:update:finish"
+        ]
+    }
 }
