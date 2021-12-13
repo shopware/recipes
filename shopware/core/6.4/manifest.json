@@ -20,9 +20,6 @@
         "Shopware\\Core\\Checkout\\Checkout": [
             "all"
         ],
-        "Shopware\\Core\\Profiling\\Profiling": [
-            "dev"
-        ],
         "Shopware\\Core\\Maintenance\\Maintenance": [
             "all"
         ]
