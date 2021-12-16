@@ -40,16 +40,10 @@ if (is_file(dirname(__DIR__) . '/files/update/update.json') || is_dir(dirname(__
 }
 
 // The check is to ensure we don't use .env if APP_ENV is defined
-if (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
-    if (!class_exists(Dotenv::class)) {
-        throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
-    }
-    $envFile = __DIR__ . '/../.env';
-    if (file_exists($envFile)) {
-        (new Dotenv())
-            ->usePutenv(true)
-            ->load($envFile);
-    }
+if (class_exists(Dotenv::class)) {
+    (new Dotenv())->usePutenv()->bootEnv(dirname(__DIR__) . '/.env');
+} elseif (!isset($_SERVER['APP_ENV']) && !isset($_ENV['APP_ENV'])) {
+    throw new \RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env file.');
 }
 
 $appEnv = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? 'dev';
