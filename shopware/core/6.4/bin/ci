@@ -32,8 +32,8 @@ $debug = ($_SERVER['APP_DEBUG'] ?? ($env !== 'prod')) && !$input->hasParameterOp
 
 $pluginLoader = new StaticKernelPluginLoader($classLoader, null);
 
-$databaseUrl = EnvironmentHelper::getVariable('DATABASE_URL', getenv('DATABASE_URL'));
-if (trim($databaseUrl ?? '') === '') {
+$databaseUrl = (string) EnvironmentHelper::getVariable('DATABASE_URL', getenv('DATABASE_URL'));
+if (trim($databaseUrl) === '') {
     // fake DATABASE_URL
     $_SERVER['DATABASE_URL'] = Kernel::PLACEHOLDER_DATABASE_URL;
 
