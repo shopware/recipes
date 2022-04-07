@@ -1,0 +1,8 @@
+{
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "REDIS_CACHE_URL": "redis://localhost:6379/0"
+    }
+}
