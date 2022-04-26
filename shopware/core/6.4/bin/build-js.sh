@@ -2,7 +2,7 @@
 
 BIN_DIR="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
-set -e
+set -euo pipefail
 
 
 if [[ -e "${BIN_DIR}/build-administration.sh" ]]; then
