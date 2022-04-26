@@ -5,6 +5,7 @@
         "custom/": "custom/",
         "public/": "%PUBLIC_DIR%/",
         "var/": "var/",
+        "src/": "src/",
         "root/": ""
     },
     "bundles": {
