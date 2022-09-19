@@ -1,7 +1,0 @@
-{
-    "bundles": {
-        "Enqueue\\MessengerAdapter\\Bundle\\EnqueueAdapterBundle": [
-            "all"
-        ]
-    }
-}

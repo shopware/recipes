@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "sroze/messenger-enqueue-transport": {
+            "manifest": {
+                "bundles": {
+                    "Enqueue\\MessengerAdapter\\Bundle\\EnqueueAdapterBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "43fd2155451154077d7e3119b5dd5b3b80461a11"
+        }
+    }
+}

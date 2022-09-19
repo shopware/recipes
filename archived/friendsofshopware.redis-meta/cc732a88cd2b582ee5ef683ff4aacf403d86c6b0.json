@@ -1,0 +1,27 @@
+{
+    "manifests": {
+        "friendsofshopware/redis-meta": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "env": {
+                    "REDIS_CACHE_URL": "redis://localhost:6379/0"
+                }
+            },
+            "files": {
+                "config/packages/redis.yml": {
+                    "contents": [
+                        "framework:\r",
+                        "    cache:\r",
+                        "        app: cache.adapter.redis\r",
+                        "        default_redis_provider: '%env(REDIS_CACHE_URL)%'\r",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "cc732a88cd2b582ee5ef683ff4aacf403d86c6b0"
+        }
+    }
+}
