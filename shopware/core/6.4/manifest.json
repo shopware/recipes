@@ -23,6 +23,9 @@
         ],
         "Shopware\\Core\\Maintenance\\Maintenance": [
             "all"
+        ],
+        "Shopware\\Core\\DevOps\\DevOps": [
+            "e2e"
         ]
     },
     "env": {
