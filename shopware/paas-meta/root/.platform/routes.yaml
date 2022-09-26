@@ -1,0 +1,12 @@
+# The routes of the project.
+#
+# Each route describes how an incoming URL is going
+# to be processed by Platform.sh.
+
+"https://{default}/":
+    type: upstream
+    id: shopware
+    upstream: "app:http"
+    cache:
+        enabled: true
+        cookies: ['/^ss?ess/']

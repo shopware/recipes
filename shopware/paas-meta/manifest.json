@@ -1,0 +1,8 @@
+{
+    "aliases": ["paas"],
+    "copy-from-recipe": {
+        "root/": "",
+        "bin/": "%BIN_DIR%/",
+        "config/": "%CONFIG_DIR%/"
+    }
+}
