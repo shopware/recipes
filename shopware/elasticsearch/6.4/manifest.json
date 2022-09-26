@@ -10,5 +10,26 @@
         "SHOPWARE_ES_INDEXING_ENABLED": "0",
         "SHOPWARE_ES_INDEX_PREFIX": "sw",
         "SHOPWARE_ES_THROW_EXCEPTION": "1"
+    },
+    "docker-compose": {
+        "docker-compose.yml": {
+            "services": [
+                "opensearch:",
+                "  image: opensearchproject/opensearch:2",
+                "  volumes:",
+                "    - opensearch-data:/usr/share/elasticsearch/data",
+                "  environment:",
+                "    discovery.type: single-node",
+                "    plugins.security.disabled: 'true'"
+            ],
+            "volumes": ["opensearch-data:"]
+        },
+        "docker-compose.override.yml": {
+            "services": [
+                "opensearch:",
+                "  ports:",
+                "    - \"9200\""
+            ]
+        }
     }
 }
