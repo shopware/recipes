@@ -1,6 +1,7 @@
 {
     "aliases": {
-        "console": "symfony/console"
+        "console": "symfony/console",
+        "paas": "shopware/paas-meta"
     },
     "recipes": {
         "shopware/administration": [
@@ -10,6 +11,9 @@
             "6.4"
         ],
         "shopware/elasticsearch": [
+            "6.4"
+        ],
+        "shopware/paas-meta": [
             "6.4"
         ],
         "shopware/storefront": [
