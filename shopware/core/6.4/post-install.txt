@@ -1,0 +1,1 @@
+* You are now ready to install Shopware 6. If you want to use the Web-Installer, you have to run beforehand <info>./bin/console assets:install</info>.
