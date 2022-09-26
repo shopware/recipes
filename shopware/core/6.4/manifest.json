@@ -83,5 +83,41 @@
             "@composer install --working-dir=vendor/shopware/recovery/Common --no-interaction --optimize-autoloader --no-suggest",
             "[ ! -f vendor/autoload.php ] || $PHP_BINARY bin/console system:update:finish"
         ]
+    },
+    "docker-compose": {
+        "docker-compose.yml": {
+            "services": [
+                "app:",
+                "  image: shopware/development:8.1-composer-2",
+                "  ports:",
+                "    - \"8000\":\"8000\"",
+                "  volumes:",
+                "    - ./:/app",
+                "database:",
+                "  image: mysql:${MYSQL_VERSION:-8}-oracle",
+                "  environment:",
+                "    MYSQL_DATABASE: ${MYSQL_DATABASE:-shopware}",
+                "    # You should definitely change the password in production",
+                "    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}",
+                "    MYSQL_USER: ${MYSQL_USER:-shopware}",
+                "    MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}",
+                "  volumes:",
+                "    - db-data:/var/lib/mysql:rw",
+                "    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!",
+                "    # - ./docker/db/data:/var/lib/mysql:rw"
+            ],
+            "volumes": ["db-data:"]
+        },
+        "docker-compose.override.yml": {
+            "services": [
+                "database:",
+                "  ports:",
+                "    - \"3306\"",
+
+                "mailer:",
+                "  image: schickling/mailcatcher",
+                "  ports: [1025, 1080]"
+            ]
+        }
     }
 }
