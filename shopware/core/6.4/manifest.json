@@ -28,6 +28,11 @@
             "e2e"
         ]
     },
+    "container": {
+        "shopware.store.frw": true,
+        "default_cdn_strategy": "physical_filename",
+        "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%"
+    },
     "env": {
         "APP_ENV": "prod",
         "APP_URL": "http://localhost",
