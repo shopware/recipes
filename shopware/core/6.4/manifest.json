@@ -90,7 +90,7 @@
                 "app:",
                 "  image: shopware/development:8.1-composer-2",
                 "  ports:",
-                "    - \"8000\":\"8000\"",
+                "    - \"8000:8000\"",
                 "  volumes:",
                 "    - ./:/app",
                 "database:",
