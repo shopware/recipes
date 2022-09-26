@@ -4,7 +4,6 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 
 | Package | Latest Recipe | Aliases |
 | --- | --- | --- |
-| [friendsofshopware/redis-meta](https://packagist.org/packages/friendsofshopware/redis-meta) | [1.0](friendsofshopware/redis-meta/1.0) |  |
 | [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.4](shopware/administration/6.4) |  |
 | [shopware/core](https://packagist.org/packages/shopware/core) | [6.4](shopware/core/6.4) |  |
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.4](shopware/elasticsearch/6.4) |  |

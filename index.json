@@ -3,9 +3,6 @@
         "console": "symfony/console"
     },
     "recipes": {
-        "friendsofshopware/redis-meta": [
-            "1.0"
-        ],
         "shopware/administration": [
             "6.4"
         ],
