@@ -131,7 +131,10 @@ hooks:
             # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
             bin/console cache:pool:clear cache.object
         fi
-        ./setup-fastly.sh
+
+        if [ -e setup-fastly.sh ]; then
+            ./setup-fastly.sh
+        fi
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
