@@ -4,6 +4,8 @@ db:
 
 cacheredis:
     type: redis:6.0
+    configuration:
+        maxmemory_policy: volatile-ttl
 
 # uncomment if you want to use elasticsearch
 # searchelastic:
