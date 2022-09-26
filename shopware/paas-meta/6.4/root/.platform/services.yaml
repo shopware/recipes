@@ -1,9 +1,9 @@
 db:
-    type: mariadb:10.5
+    type: mariadb:10.6
     disk: 2048
 
 cacheredis:
-    type: redis:6.0
+    type: redis:7.0
     configuration:
         maxmemory_policy: volatile-ttl
 
