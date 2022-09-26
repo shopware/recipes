@@ -1,6 +1,7 @@
 {
     "aliases": {
         "console": "symfony/console",
+        "fastly": "shopware/fastly-meta",
         "paas": "shopware/paas-meta"
     },
     "recipes": {
@@ -11,6 +12,9 @@
             "6.4"
         ],
         "shopware/elasticsearch": [
+            "6.4"
+        ],
+        "shopware/fastly-meta": [
             "6.4"
         ],
         "shopware/paas-meta": [
