@@ -1,0 +1,2 @@
+  * Add your <comment>FASTLY_API_TOKEN</comment> and <comment>FASTLY_SERVICE_ID</comment> into <comment>.env</comment>
+  * Run <comment>setup-fastly.sh</comment> to deploy the Fastly vcl files
