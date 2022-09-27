@@ -4,5 +4,4 @@
     3. Adjust the <comment>.env</comment> file to your database
     4. Run <comment>./bin/console system:install --basic-setup</comment>
 
-  * If you want to use the Web-Installer, you have to run beforehand <info>./bin/console assets:install</info>.
   * <fg=blue>Read</> the documentation at <comment>https://developer.shopware.com/</>
