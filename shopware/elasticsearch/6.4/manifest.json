@@ -1,4 +1,7 @@
 {
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
     "bundles": {
         "Shopware\\Elasticsearch\\Elasticsearch": [
             "all"
