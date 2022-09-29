@@ -17,6 +17,9 @@
         "enqueue/dbal": [
             "0.10"
         ],
+        "enqueue/enqueue-bundle": [
+            "0.10"
+        ],
         "enqueue/redis": [
             "0.10"
         ],

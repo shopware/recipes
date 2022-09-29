@@ -6,6 +6,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | --- | --- | --- |
 | [doctrine/annotations](https://packagist.org/packages/doctrine/annotations) | [1.0](doctrine/annotations/1.0) |  |
 | [enqueue/dbal](https://packagist.org/packages/enqueue/dbal) | [0.10](enqueue/dbal/0.10) |  |
+| [enqueue/enqueue-bundle](https://packagist.org/packages/enqueue/enqueue-bundle) | [0.10](enqueue/enqueue-bundle/0.10) |  |
 | [enqueue/redis](https://packagist.org/packages/enqueue/redis) | [0.10](enqueue/redis/0.10) |  |
 | [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.4](shopware/administration/6.4) |  |
 | [shopware/core](https://packagist.org/packages/shopware/core) | [6.4](shopware/core/6.4) |  |
