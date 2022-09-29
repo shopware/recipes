@@ -5,7 +5,7 @@
         ]
     },
     "env": {
-        "SHOPWARE_ES_HOSTS": "localhost",
+        "ELASTICSEARCH_URL": "http://localhost:9200",
         "SHOPWARE_ES_ENABLED": "0",
         "SHOPWARE_ES_INDEXING_ENABLED": "0",
         "SHOPWARE_ES_INDEX_PREFIX": "sw",

@@ -103,11 +103,7 @@ function mapPlatformShElasticsearch(string $relationshipName, Config $config) : 
     }
 
     setEnvVar('SHOPWARE_ES_HOSTS', $config->formattedCredentials($relationshipName, 'elasticsearch'));
-    setEnvVar('SHOPWARE_ES_INDEXING_ENABLED', '1');
-    setEnvVar('SHOPWARE_ES_INDEX_PREFIX', 'sw6');
-    // uncomment to enable elasticsearch
-    // see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
-    // setEnvVar('SHOPWARE_ES_ENABLED', '1');
+    setEnvVar('ELASTICSEARCH_URL', $config->formattedCredentials($relationshipName, 'elasticsearch'));
 }
 
 function elasticsearchFormatter(array $credentials): string
