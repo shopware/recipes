@@ -44,8 +44,7 @@
         "BLUE_GREEN_DEPLOYMENT": "0",
         "DATABASE_URL": "mysql://root:root@localhost/shopware",
         "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
-        "MAILER_URL": "null://null",
-        "MAILER_DSN": "null://null"
+        "MAILER_URL": "null://null"
     },
     "gitignore": [
         "custom/*",

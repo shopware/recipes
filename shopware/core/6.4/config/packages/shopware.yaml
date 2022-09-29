@@ -1,3 +1,6 @@
+parameters:
+    env(MAILER_DSN): "null://null"
+
 shopware:
     auto_update:
         # Disables the auto updater in the UI
