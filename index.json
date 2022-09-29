@@ -2,7 +2,14 @@
     "aliases": {
         "console": "symfony/console",
         "fastly": "shopware/fastly-meta",
-        "paas": "shopware/paas-meta"
+        "framework-bundle": "symfony/framework-bundle",
+        "framework-bundle copy": "symfony/framework-bundle copy",
+        "frameworkbundle": "symfony/framework-bundle",
+        "frameworkbundle copy": "symfony/framework-bundle copy",
+        "paas": "shopware/paas-meta",
+        "translation": "symfony/translation",
+        "twig-bundle": "symfony/twig-bundle",
+        "twigbundle": "symfony/twig-bundle"
     },
     "recipes": {
         "shopware/administration": [
@@ -27,6 +34,18 @@
             "0.4"
         ],
         "symfony/console": [
+            "5.4"
+        ],
+        "symfony/framework-bundle": [
+            "5.4"
+        ],
+        "symfony/framework-bundle copy": [
+            "5.4"
+        ],
+        "symfony/translation": [
+            "5.4"
+        ],
+        "symfony/twig-bundle": [
             "5.4"
         ]
     },

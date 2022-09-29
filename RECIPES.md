@@ -12,3 +12,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.4](shopware/storefront/6.4) |  |
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
+| [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [5.4](symfony/framework-bundle/5.4) | `framework-bundle`, `frameworkbundle` |
+| [symfony/framework-bundle copy](https://packagist.org/packages/symfony/framework-bundle copy) | [5.4](symfony/framework-bundle copy/5.4) | `framework-bundle copy`, `frameworkbundle copy` |
+| [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
+| [symfony/twig-bundle](https://packagist.org/packages/symfony/twig-bundle) | [5.4](symfony/twig-bundle/5.4) | `twig-bundle`, `twigbundle` |
