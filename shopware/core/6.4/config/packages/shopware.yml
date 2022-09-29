@@ -1,5 +1,0 @@
-shopware:
-  auto_update:
-    enabled: false # Disables the auto updater in the UI
-  admin_worker:
-    enable_admin_worker: true # The Admin worker should be disabled on production server.
