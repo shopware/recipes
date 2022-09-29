@@ -1,3 +1,5 @@
 {
-    "composer-scripts": {}
+    "bundles": {
+        "Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle": ["all"]
+    }
 }
