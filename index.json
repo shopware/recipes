@@ -11,6 +11,9 @@
         "twigbundle": "symfony/twig-bundle"
     },
     "recipes": {
+        "doctrine/annotations": [
+            "1.0"
+        ],
         "shopware/administration": [
             "6.4"
         ],
