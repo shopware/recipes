@@ -26,6 +26,9 @@
         ],
         "Shopware\\Core\\DevOps\\DevOps": [
             "e2e"
+        ],
+        "Shopware\\Core\\Profiling\\Profiling": [
+            "all"
         ]
     },
     "container": {
