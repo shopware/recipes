@@ -14,6 +14,12 @@
         "doctrine/annotations": [
             "1.0"
         ],
+        "enqueue/dbal": [
+            "0.10"
+        ],
+        "enqueue/redis": [
+            "0.10"
+        ],
         "shopware/administration": [
             "6.4"
         ],

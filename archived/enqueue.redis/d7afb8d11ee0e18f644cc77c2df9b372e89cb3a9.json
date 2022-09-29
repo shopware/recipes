@@ -1,0 +1,11 @@
+{
+    "manifests": {
+        "enqueue/redis": {
+            "manifest": {
+                "composer-scripts": []
+            },
+            "files": [],
+            "ref": "d7afb8d11ee0e18f644cc77c2df9b372e89cb3a9"
+        }
+    }
+}
