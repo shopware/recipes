@@ -5,6 +5,7 @@
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
         "paas": "shopware/paas-meta",
+        "routing": "symfony/routing",
         "translation": "symfony/translation",
         "twig-bundle": "symfony/twig-bundle",
         "twigbundle": "symfony/twig-bundle"
@@ -35,6 +36,9 @@
             "5.4"
         ],
         "symfony/framework-bundle": [
+            "5.4"
+        ],
+        "symfony/routing": [
             "5.4"
         ],
         "symfony/translation": [
