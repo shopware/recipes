@@ -117,9 +117,6 @@ hooks:
             # generate JWT
             echo "Running system:generate-jwt-secret"
             bin/console system:generate-jwt-secret || true
-            # refresh plugins and enable PaaS Plugin
-            bin/console plugin:refresh
-            bin/console plugin:install --activate SwagPaas
             # mark system as installed
             touch $PLATFORM_APP_DIR/installer/installed
         fi;
@@ -139,8 +136,8 @@ hooks:
             bin/console cache:pool:clear cache.object
         fi
 
-        if [ -e setup-fastly.sh ]; then
-            ./setup-fastly.sh
+        if [ -e bin/setup-fastly.sh ]; then
+            ./bin/setup-fastly.sh
         fi
 
 # The relationships of the application with services or other applications.
