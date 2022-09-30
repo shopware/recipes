@@ -23,7 +23,7 @@ variables:
         SHOPWARE_HTTP_CACHE_ENABLED: 1
         # NVM and Node.js versions to install
         NVM_VERSION: v0.39.0
-        NODE_VERSION: v16.0.0
+        NODE_VERSION: v16
         # Use different redis dbs for cache and sessions
         REDIS_CACHE_DATABASE: 0
         REDIS_SESSION_DATABASE: 2
@@ -63,6 +63,7 @@ runtime:
         - intl
         - redis
         - sodium
+        - amqp
 
 # The hooks that will be performed when the package is deployed.
 hooks:
@@ -132,7 +133,7 @@ hooks:
         # run cache clear commands, on grid environments this should run in the deploy hook,
         # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
         if [ -z "$PLATFORM_REGISTRY_NUMBER" ]; then
-            sh prestart_cacheclear.sh
+            sh bin/prestart_cacheclear.sh
         else
             # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
             bin/console cache:pool:clear cache.object
@@ -141,6 +142,7 @@ hooks:
         if [ -e setup-fastly.sh ]; then
             ./setup-fastly.sh
         fi
+
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
@@ -149,9 +151,9 @@ relationships:
     database: "db:mysql"
     rediscache: "cacheredis:redis"
     # uncomment if you want to use elasticsearch
-    # essearch: "searchelastic:elasticsearch"
+#    elasticsearch: "elasticsearch:opensearch"
     # uncomment if you want to use rabbitmq
-    # rabbitmqqueue: "queuerabbit:rabbitmq"
+#    rabbitmqqueue: "rabbitmq:rabbitmq"
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048

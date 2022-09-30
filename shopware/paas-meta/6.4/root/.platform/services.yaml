@@ -8,11 +8,11 @@ cacheredis:
         maxmemory_policy: volatile-ttl
 
 # uncomment if you want to use elasticsearch
-# searchelastic:
-#     type: elasticsearch:7.9
-#     disk: 256
+#elasticsearch:
+#    type: opensearch:1.2
+#    disk: 256
 
 # uncomment if you want to use rabbitmq
-# queuerabbit:
-#     type: rabbitmq:3.8
-#     disk: 1024
+#rabbitmq:
+#    type: rabbitmq:3.8
+#    disk: 1024

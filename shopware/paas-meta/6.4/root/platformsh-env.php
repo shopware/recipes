@@ -34,7 +34,7 @@ function mapPlatformShEnvironment() : void
 
     // Map services as feasible.
     mapPlatformShRedis('rediscache', $config);
-    mapPlatformShElasticsearch('essearch', $config);
+    mapPlatformShElasticsearch('elasticsearch', $config);
     mapPlatformShRabbitmq('rabbitmqqueue', $config);
 }
 
@@ -76,11 +76,8 @@ function mapPlatformShRedis(string $relationshipName, Config $config) : void
     if (!$config->hasRelationship($relationshipName)) {
         return;
     }
-    $redis_credentials = $config->credentials($relationshipName);
-    setEnvVar('REDIS_HOST', (string)$redis_credentials['host']);
-    setEnvVar('REDIS_PORT', $redis_credentials['port']);
 
-    setEnvVar('REDIS_URL', $config->formattedCredentials($relationshipName, 'redis'));
+    setEnvVar('CACHE_URL', $config->formattedCredentials($relationshipName, 'redis'));
 }
 
 function redisFormatter(array $credentials): string
@@ -102,7 +99,6 @@ function mapPlatformShElasticsearch(string $relationshipName, Config $config) : 
         return;
     }
 
-    setEnvVar('SHOPWARE_ES_HOSTS', $config->formattedCredentials($relationshipName, 'elasticsearch'));
     setEnvVar('ELASTICSEARCH_URL', $config->formattedCredentials($relationshipName, 'elasticsearch'));
 }
 
@@ -125,7 +121,7 @@ function mapPlatformShRabbitmq(string $relationshipName, Config $config) : void
         return;
     }
 
-    setEnvVar('RABBITMQ_URL', $config->formattedCredentials($relationshipName, 'rabbitmq'));
+    setEnvVar('MESSENGER_TRANSPORT_DSN', $config->formattedCredentials($relationshipName, 'rabbitmq'));
 }
 
 function rabbitmqFormatter(array $credentials): string

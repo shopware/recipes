@@ -7,4 +7,4 @@ shopware:
         enabled: false
     admin_worker:
         # The Admin worker should be disabled on production server.
-        enable_admin_worker: true
+        # enable_admin_worker: false
