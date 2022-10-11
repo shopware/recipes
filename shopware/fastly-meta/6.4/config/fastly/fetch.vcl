@@ -4,5 +4,3 @@ if (beresp.http.cache-control ~ "public") {
 
   return (deliver);
 }
-
-return (pass);
