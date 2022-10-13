@@ -4,6 +4,7 @@
         "fastly": "shopware/fastly-meta",
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
+        "gitpod": "frosh/gitpod-meta",
         "paas": "shopware/paas-meta",
         "routing": "symfony/routing",
         "translation": "symfony/translation",
@@ -22,6 +23,9 @@
         ],
         "enqueue/redis": [
             "0.10"
+        ],
+        "frosh/gitpod-meta": [
+            "6.4"
         ],
         "shopware/administration": [
             "6.4"
