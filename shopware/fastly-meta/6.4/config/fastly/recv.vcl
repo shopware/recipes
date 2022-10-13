@@ -1,3 +1,8 @@
+# Don't allow clients to force a pass
+if (req.restarts == 0) {
+  unset req.http.x-pass;
+}
+
 # Enable Fastly authentification for single purges
 set req.http.Fastly-Purge-Requires-Auth = "1";
 
@@ -46,11 +51,11 @@ if (req.http.x-forwarded-for) {
 
 # Don't cache Authenticate & Authorization
 if (req.http.Authenticate || req.http.Authorization) {
-    return (pass);
+    set req.http.x-pass = "1";
 }
 
 # Always pass these paths directly to php without caching
 # Note: virtual URLs might bypass this rule (e.g. /en/checkout)
 if (req.url.path ~ "^/(checkout|account|admin|api|csrf)(/.*)?$") {
-    return (pass);
+    set req.http.x-pass = "1";
 }
