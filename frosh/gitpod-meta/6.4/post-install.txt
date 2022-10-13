@@ -1,0 +1,6 @@
+  * <fg=blue>Run</> your application on Gitpod:
+    1. Commit the <comment>.gitpod.yml</comment> and <comment>.gitpod.Dockerfile</comment>
+    2. Open your repository inside Gitpod
+    3. To improve the performance of start-up, register the repository at Gitpod and enable prebuilt
+
+  * <fg=blue>Read</> the documentation at <comment>https://www.gitpod.io/docs/introduction/getting-started</>
