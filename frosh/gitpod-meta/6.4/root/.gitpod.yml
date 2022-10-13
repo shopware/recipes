@@ -13,6 +13,8 @@ tasks:
       composer config --global github-oauth.github.com $(printf '%s\n' host=github.com | gp credential-helper get | sort | head -2 | tail -1 | sed 's;password=;;')
       composer install
 
+      composer req --dev profiler fakerphp/faker mbezhanov/faker-provider-collection maltyxx/images-generator
+
       # Configure Shopware
       sed -i -e 's;DATABASE_URL=.*$;DATABASE_URL=mysql://root:root@127.0.0.1:3306/shopware;' .env
       sed -i -e "s;APP_URL=.*$;APP_URL=$(gp url 8000);" .env
@@ -28,7 +30,7 @@ tasks:
       rm -rf var/cache/*
 
       # Set by default to dev
-      sed -i -e "s;APP_ENV=.*$;APP_URL=dev;" .env
+      sed -i -e "s;APP_ENV=.*$;APP_ENV=dev;" .env
     command: |
       # Gitpod registers the ports on first docker command
       docker ps
