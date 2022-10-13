@@ -47,6 +47,7 @@
         "MAILER_URL": "null://null"
     },
     "gitignore": [
+        ".env*",
         "custom/*",
         "!custom/plugins/.gitkeep",
         "!custom/static-plugins/",
