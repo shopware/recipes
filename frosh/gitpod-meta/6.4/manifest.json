@@ -1,0 +1,6 @@
+{
+    "aliases": ["gitpod"],
+    "copy-from-recipe": {
+        "root/": ""
+    }
+}
