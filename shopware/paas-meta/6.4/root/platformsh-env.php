@@ -24,18 +24,8 @@ function mapPlatformShEnvironment() : void
     if (!$config->inRuntime()) {
         return;
     }
-
-    $config->registerFormatter('redis', __NAMESPACE__ . '\redisFormatter');
-    $config->registerFormatter('elasticsearch', __NAMESPACE__ . '\elasticsearchFormatter');
-    $config->registerFormatter('rabbitmq', __NAMESPACE__ . '\rabbitmqFormatter');
-
     // Set the URL based on the route.  This is a required route ID.
     setEnvVar('APP_URL', $config->getRoute('shopware')['url']);
-
-    // Map services as feasible.
-    mapPlatformShRedis('rediscache', $config);
-    mapPlatformShElasticsearch('elasticsearch', $config);
-    mapPlatformShRabbitmq('rabbitmqqueue', $config);
 }
 
 /**
@@ -61,70 +51,4 @@ function setEnvVar(string $name, $value) : void
         }
         $_SERVER[$name] = $value;
     }
-}
-
-/**
- * Maps the specified relationship to the REDIS_URL environment variable, if available.
- *
- * @param string $relationshipName
- *   The database relationship name.
- * @param Config $config
- *   The config object.
- */
-function mapPlatformShRedis(string $relationshipName, Config $config) : void
-{
-    if (!$config->hasRelationship($relationshipName)) {
-        return;
-    }
-
-    setEnvVar('CACHE_URL', $config->formattedCredentials($relationshipName, 'redis'));
-}
-
-function redisFormatter(array $credentials): string
-{
-    return "redis://{$credentials['host']}:{$credentials['port']}";
-}
-
-/**
- * Maps the specified relationship to the elasticsearch environment variables, if available.
- *
- * @param string $relationshipName
- *   The search index relationship name.
- * @param Config $config
- *   The config object.
- */
-function mapPlatformShElasticsearch(string $relationshipName, Config $config) : void
-{
-    if (!$config->hasRelationship($relationshipName)) {
-        return;
-    }
-
-    setEnvVar('ELASTICSEARCH_URL', $config->formattedCredentials($relationshipName, 'elasticsearch'));
-}
-
-function elasticsearchFormatter(array $credentials): string
-{
-    return "http://{$credentials['host']}:{$credentials['port']}";
-}
-
-/**
- * Maps the specified relationship to the rabbitmq environment variables, if available.
- *
- * @param string $relationshipName
- *   The search index relationship name.
- * @param Config $config
- *   The config object.
- */
-function mapPlatformShRabbitmq(string $relationshipName, Config $config) : void
-{
-    if (!$config->hasRelationship($relationshipName)) {
-        return;
-    }
-
-    setEnvVar('MESSENGER_TRANSPORT_DSN', $config->formattedCredentials($relationshipName, 'rabbitmq'));
-}
-
-function rabbitmqFormatter(array $credentials): string
-{
-    return "amqp://{$credentials['username']}:{$credentials['password']}@{$credentials['host']}:{$credentials['port']}/%2F?connection_timeout=1000&heartbeat=100&auto_setup=false";
 }

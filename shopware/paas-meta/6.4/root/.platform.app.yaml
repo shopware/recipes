@@ -90,8 +90,6 @@ hooks:
         cp -R files/theme-config build-tmp
         # save plugin config for later (will be moved to mount)
         cp var/plugins.json build-plugins.json
-        # Remove hashtag to enable fastly
-        # mv config/packages/fastly.yaml.dist config/packages/fastly.yaml
     deploy: |
         set -e
         # load nvm to use the correct node version for any following commands
