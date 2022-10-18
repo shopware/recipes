@@ -34,11 +34,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "administration" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            if [[ -f "$path/package-lock.json" ]]; then
-                npm clean-install --prefix "$path"
-            else
-                npm install --prefix "$path"
-            fi
+            npm install --prefix "$path"
         fi
     done
     cd "$OLDPWD" || exit
@@ -46,5 +42,5 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-(cd "${ADMIN_ROOT}"/Resources/app/administration && npm clean-install && npm run build)
+(cd "${ADMIN_ROOT}"/Resources/app/administration && npm install && npm run build)
 [[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
