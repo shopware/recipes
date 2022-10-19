@@ -40,12 +40,12 @@ get_md5()
 }
 
 install_fastly_cli() {
-    if [[ -d "/tmp/fastly" ]]; then
+    if [[ -f "/tmp/fastly/fastly" ]]; then
       export PATH="/tmp/fastly:$PATH"
       return
     fi
 
-    mkdir /tmp/fastly
+    mkdir -p /tmp/fastly
 
     arch=$(uname -m)
     os="linux"
