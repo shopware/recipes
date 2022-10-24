@@ -1,0 +1,35 @@
+name: Update shopware/platform package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "shopware/administration/**"
+      - "shopware/core/**"
+      - "shopware/storefront/**"
+      - "shopware/elasticsearch/**"
+
+jobs:
+  platform-sync:
+    runs-on: ubuntu-latest
+    name: Sync files for shopware/platform package
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3
+
+      - name: Sync files
+        run: php .github/workflows/platform-sync.yml
+
+      - name: Update shopware/platform package
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore: update shopware/platform package'
+
+
+
+
+
+
+
+      
