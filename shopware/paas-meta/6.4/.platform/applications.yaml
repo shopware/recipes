@@ -122,7 +122,7 @@
               bin/console system:generate-jwt-secret || true
 
               # Disable FRW
-              ./bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
+              bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
 
               # mark system as installed
               touch $PLATFORM_APP_DIR/installer/installed
