@@ -5,11 +5,10 @@ CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 export ENV_FILE=${ENV_FILE:-"${PROJECT_ROOT}/.env"}
 
-LOAD_DOTENV=${LOAD_DOTENV:-"1"}
+# shellcheck source=functions.sh
+source "${PROJECT_ROOT}/bin/functions.sh"
 
-if [[ "$LOAD_DOTENV" == "1" ]]; then
-    source "${ENV_FILE}"
-fi
+load_dotenv "$ENV_FILE"
 
 export HOST=${HOST:-"localhost"}
 export ESLINT_DISABLE
