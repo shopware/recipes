@@ -42,6 +42,9 @@
         "shopware/paas-meta": [
             "6.4"
         ],
+        "shopware/platform": [
+            "6.4"
+        ],
         "shopware/storefront": [
             "6.4"
         ],

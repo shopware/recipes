@@ -14,6 +14,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.4](shopware/elasticsearch/6.4) |  |
 | [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.4](shopware/fastly-meta/6.4) | `fastly` |
 | [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.4](shopware/paas-meta/6.4) | `paas` |
+| [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.4](shopware/platform/6.4) |  |
 | [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.4](shopware/storefront/6.4) |  |
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
