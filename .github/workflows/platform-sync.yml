@@ -22,6 +22,9 @@ jobs:
       - name: Sync files
         run: php .github/workflows/platform-sync.yml
 
+      - name: Add files to git
+        run: git add .
+
       - name: Update shopware/platform package
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
