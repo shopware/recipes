@@ -141,10 +141,10 @@
   relationships:
       database: "db:mysql"
       rediscache: "cacheredis:redis"
+      # comment to disable rabbitmq
+      rabbitmqqueue: "rabbitmq:rabbitmq"
       # uncomment if you want to use elasticsearch
-  #    elasticsearch: "elasticsearch:opensearch"
-      # uncomment if you want to use rabbitmq
-  #    rabbitmqqueue: "rabbitmq:rabbitmq"
+      # elasticsearch: "elasticsearch:opensearch"
 
   # The size of the persistent disk of the application (in MB).
   disk: 2048
