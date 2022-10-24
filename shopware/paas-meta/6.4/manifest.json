@@ -1,10 +1,9 @@
 {
     "aliases": ["paas"],
     "copy-from-recipe": {
-        ".platform": ".platform",
+        "root/": "",
         "bin/": "%BIN_DIR%/",
-        "config/": "%CONFIG_DIR%/",
-        "files": "files"
+        "config/": "%CONFIG_DIR%/"
     },
     "container": {
         "default_redis_database": "0",
