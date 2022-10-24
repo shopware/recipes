@@ -1,0 +1,144 @@
+{
+    "copy-from-recipe": {
+        "bin\/": "%BIN_DIR%\/",
+        "config\/": "%CONFIG_DIR%\/",
+        "custom\/": "custom\/",
+        "public\/": "%PUBLIC_DIR%\/",
+        "var\/": "var\/",
+        "src\/": "src\/",
+        "root\/": ""
+    },
+    "bundles": {
+        "Shopware\\Core\\Framework\\Framework": [
+            "all"
+        ],
+        "Shopware\\Core\\System\\System": [
+            "all"
+        ],
+        "Shopware\\Core\\Content\\Content": [
+            "all"
+        ],
+        "Shopware\\Core\\Checkout\\Checkout": [
+            "all"
+        ],
+        "Shopware\\Core\\Maintenance\\Maintenance": [
+            "all"
+        ],
+        "Shopware\\Core\\DevOps\\DevOps": [
+            "e2e"
+        ],
+        "Shopware\\Core\\Profiling\\Profiling": [
+            "all"
+        ],
+        "Shopware\\Administration\\Administration": [
+            "all"
+        ],
+        "Shopware\\Storefront\\Storefront": [
+            "all"
+        ],
+        "Shopware\\Elasticsearch\\Elasticsearch": [
+            "all"
+        ]
+    },
+    "container": {
+        "shopware.store.frw": true,
+        "default_cdn_strategy": "physical_filename",
+        "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%"
+    },
+    "env": {
+        "APP_ENV": "prod",
+        "APP_URL": "http:\/\/localhost",
+        "APP_SECRET": "%generate(secret)%",
+        "INSTANCE_ID": "%generate(secret)%",
+        "BLUE_GREEN_DEPLOYMENT": "0",
+        "DATABASE_URL": "mysql:\/\/root:root@localhost\/shopware",
+        "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
+        "MAILER_URL": "null:\/\/null",
+        "STOREFRONT_PROXY_URL": "http:\/\/localhost",
+        "SHOPWARE_HTTP_CACHE_ENABLED": "1",
+        "SHOPWARE_HTTP_DEFAULT_TTL": "7200",
+        "ELASTICSEARCH_URL": "http:\/\/localhost:9200",
+        "SHOPWARE_ES_ENABLED": "0",
+        "SHOPWARE_ES_INDEXING_ENABLED": "0",
+        "SHOPWARE_ES_INDEX_PREFIX": "sw",
+        "SHOPWARE_ES_THROW_EXCEPTION": "1"
+    },
+    "gitignore": [
+        ".env.*",
+        "custom\/*",
+        "!custom\/plugins\/.gitkeep",
+        "!custom\/static-plugins\/",
+        "\/public\/fonts\/*",
+        "!\/public\/fonts\/.gitkeep",
+        "\/public\/img\/*",
+        "!\/public\/img\/.gitkeep",
+        "\/public\/css\/*",
+        "!\/public\/css\/.gitkeep",
+        "\/public\/js\/*",
+        "!\/public\/js\/.gitkeep",
+        "\/public\/media\/*",
+        "!\/public\/media\/.gitkeep",
+        "\/public\/theme\/*",
+        "!\/public\/theme\/.gitkeep",
+        "\/public\/thumbnail\/*",
+        "!\/public\/thumbnail\/.gitkeep",
+        "\/public\/assets\/*",
+        "\/public\/sitemap\/*",
+        "!\/public\/sitemap\/.gitkeep",
+        "\/public\/bundles\/*",
+        "!\/public\/bundles\/.gitkeep",
+        "\/files\/*",
+        "\/var\/*",
+        "!\/var\/log\/.gitkeep",
+        "!\/var\/cache\/.gitkeep",
+        "\/auth.json"
+    ],
+    "composer-scripts": {
+        "assets:install": "symfony-cmd"
+    },
+    "docker-compose": {
+        "docker-compose.yml": {
+            "services": [
+                "app:",
+                "  image: shopware\/development:8.1-composer-2",
+                "  ports:",
+                "    - \"8000:8000\"",
+                "  volumes:",
+                "    - .\/:\/app",
+                "database:",
+                "  image: mysql:${MYSQL_VERSION:-8}-oracle",
+                "  environment:",
+                "    MYSQL_DATABASE: ${MYSQL_DATABASE:-shopware}",
+                "    # You should definitely change the password in production",
+                "    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}",
+                "    MYSQL_USER: ${MYSQL_USER:-shopware}",
+                "    MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}",
+                "  volumes:",
+                "    - db-data:\/var\/lib\/mysql:rw",
+                "    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!",
+                "    # - .\/docker\/db\/data:\/var\/lib\/mysql:rw",
+                "opensearch:",
+                "  image: opensearchproject\/opensearch:2",
+                "  volumes:",
+                "    - opensearch-data:\/usr\/share\/opensearch\/data",
+                "  environment:",
+                "    discovery.type: single-node",
+                "    plugins.security.disabled: 'true'"
+            ],
+            "volumes": [
+                "db-data:",
+                "opensearch-data:"
+            ]
+        },
+        "docker-compose.override.yml": {
+            "services": [
+                "database:",
+                "  ports:",
+                "    - \"3306\"",
+                "opensearch:",
+                "  ports:",
+                "    - \"9200\""
+            ]
+        }
+    }
+}

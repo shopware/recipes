@@ -1,0 +1,8 @@
+  * <fg=blue>Run</> your application:
+    1. Go to the project directory
+    2. Create your code repository with the <comment>git init</comment> command
+    3. Adjust the <comment>.env</comment> file to your database
+    4. Run <comment>./bin/console system:install --basic-setup</comment>
+    5. The default credentials for administration are <comment>admin</comment> with password <comment>shopware</comment>
+
+  * <fg=blue>Read</> the documentation at <comment>https://developer.shopware.com/</>
