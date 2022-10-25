@@ -9,4 +9,4 @@
     upstream: "app:http"
     cache:
         enabled: true
-        cookies: ['/^ss?ess/']
+        cookies: ["/^ss?ess/"]

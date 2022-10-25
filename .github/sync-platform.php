@@ -1,8 +1,10 @@
 <?php
 
-if (!file_exists("shopware/platform")) {
-    mkdir("shopware/platform", 0777, true);
+if (file_exists("shopware/platform")) {
+    exec('rm -rf shopware/platform');
 }
+
+mkdir("shopware/platform", 0777, true);
 
 $components = [
     'core',

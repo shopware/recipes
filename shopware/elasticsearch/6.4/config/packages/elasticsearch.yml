@@ -1,2 +1,0 @@
-elasticsearch:
-    hosts: "%env(string:ELASTICSEARCH_URL)%"
