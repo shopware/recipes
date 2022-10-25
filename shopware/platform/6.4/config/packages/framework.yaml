@@ -1,6 +1,5 @@
 parameters:
     env(MESSENGER_TRANSPORT_DSN): "enqueue://default?receiveTimeout=100"
-
 framework:
     messenger:
         transports:

@@ -1,41 +1,28 @@
 name: Update shopware/platform package
-
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "shopware/administration/**"
-      - "shopware/core/**"
-      - "shopware/storefront/**"
-      - "shopware/elasticsearch/**"
-
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "shopware/administration/**"
+            - "shopware/core/**"
+            - "shopware/storefront/**"
+            - "shopware/elasticsearch/**"
 jobs:
-  platform-sync:
-    runs-on: ubuntu-latest
-    name: Sync files for shopware/platform package
-    steps:
-      - name: Clone
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.CI_COMMIT_PAT }}
-
-      - name: Sync files
-        run: php .github/sync-platform.php
-
-      - name: Add files to git
-        run: git add .
-
-      - name: Update shopware/platform package
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'chore: update shopware/platform package'
-
-
-
-
-
-
-
-      
+    platform-sync:
+        runs-on: ubuntu-latest
+        name: Sync files for shopware/platform package
+        steps:
+            - name: Clone
+              uses: actions/checkout@v3
+              with:
+                token: ${{ secrets.CI_COMMIT_PAT }}
+            - name: Sync files
+              run: php .github/sync-platform.php
+            - name: Add files to git
+              run: git add .
+            - name: Update shopware/platform package
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                commit_message: 'chore: update shopware/platform package'

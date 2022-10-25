@@ -1,12 +1,9 @@
 name: Q&A
-
 on:
     pull_request_target:
-
 defaults:
     run:
         shell: bash
-
 jobs:
     call-qa:
         uses: shopware/recipes/.github/workflows/callable-qa.yml@main

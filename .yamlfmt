@@ -1,0 +1,4 @@
+line_ending: crlf
+formatter:
+  type: basic
+  indent: 4

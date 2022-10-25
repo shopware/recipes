@@ -1,12 +1,10 @@
 db:
     type: mariadb:10.6
     disk: 2048
-
 cacheredis:
     type: redis:7.0
     configuration:
         maxmemory_policy: volatile-ttl
-
 # comment if you want to disable rabbitmq
 rabbitmq:
     type: rabbitmq:3.8
