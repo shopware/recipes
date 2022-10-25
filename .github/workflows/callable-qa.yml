@@ -77,7 +77,7 @@ jobs:
             - name: No .yml, use .yaml
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
-                YMLS=$(find * -name '*.yml' ${{ inputs.find_yaml }})
+                YMLS=$(find * -name '*.yml' ! -name '.gitpod.yml' ${{ inputs.find_yaml }})
                 if [[ "" != "$YMLS" ]]; then echo -e "::error::*.yml files should renamed to *.yaml\nFound $YMLS\n"; exit 1; fi
             - name: No .gitkeep, use .gitignore
               if: "always() && steps.checkout.outcome == 'success'"
