@@ -5,14 +5,14 @@
 
   dependencies:
       php:
-          composer/composer: '^2'
+          composer/composer: "^2"
 
   variables:
       env:
           # Tell Shopware to always install in production-mode.
           APP_ENV: prod
           # Instance ID is empty by default, change to something unique in your project
-          INSTANCE_ID: ''
+          INSTANCE_ID: ""
           # Enable HTTP Cache to get cache-control headers
           SHOPWARE_HTTP_CACHE_ENABLED: 1
           # NVM and Node.js versions to install
@@ -31,20 +31,20 @@
           # Elasticsearch, see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
           SHOPWARE_ES_ENABLED: 0
           SHOPWARE_ES_INDEXING_ENABLED: 0
-          SHOPWARE_ES_INDEX_PREFIX: 'sw6'
+          SHOPWARE_ES_INDEX_PREFIX: "sw6"
 
       php:
           upload_max_filesize: 32M
           post_max_size: 32M
           memory_limit: 512M
-          'assert.active': 0
-          'opcache.enable_file_override': 1
-          'opcache.interned_strings_buffer': 20
-          'opcache.validate_timestamps': 0
-          'zend.detect_unicode': 0
+          "assert.active": 0
+          "opcache.enable_file_override": 1
+          "opcache.interned_strings_buffer": 20
+          "opcache.validate_timestamps": 0
+          "zend.detect_unicode": 0
           realpath_cache_ttl: 3600
-          'opcache.memory_consumption': 128M
-          'opcache.max_accelerated_files': 20000
+          "opcache.memory_consumption": 128M
+          "opcache.max_accelerated_files": 20000
 
   # Specify additional PHP extensions that should be loaded.
   runtime:
@@ -210,8 +210,8 @@
               passthru: "/index.php"
               expires: 24h
               rules:
-                  \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
-                      expires: 4w
+                  ? \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$
+                  : expires: 4w
 
   workers:
       queue:
