@@ -10,7 +10,7 @@
     },
     "bundles": {
         "Shopware\\Core\\Framework\\Framework": [
-            "all.  "
+            "all.    "
         ],
         "Shopware\\Core\\System\\System": [
             "all"
