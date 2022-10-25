@@ -201,31 +201,7 @@ jobs:
                     PACKAGES=$(curl -s https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json | jq -r '.recipes | to_entries | map(.key+":^"+.value[-1]) | join(" ")')
                     echo PACKAGES=$PACKAGES >> $GITHUB_ENV
                     [[ "" != "$PACKAGES" ]]
-            -
-                name: Setup PHP 7.4
-                if: "always() && steps.config.outcome == 'success'"
-                uses: shivammathur/setup-php@v2
-                with:
-                    coverage: "none"
-                    php-version: "7.4"
-
-            -
-                name: Create-project with skeleton ^5
-                if: "always() && steps.config.outcome == 'success'"
-                run: |
-                    set -x
-                    php -v
-                    composer create-project --ansi "symfony/skeleton:^5" v5
-                    cd v5
-                    composer config extra.symfony.allow-contrib ${{ inputs.contrib && 'true' || 'false' }}
-                    composer config minimum-stability dev
-                    export SYMFONY_ENDPOINT=https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json
-                    composer require -W --ansi $PACKAGES
-                    EXIT_CODE=$?
-                    if [[ EXIT_CODE -eq 2 ]]; then
-                        echo -e "\n#\n#\n# You can ignore this error if your package does not support Symfony 5\n#\n#\n#\n"
-                    fi
-                    exit $EXIT_CODE
+                    
             -
                 name: Setup PHP 8.1
                 if: "always() && steps.config.outcome == 'success'"
@@ -235,14 +211,12 @@ jobs:
                     php-version: "8.1"
 
             -
-                name: Create-project with skeleton ^6
+                name: Create-project
                 if: "always() && steps.config.outcome == 'success'"
                 run: |
-                    set -x
+                    set -e
                     php -v
-                    composer create-project --ansi "symfony/skeleton:^6" v6
-                    cd v6
-                    composer config extra.symfony.allow-contrib ${{ inputs.contrib && 'true' || 'false' }}
-                    composer config minimum-stability dev
-                    export SYMFONY_ENDPOINT=https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json
+                    git clone https://github.com/shopware/production -b flex template
+                    cd template
+                    jq '.extra.symfony.endpoint[0] |= "https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json"' composer.json > composer.tmp && mv composer.tmp composer.json
                     composer require -W --ansi $PACKAGES
