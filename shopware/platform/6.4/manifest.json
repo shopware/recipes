@@ -3,6 +3,7 @@
         "bin\/": "%BIN_DIR%\/",
         "config\/": "%CONFIG_DIR%\/",
         "custom\/": "custom\/",
+        "files\/": "files\/",
         "public\/": "%PUBLIC_DIR%\/",
         "var\/": "var\/",
         "src\/": "src\/",
