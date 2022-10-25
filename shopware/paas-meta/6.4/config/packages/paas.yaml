@@ -1,9 +1,5 @@
 # This file contains all default configuration or PaaS
 
-parameters:
-    default_redis_database: 0
-    env(CACHE_URL): "redis://localhost"
-
 framework:
     session:
         handler_id: "%env(CACHE_URL)%/%env(int:default:default_redis_database:REDIS_SESSION_DATABASE)%"
