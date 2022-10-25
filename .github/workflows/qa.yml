@@ -9,7 +9,7 @@ defaults:
 
 jobs:
     call-qa:
-        uses: symfony/recipes/.github/workflows/callable-qa.yml@main
+        uses: shopware/recipes/.github/workflows/callable-qa.yml@main
         with:
             contrib: true
         secrets:
