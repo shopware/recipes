@@ -35,5 +35,5 @@ foreach ($versions as $version) {
         }
     }
 
-    file_put_contents('shopware/platform/' . $version . '/manifest.json', json_encode($mergedManifest, JSON_PRETTY_PRINT));
+    file_put_contents('shopware/platform/' . $version . '/manifest.json', json_encode($mergedManifest, JSON_PRETTY_PRINT) . PHP_EOL);
 }
