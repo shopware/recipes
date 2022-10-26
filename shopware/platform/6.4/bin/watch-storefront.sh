@@ -11,6 +11,7 @@ source "${PROJECT_ROOT}/bin/functions.sh"
 load_dotenv "$ENV_FILE"
 
 export APP_URL
+export PROXY_URL
 export STOREFRONT_PROXY_PORT
 export ESLINT_DISABLE
 
