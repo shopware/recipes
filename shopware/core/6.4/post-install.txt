@@ -4,7 +4,7 @@
     1. Go to the project directory
     2. Create your code repository with the <comment>git init</comment> command and push it to your favourite Git service
     
-    Setting up Shopware locally
+    Setting up Shopware locally:
     
     1. Adjust the <comment>.env</comment> file to your database
     2. Run <comment>./bin/console system:install --basic-setup</comment>
