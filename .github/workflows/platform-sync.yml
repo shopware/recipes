@@ -12,6 +12,7 @@ on:
 jobs:
     platform-sync:
         runs-on: ubuntu-latest
+        concurrency: platform-sync-${{ github.ref }}
         name: Sync files for shopware/platform package
         steps:
             - name: Clone
