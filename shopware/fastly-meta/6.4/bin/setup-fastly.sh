@@ -13,6 +13,11 @@ if [[ -z "$FASTLY_SERVICE_ID" ]]; then
   exit 0
 fi
 
+CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
+
+cd "$PROJECT_ROOT"
+
 created_version=0
 
 create_version_if_not_done() {
