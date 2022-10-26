@@ -5,6 +5,13 @@
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
         "gitpod": "frosh/gitpod-meta",
+        "log": "symfony/monolog-bundle",
+        "logger": "symfony/monolog-bundle",
+        "logging": "symfony/monolog-bundle",
+        "logs": "symfony/monolog-bundle",
+        "monolog": "symfony/monolog-bundle",
+        "monolog-bundle": "symfony/monolog-bundle",
+        "monologbundle": "symfony/monolog-bundle",
         "paas": "shopware/paas-meta",
         "routing": "symfony/routing",
         "translation": "symfony/translation",
@@ -56,6 +63,9 @@
         ],
         "symfony/framework-bundle": [
             "5.4"
+        ],
+        "symfony/monolog-bundle": [
+            "3.3"
         ],
         "symfony/routing": [
             "5.4"

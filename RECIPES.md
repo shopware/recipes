@@ -19,6 +19,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
 | [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [5.4](symfony/framework-bundle/5.4) | `framework-bundle`, `frameworkbundle` |
+| [symfony/monolog-bundle](https://packagist.org/packages/symfony/monolog-bundle) | [3.3](symfony/monolog-bundle/3.3) | `log`, `logger`, `logging`, `logs`, `monolog`, `monolog-bundle`, `monologbundle` |
 | [symfony/routing](https://packagist.org/packages/symfony/routing) | [5.4](symfony/routing/5.4) | `routing` |
 | [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
 | [symfony/twig-bundle](https://packagist.org/packages/symfony/twig-bundle) | [5.4](symfony/twig-bundle/5.4) | `twig-bundle`, `twigbundle` |
