@@ -7,10 +7,7 @@ framework:
         app: cache.adapter.redis
         system: cache.adapter.redis
         default_redis_provider: "%env(CACHE_URL)%/%env(int:default:default_redis_database:REDIS_CACHE_DATABASE)%"
-monolog:
-    handlers:
-        business_event_handler_buffer:
-            level: error
+
 when@prod:
     monolog:
         handlers:
