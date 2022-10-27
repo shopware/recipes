@@ -46,7 +46,8 @@
         "default_cdn_strategy": "physical_filename",
         "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%",
         "env(MAILER_DSN)": "null:\/\/null",
-        "env(MESSENGER_TRANSPORT_DSN)": "enqueue:\/\/default?receiveTimeout=100"
+        "env(MESSENGER_TRANSPORT_DSN)": "enqueue:\/\/default?receiveTimeout=100",
+        "env(OPENSEARCH_URL)": "http:\/\/localhost:9200"
     },
     "env": {
         "APP_ENV": "prod",
@@ -60,7 +61,7 @@
         "STOREFRONT_PROXY_URL": "http:\/\/localhost",
         "SHOPWARE_HTTP_CACHE_ENABLED": "1",
         "SHOPWARE_HTTP_DEFAULT_TTL": "7200",
-        "ELASTICSEARCH_URL": "http:\/\/localhost:9200",
+        "OPENSEARCH_URL": "http:\/\/localhost:9200",
         "SHOPWARE_ES_ENABLED": "0",
         "SHOPWARE_ES_INDEXING_ENABLED": "0",
         "SHOPWARE_ES_INDEX_PREFIX": "sw",
