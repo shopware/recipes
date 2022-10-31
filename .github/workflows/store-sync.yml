@@ -1,0 +1,35 @@
+name: Update store.shopware.com packages for packagist
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "store.shopware.com/**"
+jobs:
+    store-sync:
+        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            include:
+              - store: "froshplatformbunnycdnmediastorage"
+                packagist: "frosh/platform-bunnycdn-media-storage"
+
+        concurrency: store-sync-${{ github.ref }}
+        name: Sync files for packagist
+        steps:
+            - name: Clone
+              uses: actions/checkout@v3
+              with:
+                token: ${{ secrets.CI_COMMIT_PAT }}
+
+            - name: Sync files
+              run: cp -r store.shopware.com/${{ matrix.store }}/. ${{ matrix.packagist }}/
+
+            - name: Add files to git
+              run: git add .
+
+            - name: Update store.shopware.com packages for packagist
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                commit_message: 'chore: update store.shopware.com packages for packagist'
