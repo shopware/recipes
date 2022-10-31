@@ -1,0 +1,12 @@
+{
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "#BUNNY_CDN_URL":"",
+        "#BUNNY_CDN_PUBLIC_STORAGE_KEY":"",
+        "#BUNNY_CDN_PUBLIC_STORAGE_NAME":"",
+        "#BUNNY_CDN_PRIVATE_STORAGE_KEY":"",
+        "#BUNNY_CDN_PRIVATE_STORAGE_NAME":""
+    }
+}

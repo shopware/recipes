@@ -1,0 +1,49 @@
+services:
+    Shopware\Core\Framework\Adapter\Filesystem\FilesystemFactory.bunnycdn:
+        class: Frosh\BunnycdnMediaStorage\Adapter\BunnyCdnFactory
+        tags:
+            - { name: shopware.filesystem.factory }
+
+# This will overrule your plugin configuration in the shopware administration
+# It is strongly recommended to use type local for theme/asset and add a pull zone to your BunnyCDN
+#shopware:
+#    filesystem:
+#        private:
+#            type: bunnycdn
+#            config:
+#                endpoint: 'https://storage.bunnycdn.com'
+#                storageName: '%env(BUNNY_CDN_PRIVATE_STORAGE_NAME)%'
+#                subfolder: ''
+#                apiKey: '%env(BUNNY_CDN_PRIVATE_STORAGE_KEY)%'
+#                useGarbage: false
+#                neverDelete: false
+#        public:
+#            type: bunnycdn
+#            url: '%env(BUNNY_CDN_URL)%'
+#            config:
+#                endpoint: 'https://storage.bunnycdn.com'
+#                storageName: '%env(BUNNY_CDN_PUBLIC_STORAGE_NAME)%'
+#                subfolder: ''
+#                apiKey: '%env(BUNNY_CDN_PUBLIC_STORAGE_KEY)%'
+#                useGarbage: false
+#                neverDelete: false
+#        sitemap:
+#            type: bunnycdn
+#            url: '%env(BUNNY_CDN_URL)%'
+#            config:
+#                endpoint: 'https://storage.bunnycdn.com'
+#                storageName: '%env(BUNNY_CDN_PUBLIC_STORAGE_NAME)%'
+#                subfolder: ''
+#                apiKey: '%env(BUNNY_CDN_PUBLIC_STORAGE_KEY)%'
+#                useGarbage: false
+#                neverDelete: false
+#        theme:
+#            type: local
+#            url: '%env(BUNNY_CDN_URL)%'
+#            config:
+#                root: '%kernel.project_dir%/public'
+#        asset:
+#            type: local
+#            url: '%env(BUNNY_CDN_URL)%'
+#            config:
+#                root: '%kernel.project_dir%/public'
