@@ -20,6 +20,6 @@
 
   * <fg=blue>Read</> the documentation at <comment>https://developer.shopware.com/</>
 
-  * <fg=red>Important:</> Run <comment>composer req --dev profiler</comment> to avoid profler exception</>
+  * <fg=red>Important:</> Run <comment>composer req --dev profiler</comment> to avoid profiler exception</>
 
     Exception: There is no extension able to load the configuration for web_profiler
