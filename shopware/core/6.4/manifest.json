@@ -50,7 +50,9 @@
         "MAILER_URL": "null://null"
     },
     "gitignore": [
-        ".env.*",
+        ".env.local",
+        ".env.local.php",
+        ".env.*.local",
         "custom/*",
         "!custom/plugins/.gitkeep",
         "!custom/static-plugins/",
