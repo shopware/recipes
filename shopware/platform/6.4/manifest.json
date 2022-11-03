@@ -68,7 +68,9 @@
         "SHOPWARE_ES_THROW_EXCEPTION": "1"
     },
     "gitignore": [
-        ".env.*",
+        ".env.local",
+        ".env.local.php",
+        ".env.*.local",
         "custom\/*",
         "!custom\/plugins\/.gitkeep",
         "!custom\/static-plugins\/",
