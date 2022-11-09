@@ -1,21 +1,15 @@
 # Symfony Flex Recipes
 
-This repository is hosting Symfony Flex Recipes for Shopware 6.
+This repository is hosting Symfony Flex Recipes for Shopware 6. If you are new to Symfony Flex, please read the [blog post](https://www.shopware.com/en/news/shopware-goes-symfony-flex/).
 
-## Install
+## Contributing
 
-- Require `symfony/flex` in your project
+Each recipe is a directory containing a `manifest.json` file. The `manifest.json` file contains the recipe metadata and the list of files to copy.
 
-- Add custom endpoint to your composer.json
+You can look into the [Symfony documentation](https://github.com/symfony/recipes#creating-recipes) for more information about the recipe format.
 
-```json
-"extra": {
-  "symfony": {
-      "allow-contrib": true,
-      "endpoint": [
-        "https://raw.githubusercontent.com/shopware/recipes/flex/main/index.json",
-        "flex://defaults"
-    ]
-  }
-}
-```
+The `shopware/platform` package is automatically updated by the CI. Change only the `core`, `administration` packages.
+
+## Migrating an existing application to Symfony Flex
+
+See [Migration Guide in docs](https://developer.shopware.com/docs/guides/installation/flex#how-to-migrate-from-production-template-to-symfony-flex).
