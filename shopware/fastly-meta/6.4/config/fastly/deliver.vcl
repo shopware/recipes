@@ -8,5 +8,5 @@ if (fastly.ff.visits_this_service == 0 && resp.http.sw-invalidation-states) {
   unset resp.http.sw-invalidation-states;
 
   ## we don't want the client to cache
-  set resp.http.Cache-Control = "max-age=0, private";
+  set resp.http.Cache-Control = "no-cache, private";
 }
