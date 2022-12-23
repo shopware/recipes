@@ -71,7 +71,7 @@ return function (array $context) {
             $this->httpKernel = $httpKernel;
         }
 
-        public function handle(Request $request, int $type = self::MASTER_REQUEST, bool $catch = true)
+        public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
         {
             return $this->httpKernel->handle($request, $type, $catch)->getResponse();
         }
