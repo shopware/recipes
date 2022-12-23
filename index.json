@@ -1,6 +1,7 @@
 {
     "aliases": {
         "console": "symfony/console",
+        "devenv": "frosh/devenv-meta",
         "fastly": "shopware/fastly-meta",
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
@@ -30,6 +31,9 @@
         ],
         "enqueue/redis": [
             "0.10"
+        ],
+        "frosh/devenv-meta": [
+            "0.1"
         ],
         "frosh/gitpod-meta": [
             "6.4"
