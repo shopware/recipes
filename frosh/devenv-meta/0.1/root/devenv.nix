@@ -1,11 +1,6 @@
 { pkgs, config, ... }:
 
 {
-  enterShell = ''
-    rm -f .devenv/profile
-    ln -sf ${pkgs.buildEnv { name = "devenv"; paths = config.packages; ignoreCollisions = true; }}/bin .devenv/profile
-  '';
-
   packages = [
     pkgs.jq
   ];
