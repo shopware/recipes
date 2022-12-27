@@ -45,8 +45,6 @@
         "shopware.store.frw": true,
         "default_cdn_strategy": "physical_filename",
         "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%",
-        "env(MAILER_DSN)": "null:\/\/null",
-        "env(MESSENGER_TRANSPORT_DSN)": "enqueue:\/\/default?receiveTimeout=100",
         "env(OPENSEARCH_URL)": "http:\/\/localhost:9200"
     },
     "env": {
