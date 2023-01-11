@@ -1,0 +1,27 @@
+# This will overrule your plugin configuration in the shopware administration
+#shopware:
+#    filesystem:
+#        private:
+#            type: local
+#            config:
+#                root: '%kernel.project_dir%/files'
+#        public:
+#            type: local
+#            url: ''
+#            config:
+#                root: '%kernel.project_dir%/public'
+#        sitemap:
+#            type: local
+#            url: ''
+#            config:
+#                root: '%kernel.project_dir%/public'
+#        theme:
+#            type: local
+#            url: ''
+#            config:
+#                root: '%kernel.project_dir%/public'
+#        asset:
+#            type: local
+#            url: ''
+#            config:
+#                root: '%kernel.project_dir%/public'
