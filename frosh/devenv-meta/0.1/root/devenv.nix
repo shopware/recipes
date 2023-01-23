@@ -1,8 +1,10 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
   packages = [
     pkgs.jq
+    pkgs.gnupatch
+    pkgs.nodePackages_latest.yalc
   ];
 
   languages.javascript.enable = lib.mkDefault true;
@@ -64,9 +66,17 @@
     {
       name = "shopware";
       password = "shopware";
-      ensurePermissions = { "shopware.*" = "ALL PRIVILEGES"; };
+      ensurePermissions = {
+        "shopware.*" = "ALL PRIVILEGES";
+        "shopware_test.*" = "ALL PRIVILEGES";
+      };
     }
   ];
+  services.mysql.settings = {
+    mysqld = {
+      log_bin_trust_function_creators = 1;
+    };
+  };
 
   services.redis.enable = lib.mkDefault true;
   services.adminer.enable = lib.mkDefault true;
