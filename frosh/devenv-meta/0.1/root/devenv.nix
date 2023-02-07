@@ -4,24 +4,27 @@
   packages = [
     pkgs.jq
     pkgs.gnupatch
-    pkgs.nodePackages_latest.yalc
   ];
 
   languages.javascript.enable = lib.mkDefault true;
   languages.javascript.package = lib.mkDefault pkgs.nodejs-16_x;
   env.NODE_OPTIONS = lib.mkDefault "--openssl-legacy-provider";
 
-  languages.php.enable = lib.mkDefault true;
-  languages.php.package = lib.mkDefault (pkgs.php.buildEnv {
-    extensions = { all, enabled }: with all; enabled ++ [ amqp redis ];
-    extraConfig = ''
+  languages.php = {
+    enable = lib.mkDefault true;
+    version = lib.mkDefault "8.1";
+    extensions = lib.mkDefault [ "amqp" "redis" ];
+
+    ini = ''
       memory_limit = 2G
       pdo_mysql.default_socket = ''${MYSQL_UNIX_PORT}
       mysqli.default_socket = ''${MYSQL_UNIX_PORT}
       realpath_cache_ttl = 3600
       session.gc_probability = 0
+      ${lib.optionalString config.services.redis.enable ''
       session.save_handler = redis
       session.save_path = "tcp://127.0.0.1:6379/0"
+      ''}
       display_errors = On
       error_reporting = E_ALL
       assert.active = 0
@@ -32,7 +35,7 @@
       zend.detect_unicode = 0
       realpath_cache_ttl = 3600
     '';
-  });
+  };
 
   languages.php.fpm.pools.web = lib.mkDefault {
     settings = {
@@ -60,21 +63,23 @@
     '';
   };
 
-  services.mysql.enable = lib.mkDefault true;
-  services.mysql.initialDatabases = lib.mkDefault [{ name = "shopware"; }];
-  services.mysql.ensureUsers = lib.mkDefault [
-    {
-      name = "shopware";
-      password = "shopware";
-      ensurePermissions = {
-        "shopware.*" = "ALL PRIVILEGES";
-        "shopware_test.*" = "ALL PRIVILEGES";
+  services.mysql = {
+    enable = true;
+    initialDatabases = lib.mkDefault [{ name = "shopware"; }];
+    ensureUsers = lib.mkDefault [
+      {
+        name = "shopware";
+        password = "shopware";
+        ensurePermissions = {
+          "shopware.*" = "ALL PRIVILEGES";
+          "shopware_test.*" = "ALL PRIVILEGES";
+        };
+      }
+    ];
+    settings = {
+      mysqld = {
+        log_bin_trust_function_creators = 1;
       };
-    }
-  ];
-  services.mysql.settings = {
-    mysqld = {
-      log_bin_trust_function_creators = 1;
     };
   };
 
@@ -85,27 +90,11 @@
 
   #services.rabbitmq.enable = true;
   #services.rabbitmq.managementPlugin.enable = true;
-  #elasticsearch.enable = true;
+  #services.elasticsearch.enable = true;
 
   # Environment variables
+  env.MAILER_DSN = lib.mkDefault "smtp://localhost:1025";
   env.DATABASE_URL = lib.mkDefault "mysql://shopware:shopware@localhost:3306/shopware";
-
-  processes.entryscript = {
-    exec = (pkgs.writeShellScript "complex-process" ''
-        PATH="${lib.makeBinPath [ pkgs.coreutils ]}:$PATH"
-
-        composer install --prefer-dist --no-progress --no-scripts --no-interaction
-
-        if [ ! -f "install.lock" ]; then
-          bin/console system:install --basic-setup
-        fi
-
-        echo "—————————————————————————————————————"
-        echo "💙 Your Shopware instance is ready 💙"
-        echo "—————————————————————————————————————"
-        sleep infinity
-    '').outPath;
-  };
 
   # Shopware 6 related scripts
   scripts.build-js.exec = lib.mkDefault "bin/build-js.sh";
