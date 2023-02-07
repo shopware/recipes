@@ -39,7 +39,7 @@ return static function (array &$context) {
 
     if (trim($context['DATABASE_URL'] ?? '') === '') {
         // fake DATABASE_URL
-        $_SERVER['DATABASE_URL'] = Kernel::PLACEHOLDER_DATABASE_URL;
+        $_SERVER['DATABASE_URL'] = 'mysql://_placeholder.test';
     } else if (!isset($context['INSTALL'])) {
         $pluginLoader = new DbalKernelPluginLoader($classLoader, null, \Shopware\Core\Kernel::getConnection());
     }
