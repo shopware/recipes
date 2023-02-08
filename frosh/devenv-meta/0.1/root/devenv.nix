@@ -13,12 +13,9 @@
   languages.php = {
     enable = lib.mkDefault true;
     version = lib.mkDefault "8.1";
-    extensions = lib.mkDefault [ "amqp" "redis" ];
 
     ini = ''
       memory_limit = 2G
-      pdo_mysql.default_socket = ''${MYSQL_UNIX_PORT}
-      mysqli.default_socket = ''${MYSQL_UNIX_PORT}
       realpath_cache_ttl = 3600
       session.gc_probability = 0
       ${lib.optionalString config.services.redis.enable ''
@@ -35,32 +32,35 @@
       zend.detect_unicode = 0
       realpath_cache_ttl = 3600
     '';
-  };
 
-  languages.php.fpm.pools.web = lib.mkDefault {
-    settings = {
-      "clear_env" = "no";
-      "pm" = "dynamic";
-      "pm.max_children" = 10;
-      "pm.start_servers" = 2;
-      "pm.min_spare_servers" = 1;
-      "pm.max_spare_servers" = 10;
+    fpm.pools.web = lib.mkDefault {
+      settings = {
+        "clear_env" = "no";
+        "pm" = "dynamic";
+        "pm.max_children" = 10;
+        "pm.start_servers" = 2;
+        "pm.min_spare_servers" = 1;
+        "pm.max_spare_servers" = 10;
+      };
     };
   };
 
-  services.caddy.enable = lib.mkDefault true;
-  services.caddy.virtualHosts.":8000" = lib.mkDefault {
-    extraConfig = ''
-      root * public
-      php_fastcgi unix/${config.languages.php.fpm.pools.web.socket}
-      encode zstd gzip
-      file_server
-      log {
-      	output stderr
-      	format console
-      	level ERROR
-      }
-    '';
+  services.caddy = {
+    enable = lib.mkDefault true;
+
+    virtualHosts.":8000" = lib.mkDefault {
+      extraConfig = ''
+        root * public
+        php_fastcgi unix/${config.languages.php.fpm.pools.web.socket}
+        encode zstd gzip
+        file_server
+        log {
+          output stderr
+          format console
+          level ERROR
+        }
+      '';
+    };
   };
 
   services.mysql = {
