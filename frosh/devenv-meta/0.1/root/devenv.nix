@@ -6,9 +6,10 @@
     pkgs.gnupatch
   ];
 
-  languages.javascript.enable = lib.mkDefault true;
-  languages.javascript.package = lib.mkDefault pkgs.nodejs-16_x;
-  env.NODE_OPTIONS = lib.mkDefault "--openssl-legacy-provider";
+  languages.javascript = {
+    enable = lib.mkDefault true;
+    package = lib.mkDefault pkgs.nodejs-16_x;
+  };
 
   languages.php = {
     enable = lib.mkDefault true;
@@ -95,6 +96,9 @@
   # Environment variables
   env.MAILER_DSN = lib.mkDefault "smtp://localhost:1025";
   env.DATABASE_URL = lib.mkDefault "mysql://shopware:shopware@localhost:3306/shopware";
+
+  # Webpack compatibility
+  env.NODE_OPTIONS = lib.mkDefault "--openssl-legacy-provider";
 
   # Shopware 6 related scripts
   scripts.build-js.exec = lib.mkDefault "bin/build-js.sh";

@@ -6,8 +6,10 @@
     pkgs.gnupatch
   ];
 
-  languages.javascript.enable = lib.mkDefault true;
-  languages.javascript.package = lib.mkDefault pkgs.nodejs-18_x;
+  languages.javascript = {
+    enable = lib.mkDefault true;
+    package = lib.mkDefault pkgs.nodejs-18_x;
+  };
 
   languages.php = {
     enable = lib.mkDefault true;
