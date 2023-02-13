@@ -36,7 +36,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            npm install --prefix "$path"
+            npm install --prefix "$path" --no-audit --prefer-offline
         fi
     done
     cd "$OLDPWD" || exit
@@ -44,7 +44,7 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install
+npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --no-audit --prefer-offline
 node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
 [[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
