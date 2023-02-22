@@ -1,0 +1,42 @@
+name: Test nightly
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "3 3 * * * "
+
+jobs:
+  test:
+    name: Test ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: 6.4.x
+            package: dev-flex
+          - name: 6.5.x
+            package: 6.5.0.0-dev
+    env:
+      APP_ENV: prod
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
+      APP_URL: http://localhost:8000
+      APP_SECRET: devsecret
+      BLUE_GREEN_DEPLOYMENT: 0
+    services:
+      database:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: root
+        options: '--mount="type=tmpfs,destination=/var/lib/mysql" --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-timeout=2s --health-retries=3'
+        ports:
+          - "3306:3306"
+    steps:
+      - name: Create project
+        run: composer create-project shopware/production:${{ matrix.package }} project
+
+      - name: Install Shopware
+        run: |
+          cd project
+          ./bin/console system:install --basic-setup --create-database
+
