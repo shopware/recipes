@@ -12,4 +12,4 @@ The `shopware/platform` package is automatically updated by the CI. Change only 
 
 ## Migrating an existing application to Symfony Flex
 
-See [Migration Guide in docs](https://developer.shopware.com/docs/guides/installation/flex#how-to-migrate-from-production-template-to-symfony-flex).
+See [Migration Guide in docs](https://developer.shopware.com/docs/guides/installation/template#how-do-i-migrate-from-production-template-to-symfony-flex).
