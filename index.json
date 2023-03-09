@@ -1,7 +1,9 @@
 {
     "aliases": {
         "console": "symfony/console",
+        "dev-tools": "shopware/dev-tools",
         "devenv": "frosh/devenv-meta",
+        "devtools": "shopware/dev-tools",
         "fastly": "shopware/fastly-meta",
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
