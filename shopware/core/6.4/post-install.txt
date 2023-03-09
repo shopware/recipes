@@ -19,7 +19,3 @@
     5. Optional: Open the Mail catcher with <comment>symfony open:local:webmail</comment>
 
   * <fg=blue>Read</> the documentation at <comment>https://developer.shopware.com/</>
-
-  * <fg=red>Important:</> Run <comment>composer req --dev profiler</comment> to avoid the following profiler exception (prior to shopware 6.4.17.0)</>
-
-    Exception: There is no extension able to load the configuration for web_profiler
