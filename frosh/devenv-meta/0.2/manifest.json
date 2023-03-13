@@ -5,6 +5,7 @@
     },
     "gitignore": [
         ".devenv*",
-        "devenv.local.nix"
+        "devenv.local.nix",
+        ".direnv*"
     ]
 }
