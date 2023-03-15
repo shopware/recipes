@@ -4,7 +4,7 @@ db:
 cacheredis:
     type: redis:7.0
     configuration:
-        maxmemory_policy: volatile-ttl
+        maxmemory_policy: volatile-lfu
 # comment if you want to disable rabbitmq
 rabbitmq:
     type: rabbitmq:3.8
