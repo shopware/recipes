@@ -36,6 +36,12 @@ if [[ $(command -v jq) ]]; then
         path=$(dirname "$srcPath")
         name=$(echo "$config" | jq -r '.technicalName' )
 
+        skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
+
+        if [[ ${!skippingEnvVarName-""} ]]; then
+            continue
+        fi
+
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "administration" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
