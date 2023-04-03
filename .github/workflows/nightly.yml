@@ -39,4 +39,6 @@ jobs:
         run: |
           cd project
           ./bin/console system:install --basic-setup --create-database
+          ./bin/build-administration.sh
+          ./bin/build-storefront.sh
 
