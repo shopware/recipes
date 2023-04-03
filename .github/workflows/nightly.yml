@@ -22,6 +22,7 @@ jobs:
       APP_URL: http://localhost:8000
       APP_SECRET: devsecret
       BLUE_GREEN_DEPLOYMENT: 0
+      NODE_OPTIONS: '--openssl-legacy-provider'
     services:
       database:
         image: mysql:8.0
