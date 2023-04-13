@@ -82,12 +82,12 @@ for vcl in ./config/fastly/*.vcl; do
     trigger=$(basename $vcl .vcl)
     name="shopware_${trigger}"
 
-    if fastly vcl snippet describe --version=latest "--name=$name" > /dev/null; then
+    if fastly vcl snippet describe --version=active "--name=$name" > /dev/null; then
         # The snippet exists on remote
         localContent=$(cat "$vcl")
         localContentMd5=$(get_md5 "$localContent")
 
-        remoteContent=$(fastly vcl snippet describe --version=latest "--name=$name" --json | jq -r '.Content')
+        remoteContent=$(fastly vcl snippet describe --version=active "--name=$name" --json | jq -r '.Content')
         remoteContentMd5=$(get_md5 "$remoteContent")
 
         if [[ "$localContentMd5" != "$remoteContentMd5" ]]; then
