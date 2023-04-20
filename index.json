@@ -1,5 +1,7 @@
 {
     "aliases": {
+        "code-quality": "frosh/code-quality-meta",
+        "codequality": "frosh/code-quality-meta",
         "console": "symfony/console",
         "dev-tools": "shopware/dev-tools",
         "devenv": "frosh/devenv-meta",
@@ -34,6 +36,9 @@
         ],
         "enqueue/redis": [
             "0.10"
+        ],
+        "frosh/code-quality-meta": [
+            "0.1"
         ],
         "frosh/devenv-meta": [
             "0.1",
