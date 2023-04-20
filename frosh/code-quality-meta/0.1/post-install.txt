@@ -15,8 +15,8 @@
             "rector-dry": "@php vendor-bin/rector/vendor/bin/rector process --config=rector.php --dry-run",
             "rector": "@php vendor-bin/rector/vendor/bin/rector process --config=rector.php",
             "commit": [
-                "@rector",
                 "@phpstan",
+                "@rector",
                 "@ecs-fix",
                 "@php bin/console dal:validate"
             ]
