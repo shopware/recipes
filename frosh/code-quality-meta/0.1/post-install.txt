@@ -1,0 +1,24 @@
+  * <fg=blue>Setup</> execute:
+    <comment>composer require --dev bamarni/composer-bin-plugin && jq '.extra += {"bamarni-bin": {"bin-links": false, "forward-command": true}}' composer.json > composer.tmp && mv composer.tmp composer.json && composer install</comment>
+
+  * <fg=blue>Recommended</>
+    The following code snippet shows examples of how to use code quality tools to check and improve the quality of your code.
+    You can customize the plugin paths based on your project's needs.
+    <comment>{
+        "script": {
+            "ecs": "@php vendor-bin/cs-fixer/vendor/bin/ecs check custom/static-plugins custom/plugins",
+            "ecs-fix": "@php vendor-bin/cs-fixer/vendor/bin/ecs check --fix custom/static-plugins custom/plugins",
+            "phpstan": [
+              "@php vendor/frosh/code-quality-meta/phpstan-bootstrap.php",
+              "@php vendor-bin/phpstan/vendor/bin/phpstan analyze custom/static-plugins custom/plugins"
+            ],
+            "rector-dry": "@php vendor-bin/rector/vendor/bin/rector process --config=rector.php --dry-run",
+            "rector": "@php vendor-bin/rector/vendor/bin/rector process --config=rector.php",
+            "commit": [
+                "@rector",
+                "@phpstan",
+                "@ecs-fix",
+                "@php bin/console dal:validate"
+            ]
+        }
+    }</comment>

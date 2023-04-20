@@ -1,0 +1,41 @@
+parameters:
+    level: 8
+    tmpDir: var/cache/phpstan_dev
+    inferPrivatePropertyTypeFromConstructor: true
+    checkMissingIterableValueType: false
+
+    symfony:
+        constantHassers: false
+        containerXmlPath: 'var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
+
+    bootstrapFiles:
+        - vendor/frosh/code-quality-meta/phpstan-bootstrap.php
+
+    excludePaths:
+        - **/vendor/*
+rules:
+    # rules from https://github.com/symplify/phpstan-rules
+    - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
+    - Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
+
+    # domain
+    - Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+    - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+    - Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
+    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+
+    # paths
+    - Symplify\PHPStanRules\Rules\NoMissingDirPathRule
+    - Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
+
+    # dead-code
+    - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
+
+    # explicit naming
+    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
+    - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
+    - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
+    - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
+    - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
