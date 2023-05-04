@@ -30,6 +30,7 @@ storefront:
     theme:
         config_loader_id: Shopware\Storefront\Theme\ConfigLoader\StaticFileConfigLoader
         available_theme_provider: Shopware\Storefront\Theme\ConfigLoader\StaticFileAvailableThemeProvider
+        theme_path_builder_id: Shopware\Storefront\Theme\MD5ThemePathBuilder
 elasticsearch:
     index_settings:
         number_of_replicas: null
