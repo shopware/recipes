@@ -66,6 +66,7 @@
 
   services.mysql = {
     enable = true;
+    package = pkgs.mysql80;
     initialDatabases = lib.mkDefault [{ name = "shopware"; }];
     ensureUsers = lib.mkDefault [
       {
