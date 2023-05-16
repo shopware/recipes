@@ -1,0 +1,4 @@
+  * <fg=blue>Setup</>
+    This recipe has created a <comment>docker/Dockerfile</comment> with an example file to build a Shopware Docker image.
+    You can build it with <comment>docker build -t <name> -f docker/Dockerfile .</comment>.
+    See https://github.com/FriendsOfShopware/production-docker for the complete documentation to configure things.
