@@ -47,6 +47,9 @@
         "frosh/gitpod-meta": [
             "6.4"
         ],
+        "frosh/production-docker": [
+            "0.1"
+        ],
         "shopware/administration": [
             "6.4"
         ],
