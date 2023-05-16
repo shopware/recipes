@@ -178,7 +178,7 @@ jobs:
               run: |
                 set -e
                 php -v
-                git clone https://github.com/shopware/production -b flex template
+                git clone https://github.com/shopware/production template
                 cd template
                 jq '.extra.symfony.endpoint |= [ "https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json" ] + .' composer.json > composer.tmp && mv composer.tmp composer.json
                 composer require -W --ansi $PACKAGES
