@@ -2,9 +2,9 @@
 
 # pin versions
 FROM ghcr.io/friendsofshopware/production-docker-base:8.2 as base-image
-FROM ghcr.io/friendsofshopware/shopware-cli:0.1.70-php-8.2 as shopware-cli
+FROM ghcr.io/friendsofshopware/shopware-cli:0.1.71-php-8.2 as shopware-cli
 
-# build build
+# build
 
 FROM shopware-cli as build
 
