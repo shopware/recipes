@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\ComposerPluginLoader;
 use Shopware\Core\HttpKernel;
 use Shopware\Core\Installer\InstallerKernel;
@@ -51,8 +52,7 @@ return function (array $context) {
 
     $shopwareHttpKernel = new HttpKernel($appEnv, $debug, $classLoader);
 
-    $composerPluginLoader = (bool)($context['COMPOSER_PLUGIN_LOADER'] ?? false);
-    if ($composerPluginLoader) {
+    if (EnvironmentHelper::getVariable('COMPOSER_PLUGIN_LOADER', false)) {
         $shopwareHttpKernel->setPluginLoader(
             new ComposerPluginLoader($classLoader, null)
         );
