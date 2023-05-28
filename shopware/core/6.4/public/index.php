@@ -20,7 +20,7 @@ if (!file_exists(__DIR__ . '/../.env') && !file_exists(__DIR__ . '/../.env.dist'
 return function (array $context) {
     $classLoader = require __DIR__ . '/../vendor/autoload.php';
 
-    if (!file_exists(dirname(__DIR__) . '/install.lock')) {
+    if (!EnvironmentHelper::getVariable('SHOPWARE_SKIP_INSTALLER', false) && !file_exists(dirname(__DIR__) . '/install.lock')) {
         $baseURL = str_replace(basename(__FILE__), '', $_SERVER['SCRIPT_NAME']);
         $baseURL = rtrim($baseURL, '/');
 
@@ -46,7 +46,7 @@ return function (array $context) {
         Request::setTrustedHosts(explode(',', $trustedHosts));
     }
 
-    if (!file_exists(dirname(__DIR__) . '/install.lock')) {
+    if (!EnvironmentHelper::getVariable('SHOPWARE_SKIP_INSTALLER', false) && !file_exists(dirname(__DIR__) . '/install.lock')) {
         return new InstallerKernel($appEnv, $debug);
     }
 
