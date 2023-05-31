@@ -96,7 +96,8 @@
         "!\/var\/log\/.gitkeep",
         "!\/var\/cache\/.gitkeep",
         "\/auth.json",
-        "\/install.lock"
+        "\/install.lock",
+        "public\/asset-manifest.json"
     ],
     "composer-scripts": {
         "assets:install": "symfony-cmd"
