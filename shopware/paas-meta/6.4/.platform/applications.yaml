@@ -141,7 +141,7 @@
             if [ -e bin/setup-fastly.sh ]; then
                 ./bin/setup-fastly.sh
             fi
-            
+
             # Send USR2 signal to php-fpm to clear the opcache
             pkill -f -USR2 -u web php-fpm
     # The relationships of the application with services or other applications.
