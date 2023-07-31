@@ -1,5 +1,5 @@
 -   name: app
-    type: php:8.1
+    type: php:8.2
     build:
         flavor: composer
     dependencies:
@@ -126,7 +126,8 @@
             fi
 
             # optional: run migration automatically with deploy
-            bin/console database:migrate --all
+            bin/console database:migrate --all # Run Shopware core migrations
+            bin/console plugin:update "" -q # Run plugin migrations
 
             # run cache clear commands, on grid environments this should run in the deploy hook,
             # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
@@ -140,6 +141,9 @@
             if [ -e bin/setup-fastly.sh ]; then
                 ./bin/setup-fastly.sh
             fi
+            
+            # Kill php-fpm to clear the opcache
+            pkill -f -u "$(whoami)" php-fpm
     # The relationships of the application with services or other applications.
     # The left-hand side is the name of the relationship as it will be exposed
     # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
@@ -159,20 +163,28 @@
             source: local
             source_path: "files"
         "/public/media":
-            source: local
+            source: service
+            service: fileshare
             source_path: "public/media"
         "/public/thumbnail":
-            source: local
+            source: service
+            service: fileshare
             source_path: "public/thumbnail"
         "/config/secrets":
-            source: local
+            source: service
+            service: fileshare
             source_path: "config/secrets"
         "/config/jwt":
-            source: local
+            source: service
+            service: fileshare
             source_path: "config/jwt"
         "/var":
-            source: local
+            source: service
+            service: fileshare
             source_path: "var"
+        "/var/cache":
+            source: local
+            source_path: "var/cache"
         "/installer":
             source: local
             source_path: "installer"
@@ -182,12 +194,6 @@
         "/.cache":
             source: local
             source_path: ".cache"
-        "/custom/apps":
-            source: local
-            source_path: "custom/apps"
-        "/custom/plugins":
-            source: local
-            source_path: "custom/plugins"
     # The configuration of app when it is exposed to the web.
     web:
         locations:
@@ -205,9 +211,17 @@
             disk: 128
             commands:
                 start: |
-                    bin/console messenger:consume default --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                    bin/console cache:clear
+                    bin/console messenger:consume async --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+        queue-failed:
+            disk: 128
+            commands:
+                start: |
+                    bin/console cache:clear
+                    bin/console messenger:consume failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
         scheduled-task:
             disk: 128
             commands:
                 start: |
+                    bin/console cache:clear
                     bin/console scheduled-task:run --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
