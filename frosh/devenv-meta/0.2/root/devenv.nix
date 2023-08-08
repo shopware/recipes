@@ -95,8 +95,8 @@
   #services.elasticsearch.enable = true;
 
   # Environment variables
-  env.MAILER_DSN = lib.mkDefault "smtp://localhost:1025";
-  env.DATABASE_URL = lib.mkDefault "mysql://shopware:shopware@localhost:3306/shopware";
+  env.MAILER_DSN = lib.mkDefault "smtp://127.0.0.1:1025";
+  env.DATABASE_URL = lib.mkDefault "mysql://shopware:shopware@127.0.0.1:3306/shopware";
 
   # Shopware 6 related scripts
   scripts.build-js.exec = lib.mkDefault "bin/build-js.sh";
