@@ -34,7 +34,7 @@ when@prod:
             nested:
                 type: stream
                 path: php://stderr
-                level: debug
+                level: error
                 formatter: monolog.formatter.json
             console:
                 type: console
