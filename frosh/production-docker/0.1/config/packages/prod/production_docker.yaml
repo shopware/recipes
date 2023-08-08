@@ -1,13 +1,12 @@
-services:
-    shopware.public_key:
-        class: League\OAuth2\Server\CryptKey
-        arguments: ["%env(base64:JWT_PUBLIC_KEY)%"]
-
-    shopware.private_key:
-        class: League\OAuth2\Server\CryptKey
-        arguments: ["%env(base64:JWT_PRIVATE_KEY)%"]
+parameters:
+    env(JWT_PRIVATE_KEY): ''
+    env(JWT_PUBLIC_KEY): ''
 
 shopware:
+    api:                                                                                                               
+        jwt_key:                                                                                                       
+            private_key_path: '%env(base64:JWT_PRIVATE_KEY)%'                                                          
+            public_key_path: '%env(base64:JWT_PUBLIC_KEY)%'
     auto_update:
         enabled: false
     admin_worker:
