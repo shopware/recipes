@@ -24,7 +24,7 @@ export STOREFRONT_ASSETS_PORT
 export STOREFRONT_PROXY_PORT
 
 DATABASE_URL="" "${CWD}"/console feature:dump
-"${CWD}"/console theme:compile
+"${CWD}"/console theme:compile --active-only
 "${CWD}"/console theme:dump
 
 if [[ $(command -v jq) ]]; then
