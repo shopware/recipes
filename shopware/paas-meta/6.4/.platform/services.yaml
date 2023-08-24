@@ -14,3 +14,8 @@ rabbitmq:
 #opensearch:
 #    type: opensearch:1.2
 #    disk: 256
+
+# Change the disk space according to your needs for a.o. media files
+fileshare:
+    type: network-storage:2.0
+    disk: 4096
