@@ -8,7 +8,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [enqueue/dbal](https://packagist.org/packages/enqueue/dbal) | [0.10](enqueue/dbal/0.10) |  |
 | [enqueue/enqueue-bundle](https://packagist.org/packages/enqueue/enqueue-bundle) | [0.10](enqueue/enqueue-bundle/0.10) |  |
 | [enqueue/redis](https://packagist.org/packages/enqueue/redis) | [0.10](enqueue/redis/0.10) |  |
-| [frosh/code-quality-meta](https://packagist.org/packages/frosh/code-quality-meta) | [0.1](frosh/code-quality-meta/0.1) | `code-quality`, `codequality` |
+| [frosh/code-quality-meta](https://packagist.org/packages/frosh/code-quality-meta) | [0.2](frosh/code-quality-meta/0.2) | `code-quality`, `codequality` |
 | [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.2](frosh/devenv-meta/0.2) | `devenv` |
 | [frosh/gitpod-meta](https://packagist.org/packages/frosh/gitpod-meta) | [6.4](frosh/gitpod-meta/6.4) | `gitpod` |
 | [frosh/production-docker](https://packagist.org/packages/frosh/production-docker) | [0.1](frosh/production-docker/0.1) |  |
