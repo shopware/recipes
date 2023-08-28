@@ -84,12 +84,18 @@
             cp var/plugins.json build-plugins.json
         deploy: |
             set -e
-            # load nvm to use the correct node version for any following commands
-            unset NPM_CONFIG_PREFIX
-            export NO_UPDATE_NOTIFIER=1
-            export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+            if [ -z "${JWT_PUBLIC_KEY}" ]; then
+                echo "~"
+                echo "~"
+                echo "~"
+                echo "Please initialize the JWT Tokens to proceed. https://developer.shopware.com/docs/products/paas/build-deploy"
+                echo "~"
+                echo "~"
+                echo "~"
+                exit 1;
+            fi
+            
             # restore theme config from build to mount in case theme needs rebuilding during runtime
             cp -R build-tmp/theme-config files/
 
@@ -98,7 +104,6 @@
 
             # Initialize the Shopware site's data set if it's not already installed.
             # (This is only for demo/first install and can be removed once Shopware is initialized)
-
             if [ ! -f $PLATFORM_APP_DIR/installer/installed ]; then
                 # setup the environment
                 # create database with a basic setup (admin user and storefront sales channel).
@@ -109,16 +114,14 @@
                 bin/console theme:change --all Storefront --no-compile
                 bin/console theme:dump
 
-                # generate JWT
-                echo "Running system:generate-jwt-secret"
-                bin/console system:generate-jwt-secret || true
-
                 # Disable FRW
                 bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
 
                 # mark system as installed
                 touch $PLATFORM_APP_DIR/installer/installed
             fi;
+            
+            # Configure the sales channel domains automatically for non-production environments
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
                 export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
                 export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
@@ -175,10 +178,6 @@
             source: service
             service: fileshare
             source_path: "config/secrets"
-        "/config/jwt":
-            source: service
-            service: fileshare
-            source_path: "config/jwt"
         "/var":
             source: service
             service: fileshare
