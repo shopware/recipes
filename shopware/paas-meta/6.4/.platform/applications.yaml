@@ -99,7 +99,7 @@
                 echo "~"
                 exit 1;
             fi
-            
+
             # restore theme config from build to mount in case theme needs rebuilding during runtime
             cp -R build-tmp/theme-config files/
 
@@ -124,7 +124,7 @@
                 # mark system as installed
                 touch $PLATFORM_APP_DIR/installer/installed
             fi;
-            
+
             # Configure the sales channel domains automatically for non-production environments
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
                 export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
