@@ -5,7 +5,7 @@
     The following code snippet shows examples of how to use code quality tools to check and improve the quality of your code.
     You can customize the plugin paths based on your project's needs.
     <comment>{
-        "script": {
+        "scripts": {
             "ecs": "@php vendor-bin/cs-fixer/vendor/bin/ecs check custom/static-plugins custom/plugins",
             "ecs-fix": "@php vendor-bin/cs-fixer/vendor/bin/ecs check --fix custom/static-plugins custom/plugins",
             "phpstan": [
