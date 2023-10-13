@@ -11,9 +11,9 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [frosh/code-quality-meta](https://packagist.org/packages/frosh/code-quality-meta) | [0.2](frosh/code-quality-meta/0.2) | `code-quality`, `codequality` |
 | [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.2](frosh/devenv-meta/0.2) | `devenv` |
 | [frosh/gitpod-meta](https://packagist.org/packages/frosh/gitpod-meta) | [6.4](frosh/gitpod-meta/6.4) | `gitpod` |
-| [frosh/production-docker](https://packagist.org/packages/frosh/production-docker) | [0.1](frosh/production-docker/0.1) |  |
 | [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.4](shopware/administration/6.4) |  |
 | [shopware/core](https://packagist.org/packages/shopware/core) | [6.4](shopware/core/6.4) |  |
+| [shopware/docker](https://packagist.org/packages/shopware/docker) | [0.1](shopware/docker/0.1) |  |
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.4](shopware/elasticsearch/6.4) |  |
 | [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.4](shopware/fastly-meta/6.4) | `fastly` |
 | [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.4](shopware/paas-meta/6.4) | `paas` |

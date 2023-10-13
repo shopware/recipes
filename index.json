@@ -48,14 +48,14 @@
         "frosh/gitpod-meta": [
             "6.4"
         ],
-        "frosh/production-docker": [
-            "0.1"
-        ],
         "shopware/administration": [
             "6.4"
         ],
         "shopware/core": [
             "6.4"
+        ],
+        "shopware/docker": [
+            "0.1"
         ],
         "shopware/elasticsearch": [
             "6.4"

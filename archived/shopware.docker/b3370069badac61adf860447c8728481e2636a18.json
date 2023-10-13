@@ -1,0 +1,99 @@
+{
+    "manifests": {
+        "shopware/docker": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "docker/": "docker/",
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "post-install-output": [
+                    "  * <fg=blue>Setup</>",
+                    "    This recipe has created a <comment>docker/Dockerfile</comment> with an example file to build a Shopware Docker image.",
+                    "    You can build it with <comment>docker build -t <name> -f docker/Dockerfile .</comment>.",
+                    "    See https://github.com/shopware/docker for the complete documentation to configure things."
+                ]
+            },
+            "files": {
+                "config/packages/prod/production_docker.yaml": {
+                    "contents": [
+                        "parameters:",
+                        "    env(JWT_PRIVATE_KEY): ''",
+                        "    env(JWT_PUBLIC_KEY): ''",
+                        "",
+                        "shopware:",
+                        "    api:                                                                                                               ",
+                        "        jwt_key:                                                                                                       ",
+                        "            private_key_path: '%env(base64:JWT_PRIVATE_KEY)%'                                                          ",
+                        "            public_key_path: '%env(base64:JWT_PUBLIC_KEY)%'",
+                        "    auto_update:",
+                        "        enabled: false",
+                        "    admin_worker:",
+                        "        enable_admin_worker: false",
+                        "        enable_notification_worker: false",
+                        "        enable_queue_stats_worker: false",
+                        "    mail:",
+                        "        update_mail_variables_on_send: false",
+                        "    increment:",
+                        "        user_activity:",
+                        "            type: 'array'",
+                        "        message_queue:",
+                        "            type: 'array'",
+                        "",
+                        "when@prod:",
+                        "    monolog:",
+                        "        handlers:",
+                        "            main:",
+                        "                type: fingers_crossed",
+                        "                action_level: error",
+                        "                handler: nested",
+                        "                excluded_http_codes: [404, 405]",
+                        "                buffer_size: 50 # How many messages should be saved? Prevent memory leaks",
+                        "            nested:",
+                        "                type: stream",
+                        "                path: php://stderr",
+                        "                level: error",
+                        "                formatter: monolog.formatter.json",
+                        "            console:",
+                        "                type: console",
+                        "                process_psr_3_messages: false",
+                        "                channels: [\"!event\", \"!doctrine\"]",
+                        "            business_event_handler_buffer:",
+                        "                level: error",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "docker/Dockerfile": {
+                    "contents": [
+                        "#syntax=docker/dockerfile:1.4",
+                        "",
+                        "# pin versions",
+                        "FROM shopware/docker-base:8.2 as base-image",
+                        "FROM ghcr.io/friendsofshopware/shopware-cli:latest-php-8.2 as shopware-cli",
+                        "",
+                        "# build",
+                        "",
+                        "FROM shopware-cli as build",
+                        "",
+                        "ADD . /src",
+                        "WORKDIR /src",
+                        "",
+                        "RUN --mount=type=secret,id=composer_auth,dst=/src/auth.json \\",
+                        "    --mount=type=cache,target=/root/.composer \\",
+                        "    --mount=type=cache,target=/root/.npm \\",
+                        "    /usr/local/bin/entrypoint.sh shopware-cli project ci /src",
+                        "",
+                        "# build final image",
+                        "",
+                        "FROM base-image",
+                        "",
+                        "COPY --from=build --chown=www-data --link /src /var/www/html",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "b3370069badac61adf860447c8728481e2636a18"
+        }
+    }
+}

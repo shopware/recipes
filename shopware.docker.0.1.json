@@ -1,6 +1,6 @@
 {
     "manifests": {
-        "frosh/production-docker": {
+        "shopware/docker": {
             "manifest": {
                 "copy-from-recipe": {
                     "docker/": "docker/",
@@ -10,7 +10,7 @@
                     "  * <fg=blue>Setup</>",
                     "    This recipe has created a <comment>docker/Dockerfile</comment> with an example file to build a Shopware Docker image.",
                     "    You can build it with <comment>docker build -t <name> -f docker/Dockerfile .</comment>.",
-                    "    See https://github.com/FriendsOfShopware/production-docker for the complete documentation to configure things."
+                    "    See https://github.com/shopware/docker for the complete documentation to configure things."
                 ]
             },
             "files": {
@@ -68,8 +68,8 @@
                         "#syntax=docker/dockerfile:1.4",
                         "",
                         "# pin versions",
-                        "FROM ghcr.io/friendsofshopware/production-docker-base:8.2 as base-image",
-                        "FROM ghcr.io/friendsofshopware/shopware-cli:0.2.4-php-8.2 as shopware-cli",
+                        "FROM shopware/docker-base:8.2 as base-image",
+                        "FROM ghcr.io/friendsofshopware/shopware-cli:latest-php-8.2 as shopware-cli",
                         "",
                         "# build",
                         "",
@@ -93,7 +93,7 @@
                     "executable": false
                 }
             },
-            "ref": "b837315da0855357c4ec756ef018952abef7d719"
+            "ref": "b3370069badac61adf860447c8728481e2636a18"
         }
     }
 }
