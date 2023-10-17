@@ -22,8 +22,10 @@ export ESLINT_DISABLE
 export PORT
 export APP_URL
 
+BIN_TOOL="${CWD}/console"
+
 [[ ${SHOPWARE_SKIP_BUNDLE_DUMP-""} ]] || "${BIN_TOOL}" bundle:dump
-bin/console feature:dump || true
+"${BIN_TOOL}" feature:dump || true
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
@@ -56,9 +58,6 @@ fi
 if [ ! -d vendor/shopware/administration/Resources/app/administration/node_modules ]; then
     npm install --prefix vendor/shopware/administration/Resources/app/administration/
 fi
-
-bin/console -e prod framework:schema -s 'entity-schema' vendor/shopware/administration/Resources/app/administration/test/_mocks_/entity-schema.json
-npm run --prefix vendor/shopware/administration/Resources/app/administration/ convert-entity-schema
 
 # Dump entity schema
 if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then

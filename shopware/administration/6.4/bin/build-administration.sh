@@ -36,7 +36,7 @@ fi
 
 # build admin
 [[ ${SHOPWARE_SKIP_BUNDLE_DUMP-""} ]] || "${BIN_TOOL}" bundle:dump
-bin/console feature:dump || true
+"${BIN_TOOL}" feature:dump || true
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
