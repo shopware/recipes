@@ -22,7 +22,7 @@ export ESLINT_DISABLE
 export PORT
 export APP_URL
 
-bin/console bundle:dump
+[[ ${SHOPWARE_SKIP_BUNDLE_DUMP-""} ]] || "${BIN_TOOL}" bundle:dump
 bin/console feature:dump || true
 
 if [[ $(command -v jq) ]]; then
@@ -55,6 +55,16 @@ fi
 
 if [ ! -d vendor/shopware/administration/Resources/app/administration/node_modules ]; then
     npm install --prefix vendor/shopware/administration/Resources/app/administration/
+fi
+
+bin/console -e prod framework:schema -s 'entity-schema' vendor/shopware/administration/Resources/app/administration/test/_mocks_/entity-schema.json
+npm run --prefix vendor/shopware/administration/Resources/app/administration/ convert-entity-schema
+
+# Dump entity schema
+if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then
+  mkdir -p "${ADMIN_ROOT}"/Resources/app/administration/test/_mocks_
+  "${BIN_TOOL}" -e prod framework:schema -s 'entity-schema' "${ADMIN_ROOT}"/Resources/app/administration/test/_mocks_/entity-schema.json
+  (cd "${ADMIN_ROOT}"/Resources/app/administration && npm run convert-entity-schema)
 fi
 
 npm run --prefix vendor/shopware/administration/Resources/app/administration/ dev
