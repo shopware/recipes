@@ -216,16 +216,9 @@
             commands:
                 start: |
                     bin/console cache:clear
-                    bin/console messenger:consume async --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
-        queue-failed:
-            disk: 128
-            commands:
-                start: |
-                    bin/console cache:clear
-                    bin/console messenger:consume failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
-        scheduled-task:
-            disk: 128
-            commands:
-                start: |
-                    bin/console cache:clear
-                    bin/console scheduled-task:run --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                    bin/console messenger:consume async,failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+
+    crons:
+        scheduler:
+            spec: '*/5 * * * *'
+            cmd: 'php bin/console scheduled-task:run --no-wait'
