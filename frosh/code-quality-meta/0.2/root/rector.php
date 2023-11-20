@@ -38,6 +38,7 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
         ShopwareSetList::SHOPWARE_6_5_0,
     ]);
 
