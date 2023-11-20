@@ -41,6 +41,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_81,
         LevelSetList::UP_TO_PHP_82,
         ShopwareSetList::SHOPWARE_6_5_0,
+        ShopwareSetList::SHOPWARE_6_6_0,
     ]);
 
     $rectorConfig->skip([
