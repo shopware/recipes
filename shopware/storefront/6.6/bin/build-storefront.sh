@@ -54,4 +54,4 @@ npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --no-audit --
 node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
 [[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
-[[ ${SHOPWARE_SKIP_THEME_COMPILE-""} ]] || "${BIN_TOOL}" theme:compile
+[[ ${SHOPWARE_SKIP_THEME_COMPILE-""} ]] || "${BIN_TOOL}" theme:compile --active-only
