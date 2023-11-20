@@ -11,14 +11,14 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [frosh/code-quality-meta](https://packagist.org/packages/frosh/code-quality-meta) | [0.2](frosh/code-quality-meta/0.2) | `code-quality`, `codequality` |
 | [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.2](frosh/devenv-meta/0.2) | `devenv` |
 | [frosh/gitpod-meta](https://packagist.org/packages/frosh/gitpod-meta) | [6.4](frosh/gitpod-meta/6.4) | `gitpod` |
-| [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.4](shopware/administration/6.4) |  |
-| [shopware/core](https://packagist.org/packages/shopware/core) | [6.4](shopware/core/6.4) |  |
+| [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.6](shopware/administration/6.6) |  |
+| [shopware/core](https://packagist.org/packages/shopware/core) | [6.6](shopware/core/6.6) |  |
 | [shopware/docker](https://packagist.org/packages/shopware/docker) | [0.1](shopware/docker/0.1) |  |
-| [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.4](shopware/elasticsearch/6.4) |  |
+| [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.6](shopware/elasticsearch/6.6) |  |
 | [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.4](shopware/fastly-meta/6.4) | `fastly` |
 | [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.4](shopware/paas-meta/6.4) | `paas` |
-| [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.4](shopware/platform/6.4) |  |
-| [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.4](shopware/storefront/6.4) |  |
+| [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.6](shopware/platform/6.6) |  |
+| [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.6](shopware/storefront/6.6) |  |
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
 | [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [5.4](symfony/framework-bundle/5.4) | `framework-bundle`, `frameworkbundle` |

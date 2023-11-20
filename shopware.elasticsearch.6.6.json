@@ -1,0 +1,61 @@
+{
+    "manifests": {
+        "shopware/elasticsearch": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "bundles": {
+                    "Shopware\\Elasticsearch\\Elasticsearch": [
+                        "all"
+                    ]
+                },
+                "env": {
+                    "OPENSEARCH_URL": "http://localhost:9200",
+                    "SHOPWARE_ES_ENABLED": "0",
+                    "SHOPWARE_ES_INDEXING_ENABLED": "0",
+                    "SHOPWARE_ES_INDEX_PREFIX": "sw",
+                    "SHOPWARE_ES_THROW_EXCEPTION": "1"
+                },
+                "container": {
+                    "env(OPENSEARCH_URL)": "http://localhost:9200"
+                },
+                "docker-compose": {
+                    "docker-compose.yml": {
+                        "services": [
+                            "opensearch:",
+                            "  image: opensearchproject/opensearch:2",
+                            "  volumes:",
+                            "    - opensearch-data:/usr/share/opensearch/data",
+                            "  environment:",
+                            "    discovery.type: single-node",
+                            "    plugins.security.disabled: 'true'"
+                        ],
+                        "volumes": [
+                            "opensearch-data:"
+                        ]
+                    },
+                    "docker-compose.override.yml": {
+                        "services": [
+                            "opensearch:",
+                            "  ports:",
+                            "    - \"9200\""
+                        ]
+                    }
+                }
+            },
+            "files": {
+                "config/packages/elasticsearch.yaml": {
+                    "contents": [
+                        "elasticsearch:",
+                        "    hosts: \"%env(string:OPENSEARCH_URL)%\"",
+                        "",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "f68a89cacedf3e2132444874e1e1e3c4864dae6d"
+        }
+    }
+}
