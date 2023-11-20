@@ -35,6 +35,7 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonySetList::SYMFONY_60,
         SymfonySetList::SYMFONY_61,
         SymfonySetList::SYMFONY_62,
+        SymfonySetList::SYMFONY_63,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_81,
