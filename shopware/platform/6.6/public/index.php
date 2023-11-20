@@ -2,12 +2,8 @@
 
 use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\ComposerPluginLoader;
-use Shopware\Core\HttpKernel;
 use Shopware\Core\Installer\InstallerKernel;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\TerminableInterface;
+use Shopware\Core\Framework\Adapter\Kernel\KernelFactory;
 
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 
@@ -33,48 +29,20 @@ return function (array $context) {
     $appEnv = $context['APP_ENV'] ?? 'dev';
     $debug = (bool) ($context['APP_DEBUG'] ?? ($appEnv !== 'prod'));
 
-    $trustedProxies = $context['TRUSTED_PROXIES'] ?? false;
-    if ($trustedProxies) {
-        Request::setTrustedProxies(
-            explode(',', $trustedProxies),
-            Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO
-        );
-    }
-
-    $trustedHosts = $context['TRUSTED_HOSTS'] ?? false;
-    if ($trustedHosts) {
-        Request::setTrustedHosts(explode(',', $trustedHosts));
-    }
-
     if (!EnvironmentHelper::getVariable('SHOPWARE_SKIP_WEBINSTALLER', false) && !file_exists(dirname(__DIR__) . '/install.lock')) {
         return new InstallerKernel($appEnv, $debug);
     }
 
-    $shopwareHttpKernel = new HttpKernel($appEnv, $debug, $classLoader);
+    $pluginLoader = null;
 
     if (EnvironmentHelper::getVariable('COMPOSER_PLUGIN_LOADER', false)) {
-        $shopwareHttpKernel->setPluginLoader(
-            new ComposerPluginLoader($classLoader, null)
-        );
+        $pluginLoader = new ComposerPluginLoader($classLoader, null);
     }
 
-    return new class($shopwareHttpKernel) implements HttpKernelInterface, TerminableInterface {
-        private HttpKernel $httpKernel;
-
-        public function __construct(HttpKernel $httpKernel)
-        {
-            $this->httpKernel = $httpKernel;
-        }
-
-        public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response
-        {
-            return $this->httpKernel->handle($request, $type, $catch)->getResponse();
-        }
-
-        public function terminate(Request $request, Response $response): void
-        {
-            $this->httpKernel->terminate($request, $response);
-        }
-    };
+    return KernelFactory::create(
+        environment: $appEnv,
+        debug: $debug,
+        classLoader: $classLoader,
+        pluginLoader: $pluginLoader
+    );
 };
-
