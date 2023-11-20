@@ -39,6 +39,7 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_81,
         ShopwareSetList::SHOPWARE_6_5_0,
+        ShopwareSetList::SHOPWARE_6_6_0,
     ]);
 
     $rectorConfig->skip([
