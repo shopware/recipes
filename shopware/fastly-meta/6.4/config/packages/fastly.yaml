@@ -1,7 +1,3 @@
-storefront:
-    csrf:
-        mode: ajax
-
 when@prod:
     storefront:
         # Uncomment all to enable soft purge
