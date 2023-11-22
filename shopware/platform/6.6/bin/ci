@@ -35,7 +35,10 @@ return static function (array &$context) {
         $context['INSTALL'] = true;
     }
 
-    $_SERVER['DATABASE_URL'] = 'mysql://_placeholder.test';
+    if (trim($context['DATABASE_URL'] ?? '') === '') {
+        // fake DATABASE_URL
+        $_SERVER['DATABASE_URL'] = 'mysql://_placeholder.test';
+    }
 
     $kernel = new HttpKernel($env, $debug, $classLoader);
     $kernel->setPluginLoader($pluginLoader);
