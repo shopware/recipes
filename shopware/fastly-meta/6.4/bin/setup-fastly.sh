@@ -54,6 +54,7 @@ install_fastly_cli() {
 
     arch=$(uname -m)
     os="linux"
+    version="v10.6.4"
 
     if [[ "$arch" == "x86_64" ]]; then
         arch="amd64"
@@ -65,7 +66,7 @@ install_fastly_cli() {
 
     echo "Detected OS: ${os} and architecture: ${arch}"
 
-    file="https://github.com/fastly/cli/releases/download/v2.0.0/fastly_v2.0.0_${os}-${arch}.tar.gz"
+    file="https://github.com/fastly/cli/releases/download/${version}/fastly_${version}_${os}-${arch}.tar.gz"
 
     echo "Downloading ${file}"
 
