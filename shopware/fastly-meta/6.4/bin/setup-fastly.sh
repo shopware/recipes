@@ -123,7 +123,7 @@ for sub in ./config/fastly/*; do
     else
         create_version_if_not_done
 
-        fastly vcl snippet create "--name=shopware_${trigger}" "--content=${vcl}" "--type=${vcl_type}" "--priority=${priority}" --version=latest
+        fastly vcl snippet create "--name=$name" "--content=${vcl}" "--type=${vcl_type}" "--priority=${priority}" --version=latest
     fi
   done
 done
