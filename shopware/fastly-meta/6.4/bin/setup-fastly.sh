@@ -54,6 +54,7 @@ install_fastly_cli() {
 
     arch=$(uname -m)
     os="linux"
+    version="v10.6.4"
 
     if [[ "$arch" == "x86_64" ]]; then
         arch="amd64"
@@ -65,7 +66,7 @@ install_fastly_cli() {
 
     echo "Detected OS: ${os} and architecture: ${arch}"
 
-    file="https://github.com/fastly/cli/releases/download/v2.0.0/fastly_v2.0.0_${os}-${arch}.tar.gz"
+    file="https://github.com/fastly/cli/releases/download/${version}/fastly_${version}_${os}-${arch}.tar.gz"
 
     echo "Downloading ${file}"
 
@@ -78,9 +79,29 @@ install_fastly_cli
 # Fastly tries to write into /app on platformsh and this throws an error
 export HOME=/tmp
 
-for vcl in ./config/fastly/*.vcl; do
-    trigger=$(basename $vcl .vcl)
-    name="shopware_${trigger}"
+for sub in ./config/fastly/*; do
+  if ! find "$sub" -name '*.vcl' | grep . >/dev/null; then
+    # No VCL files in "$sub"; moving on to the next dir
+    continue
+  fi
+  for vcl in "$sub"/*.vcl; do
+    trigger=$(basename "$vcl" .vcl)
+    priority=$(echo "$trigger" | awk -F '.' '$2 ~ /^[0-9]+$/ { print $2 }')
+    if test -z "$priority"; then
+      priority="100"
+    else
+      trigger=$(basename "$trigger" ".$priority")
+    fi
+    vcl_type=$(basename "$sub")
+
+    # For backward compatibility, default VCLs doesn't include trigger in their name
+    if [[ "$trigger" == "default" ]]; then
+      name="shopware_${vcl_type}"
+    else
+      name="shopware_${vcl_type}_${trigger}"
+    fi
+
+    echo "Found VCL snippet $trigger of type $vcl_type with priority $priority"
 
     if fastly vcl snippet describe --version=active "--name=$name" > /dev/null; then
         # The snippet exists on remote
@@ -91,20 +112,22 @@ for vcl in ./config/fastly/*.vcl; do
         remoteContentMd5=$(get_md5 "$remoteContent")
 
         if [[ "$localContentMd5" != "$remoteContentMd5" ]]; then
-            echo "Snippet ${trigger} has changed. Updating"
+            echo "Snippet ${name} has changed. Updating"
 
             create_version_if_not_done
 
-            fastly vcl snippet update "--name=shopware_${trigger}" "--content=${vcl}" "--type=${trigger}" --version=latest
+            fastly vcl snippet update "--name=$name" "--content=${vcl}" "--type=${vcl_type}" "--priority=${priority}" --version=latest
         else
-            echo "Snippet ${trigger} is up to date"
+            echo "Snippet ${name} is up to date"
         fi
     else
         create_version_if_not_done
 
-        fastly vcl snippet create "--name=shopware_${trigger}" "--content=${vcl}" "--type=${trigger}" --version=latest
+        fastly vcl snippet create "--name=$name" "--content=${vcl}" "--type=${vcl_type}" "--priority=${priority}" --version=latest
     fi
+  done
 done
+
 
 if [[ "$created_version" == "1" ]]; then
     echo "Activating latest version"
