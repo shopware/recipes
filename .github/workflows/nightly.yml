@@ -1,45 +1,147 @@
 name: Test nightly
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "3 3 * * * "
+    push:
+        branches:
+            - add-nightly-jobs
+    workflow_dispatch:
+    schedule:
+        -   cron: "3 3 * * * "
 
 jobs:
-  test:
-    name: Test ${{ matrix.name }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - name: 6.4.x
-            package: dev-flex
-          - name: 6.5.x
-            package: 6.5.0.0-dev
-    env:
-      APP_ENV: prod
-      DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
-      APP_URL: http://localhost:8000
-      APP_SECRET: devsecret
-      BLUE_GREEN_DEPLOYMENT: 0
-      NODE_OPTIONS: '--openssl-legacy-provider'
-    services:
-      database:
-        image: mysql:8.0
+    test:
+        name: Test ${{ matrix.name }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    -   name: 6.4.x
+                        package: ~6.4.0
+                        php: 8.1
+                    -   name: 6.5.x
+                        package: ~6.5.0
+                        php: 8.1
+                    -   name: 6.5.x (6.5.x-dev)
+                        package: 6.5.x-dev
+                        php: 8.1
+                    -   name: trunk
+                        package: 6.6.x-dev
+                        php: 8.2
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: root
-        options: '--mount="type=tmpfs,destination=/var/lib/mysql" --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-timeout=2s --health-retries=3'
-        ports:
-          - "3306:3306"
-    steps:
-      - name: Create project
-        run: composer create-project shopware/production:${{ matrix.package }} project
+            APP_ENV: prod
+            DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
+            APP_URL: http://localhost:8000
+            APP_SECRET: devsecret
+            BLUE_GREEN_DEPLOYMENT: 0
+            NODE_OPTIONS: '--openssl-legacy-provider'
+        services:
+            database:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: root
+                    MYSQL_DATABASE: root
+                options: '--mount="type=tmpfs,destination=/var/lib/mysql" --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-timeout=2s --health-retries=3'
+                ports:
+                    - "3306:3306"
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
 
-      - name: Install Shopware
-        run: |
-          cd project
-          ./bin/console system:install --basic-setup --create-database
-          ./bin/build-administration.sh
-          ./bin/build-storefront.sh
+            -   name: Setup project
+                run: |
+                    touch .env
+                    touch .gitignore
+                    mkdir -p custom/plugins custom/apps custom/static-plugins
+                    COMPOSER=$(cat <<EOF
+                    {
+                       "name": "shopware/production",
+                       "license": "MIT",
+                       "type": "project",
+                       "require": {
+                           "composer-runtime-api": "^2.0",
+                           "shopware/administration": "${{ matrix.package }}",
+                           "shopware/core": "${{ matrix.package }}",
+                           "shopware/elasticsearch": "${{ matrix.package }}",
+                           "shopware/storefront": "${{ matrix.package }}",
+                           "shopware/dev-tools": "*",
+                           "symfony/flex": "~2",
+                           "symfony/runtime": "^5.0|^6.0|^7.0"
+                       },
+                       "repositories": [
+                           {
+                               "type": "path",
+                               "url": "custom/plugins/*",
+                               "options": {
+                                   "symlink": true
+                               }
+                           },
+                           {
+                               "type": "path",
+                               "url": "custom/plugins/*/packages/*",
+                               "options": {
+                                   "symlink": true
+                               }
+                           },
+                           {
+                               "type": "path",
+                               "url": "custom/static-plugins/*",
+                               "options": {
+                                   "symlink": true
+                               }
+                           }
+                       ],
+                       "minimum-stability": "dev",
+                       "prefer-stable": true,
+                       "config": {
+                           "allow-plugins": {
+                               "symfony/flex": true,
+                               "symfony/runtime": true
+                           },
+                           "optimize-autoloader": true,
+                           "sort-packages": true
+                       },
+                       "scripts": {
+                           "auto-scripts": [
+                           ],
+                           "post-install-cmd": [
+                               "@auto-scripts"
+                           ],
+                           "post-update-cmd": [
+                               "@auto-scripts"
+                           ]
+                       },
+                       "extra": {
+                           "symfony": {
+                               "allow-contrib": true,
+                               "endpoint": [
+                                   "https://raw.githubusercontent.com/shopware/recipes/flex/main/index.json",
+                                   "flex://defaults"
+                               ]
+                           }
+                       }
+                    }
+                    EOF)
+                    echo "$COMPOSER" > composer.json
 
+            -   name: Test
+                run: cat composer.json
+
+            -   name: Install Composer
+                run: composer install
+
+            -   name: Install Shopware
+                run: ./bin/console system:install --basic-setup --create-database
+
+            - name: Generate demo data
+              run: ./bin/console framework:demodata -e prod
+
+            - name: DAL refresh
+              run: ./bin/console dal:refresh:index
+
+            - name: Build admin
+              run: ./bin/build-administration.sh
+
+            - name: Build storefront
+              run: ./bin/build-storefront.sh
