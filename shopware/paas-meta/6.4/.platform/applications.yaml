@@ -59,7 +59,11 @@
     hooks:
         build: |
             set -e
-
+            
+            echo "==================================================="
+            echo "START BUILD SCRIPT"
+            echo "Beginning with the NVM and NodeJS setup"
+            echo "==================================================="
             # install nvm
             unset NPM_CONFIG_PREFIX
             export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
@@ -77,6 +81,9 @@
             # Disable UI installer
             touch install.lock
 
+            echo "==================================================="
+            echo "COPY THEME AND RUN JS BUILD"
+            echo "==================================================="
             # compile theme and save config for later (will be moved to mount).
             # warnings can be ignored (the process is trying to access Redis which is not yet available)
             export CI=true
@@ -89,6 +96,10 @@
         deploy: |
             set -e
 
+            echo "==================================================="
+            echo "START DEPLOY SCRIPT"
+            echo "Beginning restoring theme-config files and plugin config"
+            echo "==================================================="
             if [ -z "${JWT_PUBLIC_KEY}" ]; then
                 echo "~"
                 echo "~"
@@ -106,6 +117,9 @@
             # restore plugin config to mount
             cp build-plugins.json var/plugins.json
 
+            echo "==================================================="
+            echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
+            echo "==================================================="
             # Initialize the Shopware site's data set if it's not already installed.
             # (This is only for demo/first install and can be removed once Shopware is initialized)
             if [ ! -f $PLATFORM_APP_DIR/installer/installed ]; then
@@ -125,6 +139,9 @@
                 touch $PLATFORM_APP_DIR/installer/installed
             fi;
 
+            echo "==================================================="
+            echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
+            echo "==================================================="
             # Configure the sales channel domains automatically for non-production environments
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
                 export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
@@ -132,10 +149,16 @@
                 bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
             fi
 
+            echo "==================================================="
+            echo "RUN MIGRATIONS"
+            echo "==================================================="
             # optional: run migration automatically with deploy
             bin/console database:migrate --all # Run Shopware core migrations
             bin/console plugin:update "" -q # Run plugin migrations
 
+            echo "==================================================="
+            echo "CLEAR CACHES"
+            echo "==================================================="
             # run cache clear commands, on grid environments this should run in the deploy hook,
             # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
             if [ -z "$PLATFORM_REGISTRY_NUMBER" ]; then
@@ -145,6 +168,9 @@
                 bin/console cache:pool:clear cache.object
             fi
 
+            echo "==================================================="
+            echo "SETUP FASTLY AND CLEAR OPCACHE"
+            echo "==================================================="
             if [ -e bin/setup-fastly.sh ]; then
                 ./bin/setup-fastly.sh
             fi
