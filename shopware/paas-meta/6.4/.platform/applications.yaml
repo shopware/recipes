@@ -36,7 +36,7 @@
             post_max_size: 32M
             memory_limit: 512M
             "assert.active": 0
-            "opcache.enable_file_override": 1
+            "opcache.enable_file_override": 0
             "opcache.interned_strings_buffer": 20
             "opcache.validate_timestamps": 0
             "zend.detect_unicode": 0
