@@ -4,7 +4,7 @@
         flavor: composer
     dependencies:
         php:
-            composer/composer: "^2"
+            composer/composer: "2.5.*"
     variables:
         env:
             # Tell Shopware to always install in production-mode.
@@ -59,7 +59,6 @@
     hooks:
         build: |
             set -e
-            
             echo "==================================================="
             echo "START BUILD SCRIPT"
             echo "Beginning with the NVM and NodeJS setup"
@@ -95,7 +94,6 @@
             cp var/plugins.json build-plugins.json
         deploy: |
             set -e
-
             echo "==================================================="
             echo "START DEPLOY SCRIPT"
             echo "Beginning restoring theme-config files and plugin config"
