@@ -44,9 +44,9 @@ set req.url = querystring.sort(req.url);
 
 # Make sure that the client ip is forward to the client.
 if (req.http.x-forwarded-for) {
-    set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
+    set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + req.http.Fastly-Client-IP;
 } else {
-    set req.http.X-Forwarded-For = client.ip;
+    set req.http.X-Forwarded-For = req.http.Fastly-Client-IP;
 }
 
 # Don't cache Authenticate & Authorization
