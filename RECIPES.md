@@ -16,6 +16,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/docker](https://packagist.org/packages/shopware/docker) | [0.1](shopware/docker/0.1) |  |
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.6](shopware/elasticsearch/6.6) |  |
 | [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.4](shopware/fastly-meta/6.4) | `fastly` |
+| [shopware/opentelemetry](https://packagist.org/packages/shopware/opentelemetry) | [0.1](shopware/opentelemetry/0.1) |  |
 | [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.4](shopware/paas-meta/6.4) | `paas` |
 | [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.6](shopware/platform/6.6) |  |
 | [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.6](shopware/storefront/6.6) |  |

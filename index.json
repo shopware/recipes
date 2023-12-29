@@ -66,6 +66,9 @@
         "shopware/fastly-meta": [
             "6.4"
         ],
+        "shopware/opentelemetry": [
+            "0.1"
+        ],
         "shopware/paas-meta": [
             "6.4"
         ],
