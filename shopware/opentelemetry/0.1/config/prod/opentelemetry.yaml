@@ -1,0 +1,14 @@
+# see https://github.com/shopwareLabs/opentelemetry/blob/main/README.md
+shopware:
+    profiler:
+        integrations:
+            - OpenTelemetry
+
+monolog:
+    handlers:
+        main:
+            type: service
+            id: monolog.handler.open_telemetry
+        elasticsearch:
+            type: service
+            id: monolog.handler.open_telemetry
