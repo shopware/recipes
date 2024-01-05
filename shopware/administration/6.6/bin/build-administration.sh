@@ -4,6 +4,9 @@ CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 export ENV_FILE=${ENV_FILE:-"${PROJECT_ROOT}/.env"}
+export NPM_CONFIG_FUND=false
+export NPM_CONFIG_AUDIT=false
+export NPM_CONFIG_UPDATE_NOTIFIER=false
 
 # shellcheck source=functions.sh
 source "${PROJECT_ROOT}/bin/functions.sh"
@@ -66,7 +69,7 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-(cd "${ADMIN_ROOT}"/Resources/app/administration && npm install --no-audit --prefer-offline)
+(cd "${ADMIN_ROOT}"/Resources/app/administration && npm install --prefer-offline --production)
 
 # Dump entity schema
 if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then
