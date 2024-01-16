@@ -153,7 +153,7 @@
             # optional: run migration automatically with deploy
             bin/console database:migrate --all # Run Shopware core migrations
             php bin/console plugin:refresh
-            
+
             list_plugins_not_installed=$(php bin/console plugin:list --json | jq 'map(select(.installedAt == null)) | .[].name' -r)
 
             for plugin in $list_plugins_not_installed; do
