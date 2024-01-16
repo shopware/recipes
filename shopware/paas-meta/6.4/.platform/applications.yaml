@@ -152,7 +152,21 @@
             echo "==================================================="
             # optional: run migration automatically with deploy
             bin/console database:migrate --all # Run Shopware core migrations
-            bin/console plugin:update "" -q # Run plugin migrations
+            php bin/console plugin:refresh
+
+            list_plugins_not_installed=$(php bin/console plugin:list --json | jq 'map(select(.installedAt == null)) | .[].name' -r)
+
+            for plugin in $list_plugins_not_installed; do
+                echo "Installing Plugin $plugin ..."
+                php bin/console plugin:install --activate --skip-asset-build $plugin
+            done
+
+            list_with_updates=$(php bin/console plugin:list --json | jq 'map(select(.upgradeVersion != null)) | .[].name' -r)
+
+            for plugin in $list_with_updates; do
+                echo "Updating Plugin $plugin ..."
+                php bin/console plugin:update --skip-asset-build $plugin
+            done
 
             echo "==================================================="
             echo "CLEAR CACHES"
