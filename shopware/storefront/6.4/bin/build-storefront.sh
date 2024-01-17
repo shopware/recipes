@@ -6,7 +6,12 @@ set -euo pipefail
 
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
-STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
+
+if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
+    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
+else
+    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
+fi
 
 BIN_TOOL="${CWD}/console"
 
