@@ -55,7 +55,7 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-if [ ! -d vendor/shopware/administration/Resources/app/administration/node_modules ]; then
+if [ ! -d vendor/shopware/administration/Resources/app/administration/node_modules/webpack-dev-server ]; then
     npm install --prefix vendor/shopware/administration/Resources/app/administration/
 fi
 
