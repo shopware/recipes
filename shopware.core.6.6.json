@@ -85,6 +85,9 @@
                     "public/asset-manifest.json",
                     "files/asset-manifest.json"
                 ],
+                "composer-scripts": {
+                    "assets:install": "symfony-cmd"
+                },
                 "docker-compose": {
                     "docker-compose.yml": {
                         "services": [
@@ -703,7 +706,7 @@
                     "executable": false
                 }
             },
-            "ref": "e28534d090e97a3872f1644ae0b050085293980d"
+            "ref": "1a33e7e73b2a51f7a3a0ea626528d6421bc5f94d"
         }
     }
 }
