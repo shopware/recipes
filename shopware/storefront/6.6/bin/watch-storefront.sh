@@ -4,6 +4,9 @@ CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 export ENV_FILE=${ENV_FILE:-"${PROJECT_ROOT}/.env"}
+export NPM_CONFIG_FUND=false
+export NPM_CONFIG_AUDIT=false
+export NPM_CONFIG_UPDATE_NOTIFIER=false
 
 # shellcheck source=functions.sh
 source "${PROJECT_ROOT}/bin/functions.sh"
@@ -22,6 +25,16 @@ export ESLINT_DISABLE
 export PROXY_URL
 export STOREFRONT_ASSETS_PORT
 export STOREFRONT_PROXY_PORT
+
+if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
+    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
+else
+    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
+fi
+
+if [[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]]; then
+    npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline
+fi
 
 DATABASE_URL="" "${CWD}"/console feature:dump
 "${CWD}"/console theme:compile --active-only
@@ -55,4 +68,4 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-npm --prefix vendor/shopware/storefront/Resources/app/storefront/ run-script hot-proxy
+npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run-script hot-proxy
