@@ -1,0 +1,11 @@
+{
+    "aliases": ["devenv"],
+    "copy-from-recipe": {
+        "root/": ""
+    },
+    "gitignore": [
+        ".devenv*",
+        "devenv.local.nix",
+        ".direnv*"
+    ]
+}
