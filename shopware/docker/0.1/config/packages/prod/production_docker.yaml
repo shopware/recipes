@@ -1,3 +1,7 @@
+parameters:
+    env(JWT_PRIVATE_KEY): ""
+    env(JWT_PUBLIC_KEY): ""
+
 shopware:
     api:                                                                                                               
         jwt_key:                                                                                                       
