@@ -124,14 +124,6 @@ jobs:
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
                 .github/recipes-checker-main/run lint:packages
-            - name: Parameters should be defined via the "container" configurator
-              if: "always() && steps.checkout.outcome == 'success'"
-              run: |
-                ERRORS=$(find */*/*/config/packages/ -name '*.yaml' -or -name '*.yml' \
-                    | xargs -n1 grep -P -H -n '^parameters:' \
-                    | cut -d: -f1-2 \
-                    | sed 's/\(.*\):\([0-9]*\)$/\\n::error file=\1,line=\2::"parameters" should be defined via the "container" configurator instead/' || true)
-                if [[ "" != "$ERRORS" ]]; then echo -e "$ERRORS\n"; exit 1; fi
             - name: Underscore notation under config/
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
