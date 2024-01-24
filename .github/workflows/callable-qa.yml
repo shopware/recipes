@@ -167,12 +167,12 @@ jobs:
                 PACKAGES=$(curl -s https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json | jq -r '.recipes | to_entries | map(.key+":^"+.value[-1]) | join(" ")')
                 echo PACKAGES=$PACKAGES >> $GITHUB_ENV
                 [[ "" != "$PACKAGES" ]]
-            - name: Setup PHP 8.1
+            - name: Setup PHP 8.2
               if: "always() && steps.config.outcome == 'success'"
               uses: shivammathur/setup-php@v2
               with:
                 coverage: "none"
-                php-version: "8.1"
+                php-version: "8.2"
             - name: Create-project
               if: "always() && steps.config.outcome == 'success'"
               run: |
@@ -180,5 +180,7 @@ jobs:
                 php -v
                 git clone https://github.com/shopware/production template
                 cd template
+                composer config minimum-stability RC
+                composer config prefer-stable true
                 jq '.extra.symfony.endpoint |= [ "https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json" ] + .' composer.json > composer.tmp && mv composer.tmp composer.json
                 composer require -W --ansi $PACKAGES
