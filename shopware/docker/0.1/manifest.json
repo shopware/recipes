@@ -2,9 +2,5 @@
     "copy-from-recipe": {
         "docker/": "docker/",
         "config/": "%CONFIG_DIR%/"
-    },
-    "container": {
-        "env(JWT_PRIVATE_KEY)": "",
-        "env(JWT_PUBLIC_KEY)": ""
     }
 }
