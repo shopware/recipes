@@ -62,5 +62,8 @@ npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offl
 node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
 [[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
-[[ ${SHOPWARE_SKIP_THEME_COMPILE-""} ]] || "${BIN_TOOL}" theme:compile --active-only
-[[ ${SHOPWARE_SKIP_CACHE_CLEAR-""} ]] || "${BIN_TOOL}" cache:clear
+[[ ${SHOPWARE_SKIP_THEME_COMPILE-""} ]] || "${BIN_TOOL}"  --active-only
+
+if ! [ "${1:-default}" = "--keep-cache" ]; then
+    "${BIN_TOOL}" cache:clear
+fi
