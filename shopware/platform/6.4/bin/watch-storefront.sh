@@ -40,7 +40,7 @@ if [[ $(command -v jq) ]]; then
 
         skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
 
-        if [[ ${!skippingEnvVarName-""} ]]; then
+        if [[ ${!skippingEnvVarName:-""} ]]; then
             continue
         fi
 

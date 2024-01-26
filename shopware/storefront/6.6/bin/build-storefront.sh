@@ -18,7 +18,7 @@ fi
 
 BIN_TOOL="${CWD}/console"
 
-if [[ ${CI-""} ]]; then
+if [[ ${CI:-""} ]]; then
     BIN_TOOL="${CWD}/ci"
 
     if [[ ! -x "$BIN_TOOL" ]]; then
@@ -27,8 +27,8 @@ if [[ ${CI-""} ]]; then
 fi
 
 # build storefront
-[[ ${SHOPWARE_SKIP_BUNDLE_DUMP-""} ]] || "${BIN_TOOL}" bundle:dump
-[[ ${SHOPWARE_SKIP_FEATURE_DUMP-""} ]] || "${BIN_TOOL}" feature:dump
+[[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
+[[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
@@ -43,7 +43,7 @@ if [[ $(command -v jq) ]]; then
 
         skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
 
-        if [[ ${!skippingEnvVarName-""} ]]; then
+        if [[ ${!skippingEnvVarName:-""} ]]; then
             continue
         fi
 
@@ -61,8 +61,8 @@ fi
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline --production
 node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
-[[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
-[[ ${SHOPWARE_SKIP_THEME_COMPILE-""} ]] || "${BIN_TOOL}"  --active-only
+[[ ${SHOPWARE_SKIP_ASSET_COPY:-""} ]] ||"${BIN_TOOL}" assets:install
+[[ ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]] || "${BIN_TOOL}" theme:compile --active-only
 
 if ! [ "${1:-default}" = "--keep-cache" ]; then
     "${BIN_TOOL}" cache:clear
