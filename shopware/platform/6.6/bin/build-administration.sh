@@ -34,7 +34,7 @@ fi
 
 BIN_TOOL="${CWD}/console"
 
-if [[ ${CI-""} ]]; then
+if [[ ${CI:-""} ]]; then
     BIN_TOOL="${CWD}/ci"
 
     if [[ ! -x "$BIN_TOOL" ]]; then
@@ -43,7 +43,7 @@ if [[ ${CI-""} ]]; then
 fi
 
 # build admin
-[[ ${SHOPWARE_SKIP_BUNDLE_DUMP-""} ]] || "${BIN_TOOL}" bundle:dump
+[[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
 "${BIN_TOOL}" feature:dump || true
 
 if [[ $(command -v jq) ]]; then
@@ -59,7 +59,7 @@ if [[ $(command -v jq) ]]; then
 
         skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
 
-        if [[ ${!skippingEnvVarName-""} ]]; then
+        if [[ ${!skippingEnvVarName:-""} ]]; then
             continue
         fi
 
@@ -77,11 +77,11 @@ fi
 (cd "${ADMIN_ROOT}"/Resources/app/administration && npm install --prefer-offline --production)
 
 # Dump entity schema
-if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then
+if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP:-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then
   mkdir -p "${ADMIN_ROOT}"/Resources/app/administration/test/_mocks_
   "${BIN_TOOL}" -e prod framework:schema -s 'entity-schema' "${ADMIN_ROOT}"/Resources/app/administration/test/_mocks_/entity-schema.json
   (cd "${ADMIN_ROOT}"/Resources/app/administration && npm run convert-entity-schema)
 fi
 
 (cd "${ADMIN_ROOT}"/Resources/app/administration && npm run build)
-[[ ${SHOPWARE_SKIP_ASSET_COPY-""} ]] ||"${BIN_TOOL}" assets:install
+[[ ${SHOPWARE_SKIP_ASSET_COPY:-""} ]] ||"${BIN_TOOL}" assets:install
