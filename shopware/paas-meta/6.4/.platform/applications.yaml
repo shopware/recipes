@@ -35,7 +35,7 @@
             upload_max_filesize: 32M
             post_max_size: 32M
             memory_limit: 512M
-            "assert.active": 0
+            "zend.assertions": -1
             "opcache.enable_file_override": 0
             "opcache.interned_strings_buffer": 20
             "opcache.validate_timestamps": 0
