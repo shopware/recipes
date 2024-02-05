@@ -28,7 +28,6 @@
       zend.assertions = -1
       opcache.memory_consumption = 256M
       opcache.interned_strings_buffer = 20
-      zend.assertions = 0
       short_open_tag = 0
       zend.detect_unicode = 0
       realpath_cache_ttl = 3600
