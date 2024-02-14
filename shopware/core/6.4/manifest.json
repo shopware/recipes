@@ -52,9 +52,9 @@
         ".env.local.php",
         ".env.*.local",
         "/files/*",
+        "!/files/.htaccess",
         "/var/*",
-        "!/var/log/.gitkeep",
-        "!/var/cache/.gitkeep",
+        "!/var/.htaccess",
         "/auth.json",
         "/install.lock",
         "public/asset-manifest.json"
