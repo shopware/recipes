@@ -39,7 +39,8 @@
         ],
         "frosh/code-quality-meta": [
             "0.1",
-            "0.2"
+            "0.2",
+            "0.3"
         ],
         "frosh/devenv-meta": [
             "0.1",
