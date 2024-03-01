@@ -1,6 +1,0 @@
-{
-    "require-dev": {
-        "symplify/easy-coding-standard": "^11.3",
-        "kubawerlos/php-cs-fixer-custom-fixers": "^3.14"
-    }
-}
