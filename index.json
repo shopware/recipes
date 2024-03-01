@@ -1,0 +1,25 @@
+{
+    "aliases": {
+        "code-quality": "frosh/code-quality-meta",
+        "codequality": "frosh/code-quality-meta"
+    },
+    "recipes": {
+        "frosh/code-quality-meta": [
+            "0.1",
+            "0.2",
+            "0.3"
+        ]
+    },
+    "recipe-conflicts": [],
+    "versions": [],
+    "branch": "main",
+    "is_contrib": true,
+    "_links": {
+        "repository": "github.com/shopware/recipes",
+        "origin_template": "{package}:{version}@github.com/shopware/recipes:main",
+        "recipe_template": "https://raw.githubusercontent.com/shopware/recipes/flex/pull-85/{package_dotted}.{version}.json",
+        "recipe_template_relative": "{package_dotted}.{version}.json",
+        "archived_recipes_template": "https://raw.githubusercontent.com/shopware/recipes/flex/pull-85/archived/{package_dotted}/{ref}.json",
+        "archived_recipes_template_relative": "archived/{package_dotted}/{ref}.json"
+    }
+}
