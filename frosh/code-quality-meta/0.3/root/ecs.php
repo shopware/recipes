@@ -61,7 +61,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->dynamicSets([
         '@Symfony',
         '@Symfony:risky',
-        '@PHP81Migration'
+        '@PHP82Migration'
     ]);
 
     $ecsConfig->sets([
