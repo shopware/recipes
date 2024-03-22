@@ -5,6 +5,7 @@ use Shopware\Core\Framework\Plugin\KernelPluginLoader\ComposerPluginLoader;
 use Shopware\Core\HttpKernel;
 use Shopware\Core\Installer\InstallerKernel;
 use Symfony\Component\HttpFoundation\Request;
+use Shopware\Core\Framework\Adapter\Kernel\KernelFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
@@ -48,6 +49,20 @@ return function (array $context) {
 
     if (!EnvironmentHelper::getVariable('SHOPWARE_SKIP_WEBINSTALLER', false) && !file_exists(dirname(__DIR__) . '/install.lock')) {
         return new InstallerKernel($appEnv, $debug);
+    }
+
+    if (method_exists(KernelFactory::class, "create")) {
+        $pluginLoader = null;
+        if (EnvironmentHelper::getVariable('COMPOSER_PLUGIN_LOADER', false)) {
+            $pluginLoader = new ComposerPluginLoader($classLoader, null);
+        }
+
+        return KernelFactory::create(
+            environment: $appEnv,
+            debug: $debug,
+            classLoader: $classLoader,
+            pluginLoader: $pluginLoader
+        );
     }
 
     $shopwareHttpKernel = new HttpKernel($appEnv, $debug, $classLoader);

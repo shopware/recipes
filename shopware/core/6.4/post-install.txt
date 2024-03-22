@@ -3,14 +3,14 @@
     1. Go to the project directory
     2. Create your code repository with the <comment>git init</comment> command and push it to your favourite Git service
 
-  * <fg=blue>Run</> locally Shopware:
+  * <fg=blue>Run</> Shopware locally:
 
     1. Adjust the <comment>.env</comment> file to your database
     2. Run <comment>./bin/console system:install --basic-setup</comment>
     3. Optional: If you use Symfony CLI start the webserver <comment>symfony server:start -d</comment>
     3. The default credentials for administration are <comment>admin</comment> with password <comment>shopware</comment>
 
-  * <fg=blue>Run</> with Docker Shopware with Symfony CLI:
+  * <fg=blue>Run</> Shopware with Docker & Symfony CLI:
 
     1. Start the docker containers with <comment>docker compose up -d</comment>
     2. Run <comment>symfony console system:install --basic-setup</comment>
@@ -19,3 +19,8 @@
     5. Optional: Open the Mail catcher with <comment>symfony open:local:webmail</comment>
 
   * <fg=blue>Read</> the documentation at <comment>https://developer.shopware.com/</>
+
+  * <fg=yellow>Warning</> if updating from older versions of the production template:
+
+    There might be old `require-dev` dependencies in your `composer.json` file. Please remove them before updating shopware/core to versions >= v6.4.
+    You can do it using this command: <comment>composer config --unset require-dev</>
