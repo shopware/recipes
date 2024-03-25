@@ -25,8 +25,6 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-    $rectorConfig->rule(NameImportingPostRector::class);
-
     $rectorConfig->rule(SimpleFunctionAndFilterRector::class);
 
     $rectorConfig->sets([
@@ -37,10 +35,12 @@ return static function (RectorConfig $rectorConfig): void {
         SymfonySetList::SYMFONY_61,
         SymfonySetList::SYMFONY_62,
         SymfonySetList::SYMFONY_63,
+        SymfonySetList::SYMFONY_64,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_81,
         LevelSetList::UP_TO_PHP_82,
+        LevelSetList::UP_TO_PHP_83,
         ShopwareSetList::SHOPWARE_6_5_0,
         ShopwareSetList::SHOPWARE_6_6_0,
     ]);
