@@ -1,71 +1,52 @@
 #!/usr/bin/env bash
 
-CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+set -euo pipefail
 
+# Set project root directory
+CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 export ENV_FILE=${ENV_FILE:-"${PROJECT_ROOT}/.env"}
-export NPM_CONFIG_FUND=false
-export NPM_CONFIG_AUDIT=false
-export NPM_CONFIG_UPDATE_NOTIFIER=false
 
-# shellcheck source=functions.sh
+# Source functions
 source "${PROJECT_ROOT}/bin/functions.sh"
 
-curenv=$(declare -p -x)
-
+# Load environment variables from .env file
 load_dotenv "$ENV_FILE"
+
+# Load current environment variables
+curenv=$(declare -p -x)
 
 # Restore environment variables set globally
 set -o allexport
 eval "$curenv"
 set +o allexport
 
+# Set npm configuration
+export NPM_CONFIG_FUND=false
+export NPM_CONFIG_AUDIT=false
+export NPM_CONFIG_UPDATE_NOTIFIER=false
+
+# Set default values for environment variables
 export APP_URL
+export APP_URL=${BACKEND_URL:-${APP_URL}}
 export ESLINT_DISABLE
 export PROXY_URL
 export STOREFRONT_ASSETS_PORT
 export STOREFRONT_PROXY_PORT
+export STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
 
-if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
-    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
-else
-    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
-fi
+# Ensure BIN_TOOL is set and executable
+get_bin_tool
+# Dump features and compile theme if not skipped
+[[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
+[[ ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]] || "${BIN_TOOL}" theme:compile --active-only
+"${BIN_TOOL}" theme:dump
 
-if [[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]]; then
-    npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline
-fi
+# Install webpack-dev-server if not present
+[[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]] && npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline || true
 
-DATABASE_URL="" "${CWD}"/console feature:dump
-"${CWD}"/console theme:compile --active-only
-"${CWD}"/console theme:dump
+# Install extensions npm dependencies
+install_extensions_npm_dependencies "storefront"
 
-if [[ $(command -v jq) ]]; then
-    OLDPWD=$(pwd)
-    cd "$PROJECT_ROOT" || exit
-
-    jq -c '.[]' "var/plugins.json" | while read -r config; do
-        srcPath=$(echo "$config" | jq -r '(.basePath + .storefront.path)')
-
-        # the package.json files are always one upper
-        path=$(dirname "$srcPath")
-        name=$(echo "$config" | jq -r '.technicalName' )
-
-        skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
-
-        if [[ ${!skippingEnvVarName:-""} ]]; then
-            continue
-        fi
-
-        if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
-            echo "=> Installing npm dependencies for ${name}"
-
-            npm install --prefix "$path"
-        fi
-    done
-    cd "$OLDPWD" || exit
-else
-    echo "Cannot check extensions for required npm installations as jq is not installed"
-fi
-
+# Run hot-proxy script
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run-script hot-proxy

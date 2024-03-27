@@ -1,69 +1,43 @@
 #!/usr/bin/env bash
 
-CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-
 set -euo pipefail
 
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# Set project root directory
+CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
+
+# Source functions
+source "${PROJECT_ROOT}/bin/functions.sh"
+
+# Set npm configuration
 export NPM_CONFIG_FUND=false
 export NPM_CONFIG_AUDIT=false
 export NPM_CONFIG_UPDATE_NOTIFIER=false
 
-if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
-    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
-else
-    STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
-fi
+# Puppeteer and storefront configurations
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"
 
-BIN_TOOL="${CWD}/console"
+# Ensure BIN_TOOL is set and executable
+get_bin_tool
 
-if [[ ${CI:-""} ]]; then
-    BIN_TOOL="${CWD}/ci"
-
-    if [[ ! -x "$BIN_TOOL" ]]; then
-        chmod +x "$BIN_TOOL"
-    fi
-fi
-
-# build storefront
+# Dump bundles and features if not skipped
 [[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
 [[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
 
-if [[ $(command -v jq) ]]; then
-    OLDPWD=$(pwd)
-    cd "$PROJECT_ROOT" || exit
+# Install storefront npm dependencies for extensions
+install_extensions_npm_dependencies "storefront" "--prefer-offline"
 
-    jq -c '.[]' "var/plugins.json" | while read -r config; do
-        srcPath=$(echo "$config" | jq -r '(.basePath + .storefront.path)')
+# Install and build storefront
+install_and_build_storefront
 
-        # the package.json files are always one upper
-        path=$(dirname "$srcPath")
-        name=$(echo "$config" | jq -r '.technicalName' )
-
-        skippingEnvVarName="SKIP_$(echo "$name" | sed -e 's/\([a-z]\)/\U\1/g' -e 's/-/_/g')"
-
-        if [[ ${!skippingEnvVarName:-""} ]]; then
-            continue
-        fi
-
-        if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
-            echo "=> Installing npm dependencies for ${name}"
-
-            npm install --prefix "$path" --prefer-offline
-        fi
-    done
-    cd "$OLDPWD" || exit
-else
-    echo "Cannot check extensions for required npm installations as jq is not installed"
-fi
-
-npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline --production
-node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
-npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
+# Install assets if not skipped
 [[ ${SHOPWARE_SKIP_ASSET_COPY:-""} ]] ||"${BIN_TOOL}" assets:install
+
+# Compile theme if not skipped
 [[ ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]] || "${BIN_TOOL}" theme:compile --active-only
 
+# Clear cache if not instructed otherwise
 if ! [ "${1:-default}" = "--keep-cache" ]; then
     "${BIN_TOOL}" cache:clear
 fi
