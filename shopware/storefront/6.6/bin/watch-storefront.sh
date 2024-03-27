@@ -23,7 +23,6 @@ set +o allexport
 
 # Set default values for environment variables
 export APP_URL
-export APP_URL=${BACKEND_URL:-${APP_URL}}
 export ESLINT_DISABLE
 export PROXY_URL
 export STOREFRONT_ASSETS_PORT
