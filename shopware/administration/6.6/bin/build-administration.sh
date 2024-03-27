@@ -34,10 +34,10 @@ get_bin_tool
 [[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
 
 # Install administration npm dependencies for extensions
-install_extensions_npm_dependencies "administration" "--no-audit --prefer-offline"
+install_extensions_npm_dependencies "administration"
 
 # Install npm dependencies for administration in production mode
-npm --prefix "${ADMIN_ROOT}/Resources/app/administration" install --prefer-offline --production
+npm --prefix "${ADMIN_ROOT}/Resources/app/administration" install --production
 
 # Dump entity schema
 dump_entity_schema

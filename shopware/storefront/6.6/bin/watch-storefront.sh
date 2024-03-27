@@ -32,13 +32,14 @@ export STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/stor
 
 # Ensure BIN_TOOL is set and executable
 get_bin_tool
+
 # Dump features and compile theme if not skipped
 [[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
 [[ ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]] || "${BIN_TOOL}" theme:compile --active-only
 "${BIN_TOOL}" theme:dump
 
 # Install webpack-dev-server if not present
-[[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]] && npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline || true
+[[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-dev-server ]] && npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install || true
 
 # Install extensions npm dependencies
 install_extensions_npm_dependencies "storefront"

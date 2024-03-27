@@ -21,7 +21,7 @@ get_bin_tool
 [[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
 
 # Install storefront npm dependencies for extensions
-install_extensions_npm_dependencies "storefront" "--prefer-offline"
+install_extensions_npm_dependencies "storefront"
 
 # Install and build storefront
 install_and_build_storefront
