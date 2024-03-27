@@ -9,11 +9,6 @@ export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 # Source functions
 source "${PROJECT_ROOT}/bin/functions.sh"
 
-# Set npm configuration
-export NPM_CONFIG_FUND=false
-export NPM_CONFIG_AUDIT=false
-export NPM_CONFIG_UPDATE_NOTIFIER=false
-
 # Puppeteer and storefront configurations
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/storefront"}"

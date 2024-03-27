@@ -21,11 +21,6 @@ set -o allexport
 eval "$curenv"
 set +o allexport
 
-# Set npm configuration
-export NPM_CONFIG_FUND=false
-export NPM_CONFIG_AUDIT=false
-export NPM_CONFIG_UPDATE_NOTIFIER=false
-
 # Puppeteer and admin configurations
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export DISABLE_ADMIN_COMPILATION_TYPECHECK=true

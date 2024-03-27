@@ -21,11 +21,6 @@ set -o allexport
 eval "$curenv"
 set +o allexport
 
-# Set npm configuration
-export NPM_CONFIG_FUND=false
-export NPM_CONFIG_AUDIT=false
-export NPM_CONFIG_UPDATE_NOTIFIER=false
-
 # Set default values for environment variables
 export APP_URL
 export APP_URL=${BACKEND_URL:-${APP_URL}}
