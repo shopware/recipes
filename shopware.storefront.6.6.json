@@ -1,0 +1,122 @@
+{
+    "manifests": {
+        "shopware/storefront": {
+            "manifest": {
+                "bundles": {
+                    "Shopware\\Storefront\\Storefront": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "bin/": "%BIN_DIR%/"
+                },
+                "env": {
+                    "STOREFRONT_PROXY_URL": "http://localhost",
+                    "SHOPWARE_HTTP_CACHE_ENABLED": "1",
+                    "SHOPWARE_HTTP_DEFAULT_TTL": "7200"
+                }
+            },
+            "files": {
+                "bin/build-storefront.sh": {
+                    "contents": [
+                        "#!/usr/bin/env bash",
+                        "",
+                        "set -euo pipefail",
+                        "",
+                        "# Set project root directory",
+                        "CWD=\"$(cd -P -- \"$(dirname -- \"${BASH_SOURCE[0]}\")\" && pwd -P)\"",
+                        "export PROJECT_ROOT=\"${PROJECT_ROOT:-\"$(dirname \"$CWD\")\"}\"",
+                        "",
+                        "# Source functions",
+                        "source \"${PROJECT_ROOT}/bin/functions.sh\"",
+                        "",
+                        "# Puppeteer and storefront configurations",
+                        "export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true",
+                        "export STOREFRONT_ROOT=\"${STOREFRONT_ROOT:-\"${PROJECT_ROOT}/vendor/shopware/storefront\"}\"",
+                        "",
+                        "# Ensure BIN_TOOL is set and executable",
+                        "get_bin_tool",
+                        "",
+                        "# Dump bundles and features if not skipped",
+                        "[[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-\"\"} ]] || \"${BIN_TOOL}\" bundle:dump",
+                        "[[ ${SHOPWARE_SKIP_FEATURE_DUMP:-\"\"} ]] || \"${BIN_TOOL}\" feature:dump",
+                        "",
+                        "# Install storefront npm dependencies for extensions",
+                        "install_extensions_npm_dependencies \"storefront\"",
+                        "",
+                        "# Install and build storefront",
+                        "install_and_build_storefront",
+                        "",
+                        "# Install assets if not skipped",
+                        "[[ ${SHOPWARE_SKIP_ASSET_COPY:-\"\"} ]] ||\"${BIN_TOOL}\" assets:install",
+                        "",
+                        "# Compile theme if not skipped",
+                        "[[ ${SHOPWARE_SKIP_THEME_COMPILE:-\"\"} ]] || \"${BIN_TOOL}\" theme:compile --active-only",
+                        "",
+                        "# Clear cache if not instructed otherwise",
+                        "if ! [ \"${1:-default}\" = \"--keep-cache\" ]; then",
+                        "    \"${BIN_TOOL}\" cache:clear",
+                        "fi",
+                        ""
+                    ],
+                    "executable": true
+                },
+                "bin/watch-storefront.sh": {
+                    "contents": [
+                        "#!/usr/bin/env bash",
+                        "",
+                        "set -euo pipefail",
+                        "",
+                        "# Set project root directory",
+                        "CWD=\"$(cd -P -- \"$(dirname -- \"${BASH_SOURCE[0]}\")\" && pwd -P)\"",
+                        "export PROJECT_ROOT=\"${PROJECT_ROOT:-\"$(dirname \"$CWD\")\"}\"",
+                        "export ENV_FILE=${ENV_FILE:-\"${PROJECT_ROOT}/.env\"}",
+                        "",
+                        "# Source functions",
+                        "source \"${PROJECT_ROOT}/bin/functions.sh\"",
+                        "",
+                        "# Load environment variables from .env file",
+                        "load_dotenv \"$ENV_FILE\"",
+                        "",
+                        "# Load current environment variables",
+                        "curenv=$(declare -p -x)",
+                        "",
+                        "# Restore environment variables set globally",
+                        "set -o allexport",
+                        "eval \"$curenv\"",
+                        "set +o allexport",
+                        "",
+                        "# Set default values for environment variables",
+                        "export APP_URL",
+                        "export ESLINT_DISABLE",
+                        "export PROXY_URL",
+                        "export STOREFRONT_ASSETS_PORT",
+                        "export STOREFRONT_PROXY_PORT",
+                        "export STOREFRONT_ROOT=\"${STOREFRONT_ROOT:-\"${PROJECT_ROOT}/vendor/shopware/storefront\"}\"",
+                        "",
+                        "# Ensure BIN_TOOL is set and executable",
+                        "get_bin_tool",
+                        "",
+                        "# Dump features and compile theme if not skipped",
+                        "[[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-\"\"} ]] || \"${BIN_TOOL}\" bundle:dump",
+                        "[[ ${SHOPWARE_SKIP_FEATURE_DUMP:-\"\"} ]] || \"${BIN_TOOL}\" feature:dump",
+                        "[[ ${SHOPWARE_SKIP_THEME_COMPILE:-\"\"} ]] || \"${BIN_TOOL}\" theme:compile --active-only",
+                        "\"${BIN_TOOL}\" theme:dump",
+                        "",
+                        "# Install webpack-dev-server if not present",
+                        "[[ ! -d \"${STOREFRONT_ROOT}\"/Resources/app/storefront/node_modules/webpack-dev-server ]] && npm --prefix \"${STOREFRONT_ROOT}\"/Resources/app/storefront install || true",
+                        "",
+                        "# Install extensions npm dependencies",
+                        "install_extensions_npm_dependencies \"storefront\"",
+                        "",
+                        "# Run hot-proxy script",
+                        "npm --prefix \"${STOREFRONT_ROOT}\"/Resources/app/storefront run-script hot-proxy",
+                        ""
+                    ],
+                    "executable": true
+                }
+            },
+            "ref": "de382f135d4156b3fdc6fed5887f302e6f204b5a"
+        }
+    }
+}
