@@ -36,6 +36,7 @@ if [[ ! -d "${STOREFRONT_ROOT}"/Resources/app/storefront/node_modules/webpack-de
     npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront install --prefer-offline
 fi
 
+DATABASE_URL="" "${CWD}"/console bundle:dump
 DATABASE_URL="" "${CWD}"/console feature:dump
 "${CWD}"/console theme:compile --active-only
 "${CWD}"/console theme:dump
