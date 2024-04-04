@@ -191,7 +191,7 @@
             fi
 
             echo "==================================================="
-            echo "SETUP FASTLY"
+            echo "SETUP FASTLY AND CLEAR OPCACHE"
             echo "==================================================="
             if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ] || [ "$PLATFORM_ENVIRONMENT_TYPE" = "stage" ]; then
                 if [ -e bin/setup-fastly.sh ]; then
