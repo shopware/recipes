@@ -36,7 +36,7 @@
             post_max_size: 32M
             memory_limit: 512M
             "zend.assertions": -1
-            "opcache.enable_file_override": 0
+            "opcache.enable_file_override": 1
             "opcache.interned_strings_buffer": 20
             "opcache.validate_timestamps": 0
             "zend.detect_unicode": 0
@@ -79,6 +79,16 @@
 
             # Disable UI installer
             touch install.lock
+
+            echo "==================================================="
+            echo "REMOVE FASTLY WHEN NOT A PRODUCTION OR STAGE ENV"
+            echo "==================================================="
+            echo "The Environment has the following type: $PROJECT_ENVIRONMENT_TYPE"
+            if [ "$PROJECT_ENVIRONMENT_TYPE" = development ]; then
+                echo "remove fastly.yaml on environment type development"
+                rm -f config/packages/fastly.yaml
+            fi
+            echo "Fastly setup step done"
 
             echo "==================================================="
             echo "COPY THEME AND RUN JS BUILD"
@@ -181,10 +191,15 @@
             fi
 
             echo "==================================================="
-            echo "SETUP FASTLY AND CLEAR OPCACHE"
+            echo "SETUP FASTLY"
             echo "==================================================="
-            if [ -e bin/setup-fastly.sh ]; then
-                ./bin/setup-fastly.sh
+            if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ] || [ "$PLATFORM_ENVIRONMENT_TYPE" = "stage" ]; then
+                if [ -e bin/setup-fastly.sh ]; then
+                    echo "Running setup-fastly.sh script"
+                    ./bin/setup-fastly.sh
+                else
+                    echo "setup-fastly.sh script not found"
+                fi
             fi
 
             # Send USR2 signal to php-fpm to clear the opcache
