@@ -15,7 +15,7 @@
             SHOPWARE_HTTP_CACHE_ENABLED: 1
             # NVM and Node.js versions to install
             NVM_VERSION: v0.39.0
-            NODE_VERSION: v20
+            NODE_VERSION: v18
             # Use different redis dbs for cache and sessions
             REDIS_CACHE_DATABASE: 0
             REDIS_SESSION_DATABASE: 2
