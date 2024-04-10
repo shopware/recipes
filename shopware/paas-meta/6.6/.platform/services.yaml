@@ -1,5 +1,5 @@
 db:
-    type: mariadb:10.6
+    type: mariadb:11.2
     disk: 2048
 cacheredis:
     type: redis:7.0

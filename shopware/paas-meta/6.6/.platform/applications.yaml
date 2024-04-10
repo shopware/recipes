@@ -1,10 +1,10 @@
 -   name: app
-    type: php:8.2
+    type: php:8.3
     build:
         flavor: composer
     dependencies:
         php:
-            composer/composer: "2.5.*"
+            composer/composer: "2"
     variables:
         env:
             # Tell Shopware to always install in production-mode.
@@ -15,7 +15,7 @@
             SHOPWARE_HTTP_CACHE_ENABLED: 1
             # NVM and Node.js versions to install
             NVM_VERSION: v0.39.0
-            NODE_VERSION: v18
+            NODE_VERSION: v20
             # Use different redis dbs for cache and sessions
             REDIS_CACHE_DATABASE: 0
             REDIS_SESSION_DATABASE: 2
