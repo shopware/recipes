@@ -1,0 +1,277 @@
+-   name: app
+    type: php:8.3
+    build:
+        flavor: composer
+    dependencies:
+        php:
+            composer/composer: "2"
+    variables:
+        env:
+            # Tell Shopware to always install in production-mode.
+            APP_ENV: prod
+            # Instance ID is empty by default, change to something unique in your project
+            INSTANCE_ID: ""
+            # Enable HTTP Cache to get cache-control headers
+            SHOPWARE_HTTP_CACHE_ENABLED: 1
+            # NVM and Node.js versions to install
+            NVM_VERSION: v0.39.0
+            NODE_VERSION: v20
+            # Use different redis dbs for cache and sessions
+            REDIS_CACHE_DATABASE: 0
+            REDIS_SESSION_DATABASE: 2
+            # Improve admin build speed
+            DISABLE_ADMIN_COMPILATION_TYPECHECK: 1
+            # Only build extension. Shopware assets are pre built in the tags
+            SHOPWARE_ADMIN_BUILD_ONLY_EXTENSIONS: 1
+            # Elasticsearch, see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
+            SHOPWARE_ES_ENABLED: 0
+            SHOPWARE_ES_INDEXING_ENABLED: 0
+            SHOPWARE_ES_INDEX_PREFIX: "sw6"
+            # Disables the Shopware web installer
+            SHOPWARE_SKIP_WEBINSTALLER: 1
+            # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
+            COMPOSER_PLUGIN_LOADER: 1
+        php:
+            upload_max_filesize: 32M
+            post_max_size: 32M
+            memory_limit: 512M
+            "zend.assertions": -1
+            "opcache.enable_file_override": 1
+            "opcache.interned_strings_buffer": 20
+            "opcache.validate_timestamps": 0
+            "zend.detect_unicode": 0
+            realpath_cache_ttl: 3600
+            "opcache.memory_consumption": 128M
+            "opcache.max_accelerated_files": 20000
+    # Specify additional PHP extensions that should be loaded.
+    runtime:
+        extensions:
+            - ctype
+            - dom
+            - iconv
+            - mbstring
+            - fileinfo
+            - intl
+            - redis
+            - sodium
+            - amqp
+    # The hooks that will be performed when the package is deployed.
+    hooks:
+        build: |
+            set -e
+            echo "==================================================="
+            echo "START BUILD SCRIPT"
+            echo "Beginning with the NVM and NodeJS setup"
+            echo "==================================================="
+            # install nvm
+            unset NPM_CONFIG_PREFIX
+            export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
+
+            # install.sh will automatically install NodeJS based on the presence of $NODE_VERSION
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # have nvm available and load the correct node version in your ssh session
+            echo 'unset NPM_CONFIG_PREFIX' >> .bash_profile
+            echo 'export NO_UPDATE_NOTIFIER=1' >> .bash_profile
+            echo 'export NVM_DIR="$PLATFORM_APP_DIR/.nvm"' >> .bash_profile
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> .bash_profile
+
+            # Disable UI installer
+            touch install.lock
+
+            echo "==================================================="
+            echo "REMOVE FASTLY WHEN NOT A PRODUCTION OR STAGE ENV"
+            echo "==================================================="
+            echo "The Environment has the following type: $PROJECT_ENVIRONMENT_TYPE"
+            if [ "$PROJECT_ENVIRONMENT_TYPE" = development ]; then
+                echo "remove fastly.yaml on environment type development"
+                rm -f config/packages/fastly.yaml
+            fi
+            echo "Fastly setup step done"
+
+            echo "==================================================="
+            echo "COPY THEME AND RUN JS BUILD"
+            echo "==================================================="
+            # compile theme and save config for later (will be moved to mount).
+            # warnings can be ignored (the process is trying to access Redis which is not yet available)
+            export CI=true
+            ./bin/build-js.sh
+            mkdir build-tmp
+            cp -R files/theme-config build-tmp
+
+            # save plugin config for later (will be moved to mount)
+            cp var/plugins.json build-plugins.json
+        deploy: |
+            set -e
+            echo "==================================================="
+            echo "START DEPLOY SCRIPT"
+            echo "Beginning restoring theme-config files and plugin config"
+            echo "==================================================="
+            if [ -z "${JWT_PUBLIC_KEY}" ]; then
+                echo "~"
+                echo "~"
+                echo "~"
+                echo "Please initialize the JWT Tokens to proceed. https://developer.shopware.com/docs/products/paas/build-deploy"
+                echo "~"
+                echo "~"
+                echo "~"
+                exit 1;
+            fi
+
+            # restore theme config from build to mount in case theme needs rebuilding during runtime
+            cp -R build-tmp/theme-config files/
+
+            # restore plugin config to mount
+            cp build-plugins.json var/plugins.json
+
+            echo "==================================================="
+            echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
+            echo "==================================================="
+            # Initialize the Shopware site's data set if it's not already installed.
+            # (This is only for demo/first install and can be removed once Shopware is initialized)
+            if [ ! -f $PLATFORM_APP_DIR/installer/installed ]; then
+                # setup the environment
+                # create database with a basic setup (admin user and storefront sales channel).
+                # this will try to run theme:compile which cannot be disabled, so it will throw a bunch of warnings
+                # that can be ignored (we use stateless build anyway, so this is done already at this point)
+                echo "Running system:install (Warnings for theme:compile can be ignored)"
+                bin/console system:install --create-database --basic-setup --force
+                bin/console theme:change --all Storefront --no-compile
+                bin/console theme:dump
+
+                # Disable FRW
+                bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
+
+                # mark system as installed
+                touch $PLATFORM_APP_DIR/installer/installed
+            fi;
+
+            echo "==================================================="
+            echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
+            echo "==================================================="
+            # Configure the sales channel domains automatically for non-production environments
+            if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
+                export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
+                export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
+                bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
+            fi
+
+            echo "==================================================="
+            echo "RUN MIGRATIONS"
+            echo "==================================================="
+            # optional: run migration automatically with deploy
+            bin/console database:migrate --all # Run Shopware core migrations
+            php bin/console plugin:refresh
+
+            list_plugins_not_installed=$(php bin/console plugin:list --json | jq 'map(select(.installedAt == null)) | .[].name' -r)
+
+            for plugin in $list_plugins_not_installed; do
+                echo "Installing Plugin $plugin ..."
+                php bin/console plugin:install --activate --skip-asset-build $plugin
+            done
+
+            list_with_updates=$(php bin/console plugin:list --json | jq 'map(select(.upgradeVersion != null)) | .[].name' -r)
+
+            for plugin in $list_with_updates; do
+                echo "Updating Plugin $plugin ..."
+                php bin/console plugin:update --skip-asset-build $plugin
+            done
+
+            echo "==================================================="
+            echo "CLEAR CACHES"
+            echo "==================================================="
+            # run cache clear commands, on grid environments this should run in the deploy hook,
+            # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
+            if [ -z "$PLATFORM_REGISTRY_NUMBER" ]; then
+                sh bin/prestart_cacheclear.sh
+            else
+                # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
+                bin/console cache:pool:clear cache.object
+            fi
+
+            echo "==================================================="
+            echo "SETUP FASTLY AND CLEAR OPCACHE"
+            echo "==================================================="
+            if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ] || [ "$PLATFORM_ENVIRONMENT_TYPE" = "stage" ]; then
+                if [ -e bin/setup-fastly.sh ]; then
+                    echo "Running setup-fastly.sh script"
+                    ./bin/setup-fastly.sh
+                else
+                    echo "setup-fastly.sh script not found"
+                fi
+            fi
+
+            # Send USR2 signal to php-fpm to clear the opcache
+            pkill -f -USR2 -u web php-fpm
+    # The relationships of the application with services or other applications.
+    # The left-hand side is the name of the relationship as it will be exposed
+    # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+    # side is in the form `<service name>:<endpoint name>`.
+    relationships:
+        database: "db:mysql"
+        rediscache: "cacheredis:redis"
+        # comment to disable rabbitmq
+        rabbitmqqueue: "rabbitmq:rabbitmq"
+        # uncomment if you want to use opensearch/elasticsearch
+        # opensearch: "opensearch:opensearch"
+    # The size of the persistent disk of the application (in MB).
+    disk: 2048
+    # The mounts that will be performed when the package is deployed.
+    mounts:
+        "/files":
+            source: service
+            service: fileshare
+            source_path: "files"
+        "/public/media":
+            source: service
+            service: fileshare
+            source_path: "public/media"
+        "/public/thumbnail":
+            source: service
+            service: fileshare
+            source_path: "public/thumbnail"
+        "/config/secrets":
+            source: service
+            service: fileshare
+            source_path: "config/secrets"
+        "/var":
+            source: service
+            service: fileshare
+            source_path: "var"
+        "/var/cache":
+            source: local
+            source_path: "var/cache"
+        "/installer":
+            source: local
+            source_path: "installer"
+        "/.global":
+            source: local
+            source_path: "global"
+        "/.cache":
+            source: local
+            source_path: ".cache"
+    # The configuration of app when it is exposed to the web.
+    web:
+        locations:
+            "/":
+                # The public directory of the app, relative to its root.
+                root: "public"
+                # The front-controller script to send non-static requests to.
+                passthru: "/index.php"
+                expires: 24h
+                rules:
+                    \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
+                        expires: 4w
+    workers:
+        queue:
+            disk: 128
+            commands:
+                start: |
+                    bin/console cache:clear
+                    bin/console messenger:consume async,failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+
+    crons:
+        scheduler:
+            spec: '*/5 * * * *'
+            cmd: 'php bin/console scheduled-task:run --no-wait'
