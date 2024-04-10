@@ -72,7 +72,8 @@
             "0.1"
         ],
         "shopware/paas-meta": [
-            "6.4"
+            "6.4",
+            "6.6"
         ],
         "shopware/platform": [
             "6.4",
