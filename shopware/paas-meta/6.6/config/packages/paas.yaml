@@ -11,8 +11,7 @@ framework:
 shopware:
     api:
         jwt_key:
-            private_key_path: '%env(base64:JWT_PRIVATE_KEY)%'
-            public_key_path: '%env(base64:JWT_PUBLIC_KEY)%'
+            use_app_secret: true
     admin_worker:
         enable_admin_worker: false
     deployment:
