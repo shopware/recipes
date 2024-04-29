@@ -4,8 +4,8 @@
 
 set -e
 
-echo "removing var/cache/${APP_ENV}_*/*.*"
-rm -Rf var/cache/${APP_ENV}_*/*.*
+echo "removing ${APP_CACHE_DIR}/var/cache/${APP_ENV}_*/*.*"
+rm -Rf ${APP_CACHE_DIR}/var/cache/${APP_ENV}_*/*.*
 
 echo "clearing application cache"
 php bin/console cache:clear
