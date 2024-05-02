@@ -66,6 +66,7 @@ jobs:
                        "type": "project",
                        "require": {
                            "composer-runtime-api": "^2.0",
+                           "shopware/conflicts": ">=0.1.7",
                            "shopware/administration": "${{ matrix.package }}",
                            "shopware/core": "${{ matrix.package }}",
                            "shopware/elasticsearch": "${{ matrix.package }}",
