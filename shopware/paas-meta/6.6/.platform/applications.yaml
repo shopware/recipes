@@ -98,16 +98,10 @@
             # warnings can be ignored (the process is trying to access Redis which is not yet available)
             export CI=true
             ./bin/build-js.sh
-            mkdir build-tmp
-            cp -R files/theme-config build-tmp
-
-            # save plugin config for later (will be moved to mount)
-            cp var/plugins.json build-plugins.json
 
             # Moving files of the mounts to avoid warnings
             mv ./localCache ./RO-localCache
             mv ./var ./RO-var
-            mv ./files ./RO-files
 
         deploy: |
             set -e
@@ -115,13 +109,6 @@
             # Syncing files created during the build in the mounts
             rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${PLATFORM_APP_DIR}/localCache/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
-            rsync -av "${PLATFORM_APP_DIR}/RO-files/" "${PLATFORM_APP_DIR}/files/"
-
-            # restore theme config from build to mount in case theme needs rebuilding during runtime
-            cp -R build-tmp/theme-config files/
-
-            # restore plugin config to mount
-            cp build-plugins.json var/plugins.json
 
             echo "==================================================="
             echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
