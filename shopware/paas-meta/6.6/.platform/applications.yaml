@@ -29,6 +29,8 @@
             SHOPWARE_ES_INDEX_PREFIX: "sw6"
             # Disables the Shopware web installer
             SHOPWARE_SKIP_WEBINSTALLER: 1
+            # Dont compile the theme during build
+            SHOPWARE_SKIP_THEME_COMPILE: 1
             # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
             COMPOSER_PLUGIN_LOADER: 1
             COMPOSER_ROOT_VERSION: 1.0.0
@@ -96,16 +98,10 @@
             # warnings can be ignored (the process is trying to access Redis which is not yet available)
             export CI=true
             ./bin/build-js.sh
-            mkdir build-tmp
-            cp -R files/theme-config build-tmp
-
-            # save plugin config for later (will be moved to mount)
-            cp var/plugins.json build-plugins.json
 
             # Moving files of the mounts to avoid warnings
             mv ./localCache ./RO-localCache
             mv ./var ./RO-var
-            mv ./files ./RO-files
 
         deploy: |
             set -e
@@ -113,13 +109,6 @@
             # Syncing files created during the build in the mounts
             rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${PLATFORM_APP_DIR}/localCache/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
-            rsync -av "${PLATFORM_APP_DIR}/RO-files/" "${PLATFORM_APP_DIR}/files/"
-
-            # restore theme config from build to mount in case theme needs rebuilding during runtime
-            cp -R build-tmp/theme-config files/
-
-            # restore plugin config to mount
-            cp build-plugins.json var/plugins.json
 
             echo "==================================================="
             echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
@@ -132,9 +121,8 @@
                 # this will try to run theme:compile which cannot be disabled, so it will throw a bunch of warnings
                 # that can be ignored (we use stateless build anyway, so this is done already at this point)
                 echo "Running system:install (Warnings for theme:compile can be ignored)"
-                bin/console system:install --create-database --basic-setup --force --no-assign-theme --skip-assets-install
-                bin/console theme:change --all Storefront --no-compile
-                bin/console theme:dump
+                bin/console system:install --create-database --basic-setup --force --skip-assets-install
+
 
                 # Disable FRW
                 bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
@@ -197,6 +185,11 @@
 
             # Send USR2 signal to php-fpm to clear the opcache
             pkill -f -USR2 -u web php-fpm
+        post_deploy: |
+            set -e
+
+            php bin/console theme:compile --sync
+
     # The relationships of the application with services or other applications.
     # The left-hand side is the name of the relationship as it will be exposed
     # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
@@ -224,10 +217,10 @@
             source: service
             service: fileshare
             source_path: "public/thumbnail"
-        "/config/secrets":
+        "/public/theme":
             source: service
             service: fileshare
-            source_path: "config/secrets"
+            source_path: "public/theme"
         "/var":
             source: service
             service: fileshare
