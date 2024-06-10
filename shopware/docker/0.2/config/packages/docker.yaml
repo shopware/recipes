@@ -6,6 +6,7 @@ parameters:
     env(CONTAINER_FILESYSTEM_PUBLIC_URL): ""
     env(CONTAINER_FILESYSTEM_REGION): ""
     env(CONTAINER_FILESYSTEM_ENDPOINT): ""
+    env(CONTAINER_CACHE_TYPE): "cache.adapter.redis_tag_aware"
     env(CONTAINER_CACHE_URL): "redis://localhost:6379"
 shopware:
     api:
@@ -65,5 +66,5 @@ elasticsearch:
         number_of_shards: null
 framework:
     cache:
-        app: cache.adapter.redis_tag_aware
+        app: '%env(CONTAINER_CACHE_TYPE)%'
         default_redis_provider: '%env(CONTAINER_CACHE_URL)%'
