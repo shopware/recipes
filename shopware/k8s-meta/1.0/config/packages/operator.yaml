@@ -6,6 +6,7 @@ parameters:
     env(K8S_FILESYSTEM_PUBLIC_URL): ""
     env(K8S_FILESYSTEM_REGION): ""
     env(K8S_FILESYSTEM_ENDPOINT): ""
+    env(K8S_CACHE_TYPE): "cache.adapter.redis_tag_aware"
     env(K8S_CACHE_URL): "redis://localhost:6379"
 shopware:
     api:
@@ -59,5 +60,5 @@ elasticsearch:
         number_of_shards: null
 framework:
     cache:
-        app: cache.adapter.redis_tag_aware
+        app: '%env(K8S_CACHE_TYPE)%'
         default_redis_provider: '%env(K8S_CACHE_URL)%'
