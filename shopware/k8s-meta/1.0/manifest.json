@@ -2,11 +2,5 @@
     "aliases": ["k8s"],
     "copy-from-recipe": {
         "config/": "%CONFIG_DIR%/"
-    },
-    "container": {
-        "default_redis_database": "0",
-        "default_redis_host": "rediscache.internal",
-        "default_redis_port": "6379",
-        "env(CACHE_URL)": "redis://localhost"
     }
 }
