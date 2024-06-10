@@ -1,0 +1,94 @@
+{
+    "manifests": {
+        "shopware/k8s-meta": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/packages/operator.yaml": {
+                    "contents": [
+                        "# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/trunk/config-schema.json\r",
+                        "\r",
+                        "parameters:\r",
+                        "    env(K8S_FILESYSTEM_PRIVATE_BUCKET): \"\"\r",
+                        "    env(K8S_FILESYSTEM_PUBLIC_BUCKET): \"\"\r",
+                        "    env(K8S_FILESYSTEM_PUBLIC_URL): \"\"\r",
+                        "    env(K8S_FILESYSTEM_REGION): \"\"\r",
+                        "    env(K8S_FILESYSTEM_ENDPOINT): \"\"\r",
+                        "    env(K8S_CACHE_URL): \"redis://localhost:6379\"\r",
+                        "shopware:\r",
+                        "    api:\r",
+                        "        jwt_key:\r",
+                        "            use_app_secret: true\r",
+                        "    admin_worker:\r",
+                        "        enable_admin_worker: false\r",
+                        "        enable_notification_worker: false\r",
+                        "        enable_queue_stats_worker: false\r",
+                        "    deployment:\r",
+                        "        cluster_setup: true\r",
+                        "    cache:\r",
+                        "        tagging:\r",
+                        "            each_snippet: true\r",
+                        "            each_config: false\r",
+                        "            each_theme_config: false\r",
+                        "    increment:\r",
+                        "        user_activity:\r",
+                        "            type: array\r",
+                        "        message_queue:\r",
+                        "            type: array\r",
+                        "    filesystem:\r",
+                        "        private:\r",
+                        "            type: \"amazon-s3\"\r",
+                        "            visibility: \"private\"\r",
+                        "            config:\r",
+                        "                bucket: \"%env(K8S_FILESYSTEM_PRIVATE_BUCKET)%\"\r",
+                        "                region: \"%env(K8S_FILESYSTEM_REGION)%\"\r",
+                        "                endpoint: \"%env(K8S_FILESYSTEM_ENDPOINT)%\"\r",
+                        "                use_path_style_endpoint: true\r",
+                        "        public: &public_bucket\r",
+                        "            type: \"amazon-s3\"\r",
+                        "            url: \"%env(K8S_FILESYSTEM_PUBLIC_URL)%\"\r",
+                        "            visibility: \"public\"\r",
+                        "            config:\r",
+                        "                bucket: \"%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%\"\r",
+                        "                region: \"%env(K8S_FILESYSTEM_REGION)%\"\r",
+                        "                endpoint: \"%env(K8S_FILESYSTEM_ENDPOINT)%\"\r",
+                        "                use_path_style_endpoint: true\r",
+                        "        theme: *public_bucket\r",
+                        "        asset:\r",
+                        "            type: local\r",
+                        "            url: '%env(APP_URL)%'\r",
+                        "            config:\r",
+                        "                root: '%kernel.project_dir%/public'\r",
+                        "    cdn:\r",
+                        "        url: \"%env(K8S_FILESYSTEM_PUBLIC_URL)%\"\r",
+                        "elasticsearch:\r",
+                        "    index_settings:\r",
+                        "        number_of_replicas: null\r",
+                        "        number_of_shards: null\r",
+                        "framework:\r",
+                        "    cache:\r",
+                        "        app: cache.adapter.redis_tag_aware\r",
+                        "        default_redis_provider: '%env(K8S_CACHE_URL)%'\r",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/packages/trusted_env.yaml": {
+                    "contents": [
+                        "parameters:\r",
+                        "    env(TRUSTED_PROXIES): ''\r",
+                        "framework:\r",
+                        "    trusted_proxies: '%env(TRUSTED_PROXIES)%'\r",
+                        "    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']\r",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "a2192b150d9e0ab22a672c7cd6e79b0b7b2834c1"
+        }
+    }
+}

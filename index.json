@@ -10,6 +10,7 @@
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
         "gitpod": "frosh/gitpod-meta",
+        "k8s": "shopware/k8s-meta",
         "log": "symfony/monolog-bundle",
         "logger": "symfony/monolog-bundle",
         "logging": "symfony/monolog-bundle",
@@ -67,6 +68,9 @@
         ],
         "shopware/fastly-meta": [
             "6.4"
+        ],
+        "shopware/k8s-meta": [
+            "1.0"
         ],
         "shopware/opentelemetry": [
             "0.1"
