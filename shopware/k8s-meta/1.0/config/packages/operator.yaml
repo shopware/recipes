@@ -19,7 +19,7 @@ shopware:
         cluster_setup: true
     cache:
         tagging:
-            each_snippet: true
+            each_snippet: false
             each_config: false
             each_theme_config: false
     increment:
