@@ -1,6 +1,7 @@
 {
-    "aliases": ["k8s"],
+    "aliases": ["k8s", "docker"],
     "copy-from-recipe": {
+        "docker/": "docker/",
         "config/": "%CONFIG_DIR%/"
     }
 }
