@@ -269,7 +269,7 @@
             commands:
                 start: |
                     bin/console cache:clear
-                    bin/console messenger:consume async,failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                    bin/console messenger:consume async failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
     crons:
         scheduler:
