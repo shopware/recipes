@@ -247,7 +247,7 @@
             commands:
                 start: |
                     APP_CACHE_DIR=/app/localCache bin/console cache:clear
-                    APP_CACHE_DIR=/app/localCache bin/console messenger:consume async,failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                    APP_CACHE_DIR=/app/localCache bin/console messenger:consume async failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
     crons:
         scheduler:
