@@ -31,6 +31,8 @@
             SHOPWARE_SKIP_WEBINSTALLER: 1
             # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
             COMPOSER_PLUGIN_LOADER: 1
+            # Needed when Opensearch is activated
+            #OPENSEARCH_URL: http://opensearch.internal:9200
         php:
             upload_max_filesize: 32M
             post_max_size: 32M
