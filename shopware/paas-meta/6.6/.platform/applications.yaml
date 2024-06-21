@@ -35,6 +35,8 @@
             COMPOSER_PLUGIN_LOADER: 1
             COMPOSER_ROOT_VERSION: 1.0.0
             APP_CACHE_DIR: "/app/localCache"
+            # Needed when Opensearch is activated
+            #OPENSEARCH_URL: http://opensearch.internal:9200
         php:
             upload_max_filesize: 32M
             post_max_size: 32M
