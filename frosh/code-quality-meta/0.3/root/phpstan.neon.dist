@@ -2,7 +2,9 @@ parameters:
     level: 8
     tmpDir: var/cache/phpstan_dev
     inferPrivatePropertyTypeFromConstructor: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+    		-
+    			identifier: missingType.iterableValue
 
     symfony:
         constantHassers: false
