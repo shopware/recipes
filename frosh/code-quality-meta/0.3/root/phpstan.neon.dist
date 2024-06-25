@@ -3,8 +3,8 @@ parameters:
     tmpDir: var/cache/phpstan_dev
     inferPrivatePropertyTypeFromConstructor: true
     ignoreErrors:
-    		-
-    			identifier: missingType.iterableValue
+        -
+            identifier: missingType.iterableValue
 
     symfony:
         constantHassers: false
