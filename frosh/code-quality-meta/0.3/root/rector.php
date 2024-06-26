@@ -8,25 +8,29 @@ use Rector\Config\RectorConfig;
 use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\Symfony\Twig134\Rector\Return_\SimpleFunctionAndFilterRector;
 use Rector\Symfony\Set\SymfonySetList;
+use Rector\Symfony\Twig134\Rector\Return_\SimpleFunctionAndFilterRector;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->symfonyContainerXml(__DIR__ . '/var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml');
-
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withSymfonyContainerXml(__DIR__ . '/var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')
+    ->withBootstrapFiles([
+        __DIR__ . '/vendor/autoload.php',
+    ])
+    ->withPaths([
         __DIR__ . '/custom/static-plugins/*/src',
         __DIR__ . '/custom/plugins/*/src',
-    ]);
-
-    $rectorConfig->bootstrapFiles([
-        __DIR__ . '/vendor/autoload.php',
-    ]);
-
-    $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
-    $rectorConfig->rule(SimpleFunctionAndFilterRector::class);
-
-    $rectorConfig->sets([
+    ])
+    ->withSkip([
+        AddLiteralSeparatorToNumberRector::class => [
+            __DIR__ . '/custom/plugins/*/src/Migration',
+            __DIR__ . '/custom/static-plugins/*/src/Migration'
+        ]
+    ])
+    ->withRules([
+        InlineConstructorDefaultToPropertyRector::class,
+        SimpleFunctionAndFilterRector::class,
+    ])
+    ->withSets([
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SymfonySetList::SYMFONY_54,
@@ -43,11 +47,3 @@ return static function (RectorConfig $rectorConfig): void {
         ShopwareSetList::SHOPWARE_6_5_0,
         ShopwareSetList::SHOPWARE_6_6_0,
     ]);
-
-    $rectorConfig->skip([
-        AddLiteralSeparatorToNumberRector::class => [
-            __DIR__ . '/custom/plugins/*/src/Migration',
-            __DIR__ . '/custom/static-plugins/*/src/Migration'
-        ]
-    ]);
-};
