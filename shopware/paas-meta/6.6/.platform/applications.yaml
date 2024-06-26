@@ -174,7 +174,8 @@
             echo "==================================================="
             echo "SETUP FASTLY AND CLEAR OPCACHE"
             echo "==================================================="
-            if [ "$PLATFORM_ENVIRONMENT_TYPE" = "production" ] || [ "$PLATFORM_ENVIRONMENT_TYPE" = "stage" ]; then
+            # If Fastly should be enabled on stage or live instance it is required to add it as env variable (works with "live" or "stage" as value)
+            if [ "$FASTLY_ENV_TYPE" = "live" ] || [ "$FASTLY_ENV_TYPE" = "stage" ]; then
                 if [ -e bin/setup-fastly.sh ]; then
                     echo "Running setup-fastly.sh script"
                     ./bin/setup-fastly.sh
