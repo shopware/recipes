@@ -34,7 +34,6 @@
             # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
             COMPOSER_PLUGIN_LOADER: 1
             COMPOSER_ROOT_VERSION: 1.0.0
-            APP_CACHE_DIR: "/app/localCache"
         php:
             upload_max_filesize: 32M
             post_max_size: 32M
@@ -70,6 +69,7 @@
             # install nvm
             unset NPM_CONFIG_PREFIX
             export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
+            export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
 
             # install.sh will automatically install NodeJS based on the presence of $NODE_VERSION
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
@@ -100,14 +100,14 @@
             ./bin/build-js.sh
 
             # Moving files of the mounts to avoid warnings
-            mv ./localCache ./RO-localCache
+            mv $APP_CACHE_DIR ./RO-localCache
             mv ./var ./RO-var
 
         deploy: |
             set -e
 
             # Syncing files created during the build in the mounts
-            rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${PLATFORM_APP_DIR}/localCache/"
+            rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
 
             echo "==================================================="

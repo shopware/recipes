@@ -4,7 +4,8 @@
         ".platform/": ".platform/",
         "bin/": "%BIN_DIR%/",
         "config/": "%CONFIG_DIR%/",
-        "files/": "files/"
+        "files/": "files/",
+        "root/": ""
     },
     "container": {
         "default_redis_database": "0",
