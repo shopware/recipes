@@ -60,6 +60,15 @@ if (req.url.path ~ "^/(checkout|account|admin|api|csrf)(/.*)?$") {
     set req.http.x-pass = "1";
 }
 
+# Excludes requests from caching which contain the "affiliateCode" query parameter.
+# Otherwise requests which are already cached but now
+# contain the "affiliateCode" query parameter are loaded from cache.
+# AffiliateTrackingListener::checkAffiliateTracking() would not be called
+# and the affiliate code is not stored properly in the session.
+if (std.strlen(querystring.get(req.url, "affiliateCode")) > 0) {
+    set req.http.x-pass = "1";
+}
+
 # Disable stale_while_revalidate feature on SHIELD node to avoid caching issue when both soft-purges and shieding are used.
 if (fastly.ff.visits_this_service > 0) {
   set req.max_stale_while_revalidate = 0s;
