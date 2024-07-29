@@ -110,6 +110,15 @@
             rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
 
+            # Create Dompdf working directories and sync fonts from the vendor folder
+            if [ ! -d "${PLATFORM_APP_DIR}/var/dompdf/tempDir" ]; then
+                mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/tempDir"
+            fi
+            if [ ! -d "${PLATFORM_APP_DIR}/var/dompdf/fontCache" ]; then
+                mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/fontCache"
+            fi
+            rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
+
             echo "==================================================="
             echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
             echo "==================================================="

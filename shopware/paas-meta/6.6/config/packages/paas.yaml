@@ -16,6 +16,11 @@ shopware:
         enable_admin_worker: false
     deployment:
         cluster_setup: true
+    dompdf:
+        options:
+            tempDir: '%kernel.project_dir%/var/dompdf/tempDir'
+            fontDir: '%kernel.project_dir%/var/dompdf/fontDir'
+            fontCache: '%kernel.project_dir%/var/dompdf/fontCache'
 
 when@prod:
     monolog:
