@@ -237,6 +237,10 @@
         "/localCache":
             source: local
             source_path: "localCache"
+        "/_temp":
+            source: service
+            service: fileshare
+            source_path: "temp-SwagMigrationAssistant"
 
     # The configuration of app when it is exposed to the web.
     web:
