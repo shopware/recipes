@@ -69,12 +69,11 @@ jobs:
                        "type": "project",
                        "require": {
                            "composer-runtime-api": "^2.0",
-                           "shopware/conflicts": ">=0.1.7",
+                           "shopware/conflicts": "${{ matrix.conflict-version }}",
                            "shopware/administration": "${{ matrix.package }}",
                            "shopware/core": "${{ matrix.package }}",
                            "shopware/elasticsearch": "${{ matrix.package }}",
                            "shopware/storefront": "${{ matrix.package }}",
-                           "shopware/conflicts": "${{ matrix.conflict-version }}",
                            "shopware/dev-tools": "*",
                            "symfony/flex": "~2",
                            "symfony/runtime": "^5.0|^6.0|^7.0"
