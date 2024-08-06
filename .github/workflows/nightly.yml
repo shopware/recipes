@@ -19,14 +19,17 @@ jobs:
                         package: ~6.4.0
                         php: 8.1
                         node: 18.19.0
+                        conflict-version: ~0.1.0
                     -   name: 6.5.x
                         package: ~6.5.0
                         php: 8.1
                         node: 18
+                        conflict-version: ~0.1.0
                     -   name: trunk
                         package: 6.6.x-dev
                         php: 8.2
                         node: 20
+                        conflict-version: ~0.2.0
         env:
             APP_ENV: prod
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
@@ -66,7 +69,7 @@ jobs:
                        "type": "project",
                        "require": {
                            "composer-runtime-api": "^2.0",
-                           "shopware/conflicts": ">=0.1.7",
+                           "shopware/conflicts": "${{ matrix.conflict-version }}",
                            "shopware/administration": "${{ matrix.package }}",
                            "shopware/core": "${{ matrix.package }}",
                            "shopware/elasticsearch": "${{ matrix.package }}",
