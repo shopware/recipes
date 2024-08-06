@@ -102,6 +102,7 @@
             # Moving files of the mounts to avoid warnings
             mv $APP_CACHE_DIR ./RO-localCache
             mv ./var ./RO-var
+            mv public/bundles ./public_bundles_tmp
 
         deploy: |
             set -e
@@ -118,6 +119,8 @@
                 mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/fontCache"
             fi
             rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
+            rsync -av "${PLATFORM_APP_DIR}/public_bundles_tmp/" "${PLATFORM_APP_DIR}/public/bundles/"
+
 
             echo "==================================================="
             echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
@@ -230,6 +233,10 @@
             source: service
             service: fileshare
             source_path: "public/theme"
+        "/public/bundles":
+            source: service
+            service: fileshare
+            source_path: "public/bundles"
         "/var":
             source: service
             service: fileshare
