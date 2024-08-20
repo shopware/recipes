@@ -8,8 +8,8 @@ parameters:
     env(K8S_FILESYSTEM_ENDPOINT): ""
     # does not work yet, we need a factory or compiler pass for this
     # env(K8S_CACHE_TYPE): "cache.adapter.redis_tag_aware"
-    env(K8S_REDIS_HOST): "localhost"
-    env(K8S_REDIS_PORT): "6379"
+    env(K8S_CACHE_HOST): "localhost"
+    env(K8S_CACHE_PORT): "6379"
     env(K8S_CACHE_INDEX): ""
 shopware:
     api:
@@ -64,4 +64,4 @@ elasticsearch:
 framework:
     cache:
         app: cache.adapter.redis_tag_aware
-        default_redis_provider: 'redis://%env(K8S_REDIS_HOST)%:%env(K8S_REDIS_PORT)%/%env(K8S_CACHE_INDEX)%'
+        default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
