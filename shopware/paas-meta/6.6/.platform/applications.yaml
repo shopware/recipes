@@ -31,8 +31,6 @@
             SHOPWARE_SKIP_WEBINSTALLER: 1
             # Dont compile the theme during build
             SHOPWARE_SKIP_THEME_COMPILE: 1
-            # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
-            COMPOSER_PLUGIN_LOADER: 1
             COMPOSER_ROOT_VERSION: 1.0.0
         php:
             upload_max_filesize: 32M

@@ -29,8 +29,6 @@
             SHOPWARE_ES_INDEX_PREFIX: "sw6"
             # Disables the Shopware web installer
             SHOPWARE_SKIP_WEBINSTALLER: 1
-            # Enables the Shopware Composer plugin loader and disables the database plugin loader. All extensions will need to be installed with Composer
-            COMPOSER_PLUGIN_LOADER: 1
         php:
             upload_max_filesize: 32M
             post_max_size: 32M
