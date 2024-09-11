@@ -8,6 +8,8 @@ FROM ghcr.io/friendsofshopware/shopware-cli:latest-php-8.2 as shopware-cli
 
 FROM shopware-cli as build
 
+ARG SHOPWARE_PACKAGES_TOKEN
+
 ADD . /src
 WORKDIR /src
 
