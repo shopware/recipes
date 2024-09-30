@@ -67,7 +67,8 @@
             "6.6"
         ],
         "shopware/fastly-meta": [
-            "6.4"
+            "6.4",
+            "6.6"
         ],
         "shopware/k8s-meta": [
             "1.0"
