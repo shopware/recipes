@@ -56,7 +56,7 @@
         "DATABASE_URL": "mysql:\/\/root:root@localhost\/shopware",
         "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
         "MAILER_URL": "null:\/\/null",
-        "STOREFRONT_PROXY_URL": "http:\/\/localhost",
+        "PROXY_URL": "http:\/\/localhost",
         "SHOPWARE_HTTP_CACHE_ENABLED": "1",
         "SHOPWARE_HTTP_DEFAULT_TTL": "7200",
         "OPENSEARCH_URL": "http:\/\/localhost:9200",
