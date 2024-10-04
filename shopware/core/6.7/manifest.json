@@ -1,0 +1,96 @@
+{
+    "copy-from-recipe": {
+        "bin/": "%BIN_DIR%/",
+        "config/": "%CONFIG_DIR%/",
+        "custom/": "custom/",
+        "files/": "files/",
+        "public/": "%PUBLIC_DIR%/",
+        "var/": "var/",
+        "src/": "src/",
+        "root/": ""
+    },
+    "bundles": {
+        "Shopware\\Core\\Framework\\Framework": [
+            "all"
+        ],
+        "Shopware\\Core\\System\\System": [
+            "all"
+        ],
+        "Shopware\\Core\\Content\\Content": [
+            "all"
+        ],
+        "Shopware\\Core\\Checkout\\Checkout": [
+            "all"
+        ],
+        "Shopware\\Core\\Maintenance\\Maintenance": [
+            "all"
+        ],
+        "Shopware\\Core\\DevOps\\DevOps": [
+            "e2e"
+        ],
+        "Shopware\\Core\\Profiling\\Profiling": [
+            "all"
+        ]
+    },
+    "container": {
+        "shopware.store.frw": true,
+        "default_cdn_strategy": "physical_filename",
+        "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%"
+    },
+    "env": {
+        "APP_ENV": "prod",
+        "APP_URL": "http://127.0.0.1:8000",
+        "APP_SECRET": "%generate(secret)%",
+        "INSTANCE_ID": "%generate(secret)%",
+        "BLUE_GREEN_DEPLOYMENT": "0",
+        "DATABASE_URL": "mysql://root:root@localhost/shopware",
+        "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
+        "MAILER_URL": "null://null"
+    },
+    "gitignore": [
+        ".env.local",
+        ".env.local.php",
+        ".env.*.local",
+        "/public/bundles/*",
+        "/public/media/*",
+        "/public/theme/*",
+        "/public/thumbnail/*",
+        "/public/sitemap/*",
+        "/files/*",
+        "!/files/.htaccess",
+        "/var/*",
+        "!/var/.htaccess",
+        "/auth.json",
+        "/install.lock",
+        "public/asset-manifest.json"
+    ],
+    "composer-scripts": {
+        "assets:install": "symfony-cmd"
+    },
+    "docker-compose": {
+        "docker-compose.yml": {
+            "services": [
+                "database:",
+                "  image: mysql:${MYSQL_VERSION:-8}-oracle",
+                "  environment:",
+                "    MYSQL_DATABASE: ${MYSQL_DATABASE:-shopware}",
+                "    # You should definitely change the password in production",
+                "    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}",
+                "    MYSQL_USER: ${MYSQL_USER:-shopware}",
+                "    MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}",
+                "  volumes:",
+                "    - db-data:/var/lib/mysql:rw",
+                "    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!",
+                "    # - ./docker/db/data:/var/lib/mysql:rw"
+            ],
+            "volumes": ["db-data:"]
+        },
+        "docker-compose.override.yml": {
+            "services": [
+                "database:",
+                "  ports:",
+                "    - \"3306\""
+            ]
+        }
+    }
+}
