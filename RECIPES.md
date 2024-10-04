@@ -13,7 +13,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [frosh/gitpod-meta](https://packagist.org/packages/frosh/gitpod-meta) | [6.4](frosh/gitpod-meta/6.4) | `gitpod` |
 | [nyholm/psr7](https://packagist.org/packages/nyholm/psr7) | [1.0](nyholm/psr7/1.0) |  |
 | [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.6](shopware/administration/6.6) |  |
-| [shopware/core](https://packagist.org/packages/shopware/core) | [6.6](shopware/core/6.6) |  |
+| [shopware/core](https://packagist.org/packages/shopware/core) | [6.7](shopware/core/6.7) |  |
 | [shopware/docker](https://packagist.org/packages/shopware/docker) | [0.1](shopware/docker/0.1) |  |
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.6](shopware/elasticsearch/6.6) |  |
 | [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.6](shopware/fastly-meta/6.6) | `fastly` |
