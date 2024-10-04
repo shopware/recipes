@@ -63,7 +63,8 @@
         ],
         "shopware/administration": [
             "6.4",
-            "6.6"
+            "6.6",
+            "6.7"
         ],
         "shopware/core": [
             "6.4",
@@ -75,7 +76,8 @@
         ],
         "shopware/elasticsearch": [
             "6.4",
-            "6.6"
+            "6.6",
+            "6.7"
         ],
         "shopware/fastly-meta": [
             "6.4",
@@ -93,11 +95,13 @@
         ],
         "shopware/platform": [
             "6.4",
-            "6.6"
+            "6.6",
+            "6.7"
         ],
         "shopware/storefront": [
             "6.4",
-            "6.6"
+            "6.6",
+            "6.7"
         ],
         "sroze/messenger-enqueue-transport": [
             "0.4"
