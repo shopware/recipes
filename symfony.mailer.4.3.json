@@ -1,0 +1,27 @@
+{
+    "manifests": {
+        "symfony/mailer": {
+            "manifest": {
+                "env": {
+                    "#1": "MAILER_DSN=null://null"
+                },
+                "docker-compose": {
+                    "docker-compose.override.yml": {
+                        "services": [
+                            "mailer:",
+                            "  image: axllent/mailpit",
+                            "  ports:",
+                            "    - \"1025\"",
+                            "    - \"8025\"",
+                            "  environment:",
+                            "    MP_SMTP_AUTH_ACCEPT_ANY: 1",
+                            "    MP_SMTP_AUTH_ALLOW_INSECURE: 1"
+                        ]
+                    }
+                }
+            },
+            "files": [],
+            "ref": "7c4b09065438b4fbe2baaf7838347090efffafac"
+        }
+    }
+}

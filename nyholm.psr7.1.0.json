@@ -1,0 +1,13 @@
+{
+    "manifests": {
+        "nyholm/psr7": {
+            "manifest": {
+                "conflict": {
+                    "php-http/discovery": ">=1.18"
+                }
+            },
+            "files": [],
+            "ref": "0153f89d0bffd66e897afb8c2623e3920aef2c9f"
+        }
+    }
+}
