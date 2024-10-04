@@ -1,0 +1,5 @@
+{
+    "conflict": {
+        "php-http/discovery": ">=1.18"
+    }
+}
