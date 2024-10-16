@@ -25,11 +25,11 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
 | [symfony/debug-bundle](https://packagist.org/packages/symfony/debug-bundle) | [5.3](symfony/debug-bundle/5.3) | `debug-bundle`, `debugbundle` |
-| [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [5.4](symfony/framework-bundle/5.4) | `framework-bundle`, `frameworkbundle` |
+| [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [6.4](symfony/framework-bundle/6.4) | `framework-bundle`, `frameworkbundle` |
 | [symfony/mailer](https://packagist.org/packages/symfony/mailer) | [4.3](symfony/mailer/4.3) | `mail`, `mailer` |
 | [symfony/messenger](https://packagist.org/packages/symfony/messenger) | [6.0](symfony/messenger/6.0) | `messenger` |
 | [symfony/monolog-bundle](https://packagist.org/packages/symfony/monolog-bundle) | [3.3](symfony/monolog-bundle/3.3) | `log`, `logger`, `logging`, `logs`, `monolog`, `monolog-bundle`, `monologbundle` |
-| [symfony/routing](https://packagist.org/packages/symfony/routing) | [5.4](symfony/routing/5.4) | `routing` |
+| [symfony/routing](https://packagist.org/packages/symfony/routing) | [6.4](symfony/routing/6.4) | `routing` |
 | [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
 | [symfony/twig-bundle](https://packagist.org/packages/symfony/twig-bundle) | [5.4](symfony/twig-bundle/5.4) | `twig-bundle`, `twigbundle` |
 | [symfony/validator](https://packagist.org/packages/symfony/validator) | [5.3](symfony/validator/5.3) | `validation`, `validator` |

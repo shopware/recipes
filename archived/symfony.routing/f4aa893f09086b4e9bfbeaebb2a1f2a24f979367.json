@@ -1,0 +1,26 @@
+{
+    "manifests": {
+        "symfony/routing": {
+            "manifest": {
+                "composer-scripts": [],
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/routes.yaml": {
+                    "contents": [
+                        "controllers:",
+                        "    resource:",
+                        "        path: ../src/Controller/",
+                        "        namespace: App\\Controller",
+                        "    type: attribute",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "f4aa893f09086b4e9bfbeaebb2a1f2a24f979367"
+        }
+    }
+}

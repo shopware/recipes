@@ -114,7 +114,8 @@
             "5.3"
         ],
         "symfony/framework-bundle": [
-            "5.4"
+            "5.4",
+            "6.4"
         ],
         "symfony/mailer": [
             "4.3"
@@ -127,7 +128,8 @@
             "3.3"
         ],
         "symfony/routing": [
-            "5.4"
+            "5.4",
+            "6.4"
         ],
         "symfony/translation": [
             "5.4"
