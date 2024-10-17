@@ -1,12 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/refs/heads/trunk/config-schema.json
 # This file contains all default configuration or PaaS
 
 framework:
     session:
-        handler_id: "%env(CACHE_URL)%/%env(int:default:default_redis_database:REDIS_SESSION_DATABASE)%"
+        handler_id: "%env(CACHE_URL)%/2"
     cache:
         app: cache.adapter.redis
         system: cache.adapter.redis
-        default_redis_provider: "%env(CACHE_URL)%/%env(int:default:default_redis_database:REDIS_CACHE_DATABASE)%"
+        default_redis_provider: "%env(CACHE_URL)%/0"
 
 shopware:
     api:
@@ -14,6 +15,7 @@ shopware:
             use_app_secret: true
     admin_worker:
         enable_admin_worker: false
+        enable_queue_stats_worker: false
     deployment:
         cluster_setup: true
     dompdf:
@@ -22,24 +24,23 @@ shopware:
             fontDir: '%kernel.project_dir%/var/dompdf/fontDir'
             fontCache: '%kernel.project_dir%/var/dompdf/fontCache'
 
-when@prod:
-    monolog:
-        handlers:
-            main:
-                type: fingers_crossed
-                action_level: error
-                handler: nested
-                excluded_http_codes: [404, 405]
-                buffer_size: 50 # How many messages should be saved? Prevent memory leaks
-            nested:
-                type: stream
-                path: php://stderr
-                level: debug
-                formatter: monolog.formatter.json
-            console:
-                type: console
-                process_psr_3_messages: false
-                channels: ["!event", "!doctrine"]
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404, 405]
+            buffer_size: 50
+        nested:
+            type: stream
+            path: php://stderr
+            level: debug
+            formatter: monolog.formatter.json
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine"]
 
 elasticsearch:
     index_settings:
