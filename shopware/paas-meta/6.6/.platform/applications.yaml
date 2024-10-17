@@ -229,6 +229,10 @@
             source: service
             service: fileshare
             source_path: "public/theme"
+        "/public/sitemap":
+            source: service
+            service: fileshare
+            source_path: "public/sitemap"
         "/var":
             source: service
             service: fileshare
