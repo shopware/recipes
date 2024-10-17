@@ -6,8 +6,9 @@ set -e
 
 echo "removing ${APP_CACHE_DIR}/var/cache/${APP_ENV}_*/*.*"
 rm -Rf ${APP_CACHE_DIR}/var/cache/${APP_ENV}_*/*.*
+php bin/console cache:clear
 
 echo "clearing application cache"
-php bin/console cache:clear
+
 
 echo "done executing pre_start cache clear"
