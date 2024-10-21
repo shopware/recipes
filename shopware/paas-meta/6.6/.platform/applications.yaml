@@ -86,6 +86,10 @@
             fi
             rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
 
+            if [ "$FASTLY_ENV_TYPE" != "live" ] && [ "$FASTLY_ENV_TYPE" != "stage" ]; then
+                unset FASTLY_API_TOKEN
+            fi
+
             php vendor/bin/shopware-deployment-helper run --skip-theme-compile --skip-asset-install
             
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
@@ -107,19 +111,6 @@
             else
                 # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
                 bin/console cache:pool:clear cache.object
-            fi
-
-            echo "==================================================="
-            echo "SETUP FASTLY AND CLEAR OPCACHE"
-            echo "==================================================="
-            # If Fastly should be enabled on stage or live instance it is required to add it as env variable (works with "live" or "stage" as value)
-            if [ "$FASTLY_ENV_TYPE" = "live" ] || [ "$FASTLY_ENV_TYPE" = "stage" ]; then
-                if [ -e bin/setup-fastly.sh ]; then
-                    echo "Running setup-fastly.sh script"
-                    ./bin/setup-fastly.sh
-                else
-                    echo "setup-fastly.sh script not found"
-                fi
             fi
 
             # Send USR2 signal to php-fpm to clear the opcache
