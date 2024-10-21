@@ -1,2 +1,4 @@
   * Add your <comment>FASTLY_API_TOKEN</comment> and <comment>FASTLY_SERVICE_ID</comment> into <comment>.env</comment>
-  * Run <comment>setup-fastly.sh</comment> to deploy the Fastly vcl files
+  * Run <comment>vendor/bin/shopware-deployment-helper fastly:snippet:deploy</comment> to deploy the Fastly snippets
+  * The Fastly snippets are now deployed and you can start using the Fastly CDN
+  * The snippets are also updated on regular <comment>vendor/bin/shopware-deployment-helper run</comment> runs
