@@ -21,6 +21,7 @@ export HOST=${HOST:-"localhost"}
 export ESLINT_DISABLE
 export PORT
 export APP_URL
+export DISABLE_ADMIN_COMPILATION_TYPECHECK=1
 
 BIN_TOOL="${CWD}/console"
 
