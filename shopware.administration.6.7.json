@@ -131,6 +131,7 @@
                         "export ESLINT_DISABLE",
                         "export PORT",
                         "export APP_URL",
+                        "export DISABLE_ADMIN_COMPILATION_TYPECHECK=1",
                         "",
                         "BIN_TOOL=\"${CWD}/console\"",
                         "",
@@ -182,7 +183,7 @@
                     "executable": true
                 }
             },
-            "ref": "5771cd064c9919e22d1d3c6b94f313ae0f37cf0b"
+            "ref": "33e796478eb06c75b42f5e4ac110ce3bb9415ef7"
         }
     }
 }
