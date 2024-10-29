@@ -48,13 +48,13 @@
     hooks:
         build: |
             set -e
-            echo "Install Node and shopware-cli"
+            echo "Installing Node ${NODE_VERSION} and shopware-cli ${SHOPWARE_CLI_VERSION}"
 
             mkdir -p /tmp/tools
 
-            curl -qL -o node.tar.xz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz"
+            curl -qL -s -o node.tar.xz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz"
             tar xf node.tar.xz -C /tmp/tools --strip-components=1
-            curl -qL -o shopware-cli.tar.gz https://github.com/FriendsOfShopware/shopware-cli/releases/download/${SHOPWARE_CLI_VERSION}/shopware-cli_Linux_x86_64.tar.gz
+            curl -qL -s -o shopware-cli.tar.gz https://github.com/FriendsOfShopware/shopware-cli/releases/download/${SHOPWARE_CLI_VERSION}/shopware-cli_Linux_x86_64.tar.gz
             tar xf shopware-cli.tar.gz -C /tmp/tools shopware-cli
             mv /tmp/tools/shopware-cli /tmp/tools/bin
 
@@ -86,12 +86,8 @@
             fi
             rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
 
-            if [ "$FASTLY_ENV_TYPE" != "live" ] && [ "$FASTLY_ENV_TYPE" != "stage" ]; then
-                unset FASTLY_API_TOKEN
-            fi
+            php vendor/bin/shopware-deployment-helper run --skip-asset-install --skip-theme-compile
 
-            php vendor/bin/shopware-deployment-helper run --skip-theme-compile --skip-asset-install
-            
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
                 echo "==================================================="
                 echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
@@ -101,20 +97,6 @@
                 export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
                 bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
             fi
-
-            echo "==================================================="
-            echo "CLEAR CACHES"
-            echo "==================================================="
-            # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
-            if [ -z "$PLATFORM_REGISTRY_NUMBER" ]; then
-                sh bin/prestart_cacheclear.sh
-            else
-                # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
-                bin/console cache:pool:clear cache.object
-            fi
-
-            # Send USR2 signal to php-fpm to clear the opcache
-            pkill -f -USR2 -u web php-fpm
         post_deploy: |
             set -e
 
