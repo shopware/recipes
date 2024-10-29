@@ -1,36 +1,24 @@
 -   name: app
     type: php:8.3
     build:
-        flavor: composer
+        flavor: none
     dependencies:
         php:
-            composer/composer: "2.7"
+            composer/composer: "2.8"
     variables:
         env:
-            # Tell Shopware to always install in production-mode.
             APP_ENV: prod
-            # Instance ID is empty by default, change to something unique in your project
-            INSTANCE_ID: ""
             # Enable HTTP Cache to get cache-control headers
             SHOPWARE_HTTP_CACHE_ENABLED: 1
-            # NVM and Node.js versions to install
-            NVM_VERSION: v0.39.0
-            NODE_VERSION: v20
-            # Use different redis dbs for cache and sessions
-            REDIS_CACHE_DATABASE: 0
-            REDIS_SESSION_DATABASE: 2
-            # Improve admin build speed
-            DISABLE_ADMIN_COMPILATION_TYPECHECK: 1
-            # Only build extension. Shopware assets are pre built in the tags
-            SHOPWARE_ADMIN_BUILD_ONLY_EXTENSIONS: 1
+            NODE_VERSION: v20.18.0
+            SHOPWARE_CLI_VERSION: 0.4.57
             # Elasticsearch, see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
             SHOPWARE_ES_ENABLED: 0
             SHOPWARE_ES_INDEXING_ENABLED: 0
             SHOPWARE_ES_INDEX_PREFIX: "sw6"
             # Disables the Shopware web installer
             SHOPWARE_SKIP_WEBINSTALLER: 1
-            # Dont compile the theme during build
-            SHOPWARE_SKIP_THEME_COMPILE: 1
+            # Performance optimization
             COMPOSER_ROOT_VERSION: 1.0.0
         php:
             upload_max_filesize: 32M
@@ -60,42 +48,23 @@
     hooks:
         build: |
             set -e
-            echo "==================================================="
-            echo "START BUILD SCRIPT"
-            echo "Beginning with the NVM and NodeJS setup"
-            echo "==================================================="
-            # install nvm
-            unset NPM_CONFIG_PREFIX
-            export NVM_DIR="$PLATFORM_APP_DIR/.nvm"
+            echo "Installing Node ${NODE_VERSION} and shopware-cli ${SHOPWARE_CLI_VERSION}"
+
+            mkdir -p /tmp/tools
+
+            curl -qL -s -o node.tar.xz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz"
+            tar xf node.tar.xz -C /tmp/tools --strip-components=1
+            curl -qL -s -o shopware-cli.tar.gz https://github.com/FriendsOfShopware/shopware-cli/releases/download/${SHOPWARE_CLI_VERSION}/shopware-cli_Linux_x86_64.tar.gz
+            tar xf shopware-cli.tar.gz -C /tmp/tools shopware-cli
+            mv /tmp/tools/shopware-cli /tmp/tools/bin
+
+            rm node.tar.xz shopware-cli.tar.gz
+
+            export PATH="/tmp/tools/bin:$PATH"
+
             export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
 
-            # install.sh will automatically install NodeJS based on the presence of $NODE_VERSION
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-            # have nvm available and load the correct node version in your ssh session
-            echo 'unset NPM_CONFIG_PREFIX' >> .bash_profile
-            echo 'export NO_UPDATE_NOTIFIER=1' >> .bash_profile
-            echo 'export NVM_DIR="$PLATFORM_APP_DIR/.nvm"' >> .bash_profile
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> .bash_profile
-
-            echo "==================================================="
-            echo "REMOVE FASTLY WHEN NOT A PRODUCTION OR STAGE ENV"
-            echo "==================================================="
-            echo "The Environment has the following type: $PROJECT_ENVIRONMENT_TYPE"
-            if [ "$PROJECT_ENVIRONMENT_TYPE" = development ]; then
-                echo "remove fastly.yaml on environment type development"
-                rm -f config/packages/fastly.yaml
-            fi
-            echo "Fastly setup step done"
-
-            echo "==================================================="
-            echo "COPY THEME AND RUN JS BUILD"
-            echo "==================================================="
-            # compile theme and save config for later (will be moved to mount).
-            # warnings can be ignored (the process is trying to access Redis which is not yet available)
-            export CI=true
-            ./bin/build-js.sh
+            shopware-cli project ci .
 
             # Moving files of the mounts to avoid warnings
             mv $APP_CACHE_DIR ./RO-localCache
@@ -104,11 +73,11 @@
         deploy: |
             set -e
 
-            # Syncing files created during the build in the mounts
+            echo "Syncing files created during the build in the mounts"
             rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
 
-            # Create Dompdf working directories and sync fonts from the vendor folder
+            echo "Create Dompdf working directories and sync fonts from the vendor folder"
             if [ ! -d "${PLATFORM_APP_DIR}/var/dompdf/tempDir" ]; then
                 mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/tempDir"
             fi
@@ -117,82 +86,17 @@
             fi
             rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
 
-            echo "==================================================="
-            echo "INITIALIZE SHOPWARE'S SITE DATA IF NOT ALREADY INSTALLED"
-            echo "==================================================="
-            # Initialize the Shopware site's data set if it's not already installed.
-            # (This is only for demo/first install and can be removed once Shopware is initialized)
-            if ! bin/console system:is-installed; then
-                # setup the environment
-                # create database with a basic setup (admin user and storefront sales channel).
-                # this will try to run theme:compile which cannot be disabled, so it will throw a bunch of warnings
-                # that can be ignored (we use stateless build anyway, so this is done already at this point)
-                echo "Running system:install (Warnings for theme:compile can be ignored)"
-                bin/console system:install --create-database --basic-setup --force --skip-assets-install
+            php vendor/bin/shopware-deployment-helper run --skip-asset-install --skip-theme-compile
 
-
-                # Disable FRW
-                bin/console system:config:set core.frw.completedAt '2019-10-07T10:46:23+00:00'
-            fi;
-
-            echo "==================================================="
-            echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
-            echo "==================================================="
-            # Configure the sales channel domains automatically for non-production environments
             if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
+                echo "==================================================="
+                echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
+                echo "==================================================="
+
                 export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
                 export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
                 bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
             fi
-
-            echo "==================================================="
-            echo "RUN MIGRATIONS"
-            echo "==================================================="
-            # optional: run migration automatically with deploy
-            bin/console database:migrate --all # Run Shopware core migrations
-            COMPOSER_HOME="$COMPOSER_HOME/composer/composer" php bin/console plugin:refresh
-
-            list_plugins_not_installed=$(php bin/console plugin:list --json | jq 'map(select(.installedAt == null)) | .[].name' -r)
-
-            for plugin in $list_plugins_not_installed; do
-                echo "Installing Plugin $plugin ..."
-                php bin/console plugin:install --activate --skip-asset-build $plugin
-            done
-
-            list_with_updates=$(php bin/console plugin:list --json | jq 'map(select(.upgradeVersion != null)) | .[].name' -r)
-
-            for plugin in $list_with_updates; do
-                echo "Updating Plugin $plugin ..."
-                php bin/console plugin:update --skip-asset-build $plugin
-            done
-
-            echo "==================================================="
-            echo "CLEAR CACHES"
-            echo "==================================================="
-            # run cache clear commands, on grid environments this should run in the deploy hook,
-            # on dedicated generation 2, it will run as part of the pre_start hook (to be set up by Platform.sh support)
-            if [ -z "$PLATFORM_REGISTRY_NUMBER" ]; then
-                sh bin/prestart_cacheclear.sh
-            else
-                # on dedicated gen 2, we need to explictly clear the redis cache since redis is not available during pre_start
-                bin/console cache:pool:clear cache.object
-            fi
-
-            echo "==================================================="
-            echo "SETUP FASTLY AND CLEAR OPCACHE"
-            echo "==================================================="
-            # If Fastly should be enabled on stage or live instance it is required to add it as env variable (works with "live" or "stage" as value)
-            if [ "$FASTLY_ENV_TYPE" = "live" ] || [ "$FASTLY_ENV_TYPE" = "stage" ]; then
-                if [ -e bin/setup-fastly.sh ]; then
-                    echo "Running setup-fastly.sh script"
-                    ./bin/setup-fastly.sh
-                else
-                    echo "setup-fastly.sh script not found"
-                fi
-            fi
-
-            # Send USR2 signal to php-fpm to clear the opcache
-            pkill -f -USR2 -u web php-fpm
         post_deploy: |
             set -e
 
