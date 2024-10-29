@@ -1,7 +1,7 @@
 -   name: app
     type: php:8.3
     build:
-        flavor: composer
+        flavor: none
     dependencies:
         php:
             composer/composer: "2.8"
