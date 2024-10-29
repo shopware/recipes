@@ -11,7 +11,7 @@
             # Enable HTTP Cache to get cache-control headers
             SHOPWARE_HTTP_CACHE_ENABLED: 1
             NODE_VERSION: v20.18.0
-            SHOPWARE_CLI_VERSION: 0.4.55
+            SHOPWARE_CLI_VERSION: 0.4.57
             # Elasticsearch, see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
             SHOPWARE_ES_ENABLED: 0
             SHOPWARE_ES_INDEXING_ENABLED: 0
