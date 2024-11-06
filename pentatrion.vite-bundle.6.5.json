@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "pentatrion/vite-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Pentatrion\\ViteBundle\\PentatrionViteBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "8cc0e41387cb37cb65cc9a1ce8bac7eed899687a"
+        }
+    }
+}
