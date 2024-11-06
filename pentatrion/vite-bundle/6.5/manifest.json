@@ -1,0 +1,7 @@
+{
+    "bundles": {
+        "Pentatrion\\ViteBundle\\PentatrionViteBundle": [
+            "all"
+        ]
+    }
+}
