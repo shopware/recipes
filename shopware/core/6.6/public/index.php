@@ -4,7 +4,6 @@ use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\ComposerPluginLoader;
 use Shopware\Core\Installer\InstallerKernel;
 use Shopware\Core\Framework\Adapter\Kernel\KernelFactory;
-use Symfony\Component\HttpFoundation\Response;
 
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 
@@ -44,6 +43,6 @@ return function (array $context) {
         environment: $appEnv,
         debug: $debug,
         classLoader: $classLoader,
-        pluginLoader: $pluginLoader
+        pluginLoader: $pluginLoader,
     );
 };
