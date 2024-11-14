@@ -21,12 +21,10 @@ eval "$curenv"
 set +o allexport
 
 export APP_URL
+export ESLINT_DISABLE
 export PROXY_URL
 export STOREFRONT_ASSETS_PORT
 export STOREFRONT_PROXY_PORT
-export STOREFRONT_HTTPS_KEY_FILE
-export STOREFRONT_HTTPS_CERTIFICATE_FILE
-export STOREFRONT_SKIP_SSL_CERT
 
 if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
     STOREFRONT_ROOT="${STOREFRONT_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Storefront"}"
