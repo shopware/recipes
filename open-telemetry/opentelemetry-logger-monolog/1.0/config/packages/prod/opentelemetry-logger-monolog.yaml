@@ -1,0 +1,19 @@
+# see https://github.com/shopwareLabs/opentelemetry/blob/main/README.md
+
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [ 404, 405 ]
+            buffer_size: 50
+        nested:
+            type: service
+            id: monolog.handler.open_telemetry
+            level: error
+            formatter: null
+        # handler for shopware/elasticsearch, comment it out if package is not installed
+        elasticsearch:
+            type: service
+            id: monolog.handler.open_telemetry
