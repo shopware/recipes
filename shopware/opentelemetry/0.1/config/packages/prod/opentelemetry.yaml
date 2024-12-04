@@ -3,12 +3,3 @@ shopware:
     profiler:
         integrations:
             - OpenTelemetry
-
-monolog:
-    handlers:
-        main:
-            type: service
-            id: monolog.handler.open_telemetry
-        elasticsearch:
-            type: service
-            id: monolog.handler.open_telemetry
