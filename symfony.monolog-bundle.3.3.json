@@ -1,0 +1,18 @@
+{
+    "manifests": {
+        "symfony/monolog-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Symfony\\Bundle\\MonologBundle\\MonologBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": [],
+            "ref": "5ccbcb35c970d021327d54358e748c6962a39ed8"
+        }
+    }
+}

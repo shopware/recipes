@@ -1,0 +1,13 @@
+{
+    "manifests": {
+        "symfony/validator": {
+            "manifest": {
+                "conflict": {
+                    "symfony/framework-bundle": "<5.3"
+                }
+            },
+            "files": [],
+            "ref": "cdb029c79a301f7404e20b1f7031710959420019"
+        }
+    }
+}
