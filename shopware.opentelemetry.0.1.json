@@ -1,0 +1,30 @@
+{
+    "manifests": {
+        "shopware/opentelemetry": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "bundles": {
+                    "Shopware\\OpenTelemetry\\OpenTelemetryShopwareBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": {
+                "config/packages/prod/opentelemetry.yaml": {
+                    "contents": [
+                        "# see https://github.com/shopwareLabs/opentelemetry/blob/main/README.md",
+                        "shopware:",
+                        "    profiler:",
+                        "        integrations:",
+                        "            - OpenTelemetry",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "bf3742a51d33724fc68194e8d3a49de1eec6c7c9"
+        }
+    }
+}

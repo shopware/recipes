@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "enqueue/enqueue-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Enqueue\\Bundle\\EnqueueBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "2600a7adcf04a16d2869d9979609cb782a39c07a"
+        }
+    }
+}

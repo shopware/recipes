@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "symfony/twig-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Symfony\\Bundle\\TwigBundle\\TwigBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "99277800a8f532fc369df7148804ed3d257c69c0"
+        }
+    }
+}
