@@ -12,6 +12,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.3](frosh/devenv-meta/0.3) | `devenv` |
 | [frosh/gitpod-meta](https://packagist.org/packages/frosh/gitpod-meta) | [6.4](frosh/gitpod-meta/6.4) | `gitpod` |
 | [nyholm/psr7](https://packagist.org/packages/nyholm/psr7) | [1.0](nyholm/psr7/1.0) |  |
+| [open-telemetry/opentelemetry-logger-monolog](https://packagist.org/packages/open-telemetry/opentelemetry-logger-monolog) | [1.0](open-telemetry/opentelemetry-logger-monolog/1.0) |  |
 | [pentatrion/vite-bundle](https://packagist.org/packages/pentatrion/vite-bundle) | [6.5](pentatrion/vite-bundle/6.5) |  |
 | [shopware/administration](https://packagist.org/packages/shopware/administration) | [6.7](shopware/administration/6.7) |  |
 | [shopware/core](https://packagist.org/packages/shopware/core) | [6.7](shopware/core/6.7) |  |
