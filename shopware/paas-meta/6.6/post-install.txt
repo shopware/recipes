@@ -1,3 +1,0 @@
-* After first installation the Storefront will miss some css files
-  * To fix this dump the current theme configuration using <comment>platform mount:download --mount 'files' --target 'files' -A app</comment>
-  * Add that files to your git repository and push to build the storefront
