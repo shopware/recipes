@@ -74,7 +74,7 @@
             set -e
 
             echo "Syncing files created during the build in the mounts"
-            rsync -av "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
+            rsync -av --delete "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
             rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
 
             echo "Create Dompdf working directories and sync fonts from the vendor folder"
