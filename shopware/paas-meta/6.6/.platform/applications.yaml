@@ -63,6 +63,7 @@
             export PATH="/tmp/tools/bin:$PATH"
 
             export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
+            export SHOPWARE_SKIP_ASSET_INSTALL_CACHE_INVALIDATION=1
 
             shopware-cli project ci .
 
