@@ -22,6 +22,7 @@ shopware:
         enable_queue_stats_worker: false
     deployment:
         cluster_setup: true
+        runtime_extension_management: false
     cache:
         tagging:
             each_snippet: false
