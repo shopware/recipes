@@ -41,7 +41,11 @@ fi
 "${CWD}"/console bundle:dump
 "${CWD}"/console feature:dump
 "${CWD}"/console theme:compile --active-only
-"${CWD}"/console theme:dump
+if [[ -n "$1" ]]; then
+    "${CWD}"/console theme:dump --theme-name="$1"
+else
+    "${CWD}"/console theme:dump
+fi
 
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
