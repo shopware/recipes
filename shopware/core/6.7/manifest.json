@@ -30,6 +30,9 @@
         ],
         "Shopware\\Core\\Profiling\\Profiling": [
             "all"
+        ],
+        "Shopware\\Core\\Service\\Service": [
+            "all"
         ]
     },
     "container": {
