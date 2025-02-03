@@ -23,15 +23,18 @@ set +o allexport
 
 set -euo pipefail
 
+export APP_URL
+export PROJECT_ROOT
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export DISABLE_ADMIN_COMPILATION_TYPECHECK=true
-export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 
 if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
     ADMIN_ROOT="${ADMIN_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Administration"}"
 else
     ADMIN_ROOT="${ADMIN_ROOT:-"${PROJECT_ROOT}/vendor/shopware/administration"}"
 fi
+
+export ADMIN_ROOT
 
 BIN_TOOL="${CWD}/console"
 
