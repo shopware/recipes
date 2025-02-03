@@ -23,6 +23,14 @@ export PORT
 export APP_URL
 export DISABLE_ADMIN_COMPILATION_TYPECHECK=1
 
+if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then
+    ADMIN_ROOT="${ADMIN_ROOT:-"${PROJECT_ROOT}/vendor/shopware/platform/src/Administration"}"
+else
+    ADMIN_ROOT="${ADMIN_ROOT:-"${PROJECT_ROOT}/vendor/shopware/administration"}"
+fi
+
+export ADMIN_ROOT
+
 BIN_TOOL="${CWD}/console"
 
 [[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
@@ -56,9 +64,7 @@ else
     echo "Cannot check extensions for required npm installations as jq is not installed"
 fi
 
-if [ ! -d vendor/shopware/administration/Resources/app/administration/node_modules/webpack-dev-server ]; then
-    npm install --prefix vendor/shopware/administration/Resources/app/administration/
-fi
+(cd "${ADMIN_ROOT}"/Resources/app/administration && npm install --prefer-offline)
 
 # Dump entity schema
 if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP:-""}" ]] && [[ -f "${ADMIN_ROOT}"/Resources/app/administration/scripts/entitySchemaConverter/entity-schema-converter.ts ]]; then
@@ -67,4 +73,4 @@ if [[ -z "${SHOPWARE_SKIP_ENTITY_SCHEMA_DUMP:-""}" ]] && [[ -f "${ADMIN_ROOT}"/R
   (cd "${ADMIN_ROOT}"/Resources/app/administration && npm run convert-entity-schema)
 fi
 
-npm run --prefix vendor/shopware/administration/Resources/app/administration/ dev
+(cd "${ADMIN_ROOT}"/Resources/app/administration && npm run dev)
