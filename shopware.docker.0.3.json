@@ -1,0 +1,100 @@
+{
+    "manifests": {
+        "shopware/docker": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "docker/": "docker/",
+                    "config/": "%CONFIG_DIR%/"
+                },
+                "post-install-output": [
+                    "  * <fg=blue>Setup</>",
+                    "    This recipe has created a <comment>docker/Dockerfile</comment> with an example file to build a Shopware Docker image.",
+                    "    You can build it with <comment>docker build -t <name> -f docker/Dockerfile .</comment>.",
+                    "    Make sure you to set a correct `APP_SECRET`, you can generate one with `openssl rand -hex 128`",
+                    "    See https://github.com/shopware/docker for the complete documentation to configure things."
+                ]
+            },
+            "files": {
+                "config/packages/docker.yaml": {
+                    "contents": [
+                        "shopware:",
+                        "    auto_update:",
+                        "        enabled: false",
+                        "    store:",
+                        "        frw: false",
+                        "    admin_worker:",
+                        "        enable_admin_worker: false",
+                        "        enable_notification_worker: false",
+                        "        enable_queue_stats_worker: false",
+                        "    mail:",
+                        "        update_mail_variables_on_send: false",
+                        "    increment:",
+                        "        user_activity:",
+                        "            type: \"array\"",
+                        "        message_queue:",
+                        "            type: \"array\"",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/packages/prod/monolog.yaml": {
+                    "contents": [
+                        "monolog:",
+                        "    handlers:",
+                        "        main:",
+                        "            type: fingers_crossed",
+                        "            action_level: error",
+                        "            handler: nested",
+                        "            excluded_http_codes: [404, 405]",
+                        "            buffer_size: 50",
+                        "        nested:",
+                        "            type: stream",
+                        "            path: php://stderr",
+                        "            level: error",
+                        "            formatter: monolog.formatter.json",
+                        "        console:",
+                        "            type: console",
+                        "            process_psr_3_messages: false",
+                        "            channels: [\"!event\", \"!doctrine\"]",
+                        "        business_event_handler_buffer:",
+                        "            level: error",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "docker/Dockerfile": {
+                    "contents": [
+                        "#syntax=docker/dockerfile:1.4",
+                        "",
+                        "# pin versions",
+                        "FROM shopware/docker-base:8.4 AS base-image",
+                        "FROM shopware/shopware-cli:latest-php-8.3 AS shopware-cli",
+                        "",
+                        "# build",
+                        "",
+                        "FROM shopware-cli AS build",
+                        "",
+                        "ARG SHOPWARE_PACKAGES_TOKEN",
+                        "",
+                        "ADD . /src",
+                        "WORKDIR /src",
+                        "",
+                        "RUN --mount=type=secret,id=composer_auth,dst=/src/auth.json \\",
+                        "    --mount=type=cache,target=/root/.composer \\",
+                        "    --mount=type=cache,target=/root/.npm \\",
+                        "    /usr/local/bin/entrypoint.sh shopware-cli project ci /src",
+                        "",
+                        "# build final image",
+                        "",
+                        "FROM base-image",
+                        "",
+                        "COPY --from=build --chown=82 --link /src /var/www/html",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "ffe7c062074da2b1273559936f902ccc9ff419a2"
+        }
+    }
+}
