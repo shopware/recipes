@@ -1,0 +1,19 @@
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404, 405]
+            buffer_size: 50
+        nested:
+            type: stream
+            path: php://stderr
+            level: error
+            formatter: monolog.formatter.json
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine"]
+        business_event_handler_buffer:
+            level: error
