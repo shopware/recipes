@@ -1,7 +1,7 @@
 db:
-    type: mariadb:11.2
+    type: mariadb:11.4
     disk: 2048
-    
+
 cacheredis:
     type: redis:7.2
     configuration:
