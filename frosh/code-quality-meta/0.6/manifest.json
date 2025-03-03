@@ -1,0 +1,11 @@
+{
+    "aliases": ["code-quality"],
+    "copy-from-recipe": {
+        "vendor-bin/": "vendor-bin/",
+        "root/": ""
+    },
+    "gitignore": [
+        "phpstan.neon",
+        "/vendor-bin/**/vendor/"
+    ]
+}
