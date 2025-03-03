@@ -1,18 +1,19 @@
 db:
-    type: mariadb:11.2
+    type: mariadb:11.4
     disk: 2048
+
 cacheredis:
-    type: redis:7.0
+    type: redis:7.2
     configuration:
         maxmemory_policy: volatile-lfu
 # comment if you want to disable rabbitmq
 rabbitmq:
-    type: rabbitmq:3.8
+    type: rabbitmq:3.13
     disk: 1024
 
 # uncomment if you want to use opensearch
 #opensearch:
-#    type: opensearch:1.2
+#    type: opensearch:2
 #    disk: 256
 
 # Change the disk space according to your needs for a.o. media files
