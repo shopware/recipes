@@ -57,7 +57,6 @@ return (new Config())
     ->setCacheFile('var/cache/cs_fixer')
     ->setFinder(
         (new Finder())
-            ->in([__DIR__.'/custom/static-plugins/*/src',])
-            ->in([__DIR__.'/custom/plugins/*/src',])
+            ->in([__DIR__.'/custom'])
             ->exclude(['node_modules', '*/vendor/*'])
     );
