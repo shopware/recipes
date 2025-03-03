@@ -1,7 +1,7 @@
 includes:
-    - vendor-bin/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/extension.neon
-    - vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/rules.neon
+	- vendor-bin/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/extension.neon
+	- vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/rules.neon
 
 parameters:
 	phpVersion: 80200
@@ -17,7 +17,7 @@ parameters:
 
 	symfony:
 		constantHassers: false
-		containerXmlPath: 'var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
+		containerXmlPath: 'var/cache/static_phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
 		consoleApplicationLoader: vendor/shopware/core/DevOps/StaticAnalyze/console-application.php
 
 	type_perfect:

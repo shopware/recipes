@@ -12,7 +12,7 @@ use Rector\Symfony\Set\SymfonySetList;
 use Rector\Symfony\Twig134\Rector\Return_\SimpleFunctionAndFilterRector;
 
 return RectorConfig::configure()
-    ->withSymfonyContainerXml(__DIR__ . '/var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')
+    ->withSymfonyContainerXml(__DIR__ . '/var/cache/static_phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')
     ->withBootstrapFiles([
         __DIR__ . '/vendor/autoload.php',
     ])
@@ -39,11 +39,14 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_62,
         SymfonySetList::SYMFONY_63,
         SymfonySetList::SYMFONY_64,
+        SymfonySetList::SYMFONY_70,
+        SymfonySetList::SYMFONY_71,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_81,
         LevelSetList::UP_TO_PHP_82,
         LevelSetList::UP_TO_PHP_83,
+        LevelSetList::UP_TO_PHP_84,
         ShopwareSetList::SHOPWARE_6_5_0,
         ShopwareSetList::SHOPWARE_6_6_0,
     ]);

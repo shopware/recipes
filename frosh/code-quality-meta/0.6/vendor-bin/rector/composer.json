@@ -1,6 +1,0 @@
-{
-    "require-dev": {
-        "rector/rector": "^1.2",
-        "frosh/shopware-rector": "^0.4."
-    }
-}

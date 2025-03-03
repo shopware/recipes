@@ -1,43 +1,66 @@
+includes:
+	- vendor-bin/phpstan/vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/extension.neon
+	- vendor/shopware/core/DevOps/StaticAnalyze/PHPStan/rules.neon
+
 parameters:
-    level: 8
-    tmpDir: var/cache/phpstan_dev
-    inferPrivatePropertyTypeFromConstructor: true
-    ignoreErrors:
-        -
-            identifier: missingType.iterableValue
+	phpVersion: 80200
+	level: 8
+	treatPhpDocTypesAsCertain: false
+	inferPrivatePropertyTypeFromConstructor: true
+	reportUnmatchedIgnoredErrors: true
+	checkFunctionNameCase: true
+	checkInternalClassCaseSensitivity: true
+	tmpDir: var/cache/phpstan_dev
+	bootstrapFiles:
+		- vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php
 
-    symfony:
-        constantHassers: false
-        containerXmlPath: 'var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
+	symfony:
+		constantHassers: false
+		containerXmlPath: 'var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'
+		consoleApplicationLoader: vendor/shopware/core/DevOps/StaticAnalyze/console-application.php
 
-    bootstrapFiles:
-        - vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php
+	type_perfect:
+		no_mixed_property: true
+		no_mixed_caller: true
+		null_over_false: true
 
-    excludePaths:
-        - **/vendor/*
+	excludePaths:
+		- **/vendor/*
+
+services:
+	- # register the class, so we can decorate it, but don't tag it as a rule, so only our decorator is used by PHPStan
+		class: Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
+
 rules:
-    # rules from https://github.com/symplify/phpstan-rules
-    - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
-    - Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
+	# domain
+	- Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+	- Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
 
-    # domain
-    - Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
-    - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
-    - Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
-    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
+	# explicit naming
+	- Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
 
-    # paths
-    - Symplify\PHPStanRules\Rules\NoMissingDirPathRule
-    - Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
+	- Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
 
-    # dead-code
-    - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
+	# complexity rules
+	- Symplify\PHPStanRules\Rules\NoDynamicNameRule
 
-    # explicit naming
-    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
-    - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
-    - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
-    - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+	# naming rules
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Symplify\NoReturnSetterMethodWithFluentSettersRule
+	- Symplify\PHPStanRules\Rules\UppercaseConstantRule
 
-    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
-    - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
+	# Shopware core rules
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Deprecation\DeprecatedMethodsThrowDeprecationRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Internal\InternalClassRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Internal\InternalMethodRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\AddColumnRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\NoAfterStatementRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\NoDropStatementInUpdateRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Tests\CoversAttributeRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Tests\MockingSimpleObjectsNotAllowedRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\FinalClassRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\AbstractClassUsageRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\DecorationPatternRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\DomainExceptionRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\ExtensionRule
+	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoNewRequestInStorefrontRule
