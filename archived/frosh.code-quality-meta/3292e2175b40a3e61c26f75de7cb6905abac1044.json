@@ -128,7 +128,7 @@
                         "",
                         "\tsymfony:",
                         "\t\tconstantHassers: false",
-                        "\t\tcontainerXmlPath: 'var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'",
+                        "\t\tcontainerXmlPath: 'var/cache/static_phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml'",
                         "\t\tconsoleApplicationLoader: vendor/shopware/core/DevOps/StaticAnalyze/console-application.php",
                         "",
                         "\ttype_perfect:",
@@ -195,7 +195,7 @@
                         "use Rector\\Symfony\\Twig134\\Rector\\Return_\\SimpleFunctionAndFilterRector;",
                         "",
                         "return RectorConfig::configure()",
-                        "    ->withSymfonyContainerXml(__DIR__ . '/var/cache/phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')",
+                        "    ->withSymfonyContainerXml(__DIR__ . '/var/cache/static_phpstan_dev/Shopware_Core_DevOps_StaticAnalyze_StaticAnalyzeKernelPhpstan_devDebugContainer.xml')",
                         "    ->withBootstrapFiles([",
                         "        __DIR__ . '/vendor/autoload.php',",
                         "    ])",
@@ -222,11 +222,14 @@
                         "        SymfonySetList::SYMFONY_62,",
                         "        SymfonySetList::SYMFONY_63,",
                         "        SymfonySetList::SYMFONY_64,",
+                        "        SymfonySetList::SYMFONY_70,",
+                        "        SymfonySetList::SYMFONY_71,",
                         "        SymfonySetList::SYMFONY_CODE_QUALITY,",
                         "        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,",
                         "        LevelSetList::UP_TO_PHP_81,",
                         "        LevelSetList::UP_TO_PHP_82,",
                         "        LevelSetList::UP_TO_PHP_83,",
+                        "        LevelSetList::UP_TO_PHP_84,",
                         "        ShopwareSetList::SHOPWARE_6_5_0,",
                         "        ShopwareSetList::SHOPWARE_6_6_0,",
                         "    ]);",
@@ -279,7 +282,7 @@
                     "executable": false
                 }
             },
-            "ref": "0cdcd8d12649fe14ceff2801d7646c8ca5fce433"
+            "ref": "3292e2175b40a3e61c26f75de7cb6905abac1044"
         }
     }
 }
