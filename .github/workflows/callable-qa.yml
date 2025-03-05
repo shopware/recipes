@@ -18,7 +18,7 @@ on:
 jobs:
     run-checks:
         name: Run checks
-        runs-on: Ubuntu-20.04
+        runs-on: ubuntu-24.04
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -150,7 +150,7 @@ jobs:
     create-project:
         needs: run-checks
         name: Run updated recipes
-        runs-on: Ubuntu-20.04
+        runs-on: ubuntu-24.04
         steps:
             - name: Export configuration
               continue-on-error: true
