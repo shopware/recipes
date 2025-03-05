@@ -29,7 +29,7 @@ jobs:
                         package: 6.6.x-dev
                         php: 8.2
                         node: 20
-                        conflict-version: ~0.4.0
+                        conflict-version: ~0.5.0
         env:
             APP_ENV: prod
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
