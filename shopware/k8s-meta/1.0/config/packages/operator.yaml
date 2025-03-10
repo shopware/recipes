@@ -11,6 +11,8 @@ parameters:
     env(K8S_CACHE_HOST): "localhost"
     env(K8S_CACHE_PORT): "6379"
     env(K8S_CACHE_INDEX): ""
+    env(K8S_ES_NUMBER_OF_REPLICAS): null
+    env(K8S_ES_NUMBER_OF_SHARDS): null
 
 shopware:
     api:
@@ -62,8 +64,9 @@ shopware:
 
 elasticsearch:
     index_settings:
-        number_of_replicas: null
-        number_of_shards: null
+        number_of_replicas: "%env(int:K8S_ES_NUMBER_OF_REPLICAS)%"
+        number_of_shards: "%env(int:K8S_ES_NUMBER_OF_SHARDS)%"
+
 
 framework:
     cache:
