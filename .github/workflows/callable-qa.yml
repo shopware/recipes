@@ -172,7 +172,7 @@ jobs:
                 php -v
                 git clone https://github.com/shopware/production template
                 cd template
-                composer config minimum-stability RC
+                composer config minimum-stability dev
                 composer config prefer-stable true
                 jq '.extra.symfony.endpoint |= [ "https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json" ] + .' composer.json > composer.tmp && mv composer.tmp composer.json
                 composer require -W --ansi $PACKAGES
