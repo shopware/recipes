@@ -6,8 +6,8 @@
     You can customize the plugin paths based on your project's needs.
     <comment>{
         "scripts": {
-            "csfixer": "@php vendor-bin/cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix --dry-run --diff",
-            "csfixer-fix": "@php vendor-bin/cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix --diff",
+            "csfixer": "@php vendor-bin/cs-fixer/vendor/bin/php-cs-fixer --config=.php-cs-fixer.dist.php --allow-risky=yes fix --dry-run --diff",
+            "csfixer-fix": "@php vendor-bin/cs-fixer/vendor/bin/php-cs-fixer --config=.php-cs-fixer.dist.php --allow-risky=yes fix --diff",
             "phpstan": [
               "@php vendor/shopware/core/DevOps/StaticAnalyze/phpstan-bootstrap.php",
               "@php vendor-bin/phpstan/vendor/bin/phpstan analyze custom/static-plugins custom/plugins"
