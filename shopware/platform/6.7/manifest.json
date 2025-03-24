@@ -57,8 +57,6 @@
         "INSTANCE_ID": "%generate(secret)%",
         "BLUE_GREEN_DEPLOYMENT": "0",
         "DATABASE_URL": "mysql:\/\/root:root@localhost\/shopware",
-        "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
-        "MAILER_URL": "null:\/\/null",
         "PROXY_URL": "http:\/\/localhost",
         "SHOPWARE_HTTP_CACHE_ENABLED": "1",
         "SHOPWARE_HTTP_DEFAULT_TTL": "7200",
