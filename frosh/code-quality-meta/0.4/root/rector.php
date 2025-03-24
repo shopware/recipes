@@ -20,10 +20,14 @@ return RectorConfig::configure()
         __DIR__ . '/custom/plugins/*/src',
     ])
     ->withFileExtensions(['php'])
-    ->withImportNames()
     ->withSkip([
         __DIR__ . '/custom/plugins/*/src/Migration',
         __DIR__ . '/custom/static-plugins/*/src/Migration',
+
+        '**/vendor/*',
+        '**/node_modules/*',
+        '**/Resources/*',
+
         AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
     ->withRules([

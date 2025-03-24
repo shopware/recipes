@@ -51,8 +51,6 @@ rules:
 
 	# Shopware core rules
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Deprecation\DeprecatedMethodsThrowDeprecationRule
-	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Internal\InternalClassRule
-	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Internal\InternalMethodRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\AddColumnRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\NoAfterStatementRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\Migration\NoDropStatementInUpdateRule
@@ -61,6 +59,5 @@ rules:
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\FinalClassRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\AbstractClassUsageRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\DecorationPatternRule
-	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\DomainExceptionRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\ExtensionRule
 	- Shopware\Core\DevOps\StaticAnalyze\PHPStan\Rules\NoNewRequestInStorefrontRule
