@@ -46,9 +46,7 @@
         "APP_SECRET": "%generate(secret)%",
         "INSTANCE_ID": "%generate(secret)%",
         "BLUE_GREEN_DEPLOYMENT": "0",
-        "DATABASE_URL": "mysql://root:root@localhost/shopware",
-        "#1": "With Shopware 6.4.17.0 the MAILER_DSN variable will be used in this template instead of MAILER_URL",
-        "MAILER_URL": "null://null"
+        "DATABASE_URL": "mysql://root:root@localhost/shopware"
     },
     "gitignore": [
         ".env.local",
