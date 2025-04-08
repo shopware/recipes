@@ -25,15 +25,15 @@
         "\tdocker compose down",
         "shell:",
         "\tdocker compose exec web bash",
-        "watch-storefront",
+        "watch-storefront:",
         "\tdocker compose --rm -p 5773:5773 -p 8080:8080 web ./bin/watch-storefront.sh",
-        "watch-admin",
+        "watch-admin:",
         "\tdocker compose --rm -p 9998:9998 -p 9999:9999 web ./bin/watch-administration.sh",
         "build-storefront:",
         "\tdocker compose exec web ./bin/build-storefront.sh",
         "build-administration:",
         "\tdocker compose exec web ./bin/build-administration.sh",
-        "install:",
-        "\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database"
+        "setup:",
+        "\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database --force"
     ]
 }
