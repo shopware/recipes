@@ -1,0 +1,47 @@
+{
+    "manifests": {
+        "shopware/docker-dev": {
+            "manifest": {
+                "docker-compose": {
+                    "docker-compose.yml": {
+                        "services": [
+                            "web:",
+                            "  image: ghcr.io/shopwarelabs/devcontainer/base-slim:8.3",
+                            "  ports:",
+                            "    - 8000:8000",
+                            "  environment:",
+                            "    HOST: 0.0.0.0",
+                            "    APP_URL: http://localhost:8000",
+                            "    DATABASE_URL: mysql://${MYSQL_USER:-shopware}:${MYSQL_PASSWORD:-!ChangeMe!}@database/${MYSQL_DATABASE:-shopware}",
+                            "    MAILER_DSN: smtp://mailer:1025",
+                            "  volumes:",
+                            "    - .:/var/www/html"
+                        ]
+                    }
+                },
+                "makefile": [
+                    "up:",
+                    "\tdocker compose up -d",
+                    "stop:",
+                    "\tdocker compose stop",
+                    "down:",
+                    "\tdocker compose down",
+                    "shell:",
+                    "\tdocker compose exec web bash",
+                    "watch-storefront:",
+                    "\tdocker compose --rm -p 5773:5773 -p 8080:8080 web ./bin/watch-storefront.sh",
+                    "watch-admin:",
+                    "\tdocker compose --rm -p 9998:9998 -p 9999:9999 web ./bin/watch-administration.sh",
+                    "build-storefront:",
+                    "\tdocker compose exec web ./bin/build-storefront.sh",
+                    "build-administration:",
+                    "\tdocker compose exec web ./bin/build-administration.sh",
+                    "setup:",
+                    "\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database --force"
+                ]
+            },
+            "files": [],
+            "ref": "8a81fab12982219d365c3424413d78b29c113732"
+        }
+    }
+}
