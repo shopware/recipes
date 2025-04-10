@@ -72,17 +72,14 @@
         "docker-compose.yml": {
             "services": [
                 "database:",
-                "  image: mysql:${MYSQL_VERSION:-8}-oracle",
+                "  image: mariadb:11.4",
                 "  environment:",
-                "    MYSQL_DATABASE: ${MYSQL_DATABASE:-shopware}",
-                "    # You should definitely change the password in production",
-                "    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-!ChangeMe!}",
-                "    MYSQL_USER: ${MYSQL_USER:-shopware}",
-                "    MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}",
+                "    MARIADB_DATABASE: shopware",
+                "    MARIADB_ROOT_PASSWORD: root",
+                "    MARIADB_USER: shopware",
+                "    MARIADB_PASSWORD: shopware",
                 "  volumes:",
-                "    - db-data:/var/lib/mysql:rw",
-                "    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!",
-                "    # - ./docker/db/data:/var/lib/mysql:rw"
+                "    - db-data:/var/lib/mysql:rw"
             ],
             "volumes": ["db-data:"]
         },

@@ -13,7 +13,7 @@
                 "  environment:",
                 "    HOST: 0.0.0.0",
                 "    APP_URL: http://localhost:8000",
-                "    DATABASE_URL: mysql://${MYSQL_USER:-shopware}:${MYSQL_PASSWORD:-!ChangeMe!}@database/${MYSQL_DATABASE:-shopware}",
+                "    DATABASE_URL: mysql://root:root@database/shopware",
                 "    MAILER_DSN: smtp://mailer:1025",
                 "  volumes:",
                 "    - .:/var/www/html"
