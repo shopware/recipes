@@ -78,7 +78,13 @@
                 "    MARIADB_USER: shopware",
                 "    MARIADB_PASSWORD: shopware",
                 "  volumes:",
-                "    - db-data:/var/lib/mysql:rw"
+                "    - db-data:/var/lib/mysql:rw",
+                "  healthcheck:",
+                "    test: [ \"CMD\", \"mariadb-admin\" ,\"ping\", \"-h\", \"localhost\", \"-proot\" ]",
+                "    start_interval: 3s",
+                "    interval: 5s",
+                "    timeout: 1s",
+                "    retries: 10"
             ],
             "volumes": ["db-data:"]
         },
