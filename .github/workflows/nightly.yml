@@ -1,8 +1,8 @@
 name: Test nightly
 on:
     push:
-        branches:
-            - add-nightly-jobs
+        paths:
+            - .github/workflows/nightly.yml
     workflow_dispatch:
     schedule:
         -   cron: "3 3 * * * "
@@ -37,6 +37,7 @@ jobs:
             APP_SECRET: devsecret
             BLUE_GREEN_DEPLOYMENT: 0
             NODE_OPTIONS: '--openssl-legacy-provider'
+            NPM_CONFIG_ENGINE_STRICT: 'false'
         services:
             database:
                 image: mysql:8.0
