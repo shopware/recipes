@@ -43,10 +43,15 @@
     "env": {
         "APP_ENV": "prod",
         "APP_URL": "http://127.0.0.1:8000",
-        "APP_SECRET": "%generate(secret)%",
+        "APP_SECRET": "",
         "INSTANCE_ID": "%generate(secret)%",
         "BLUE_GREEN_DEPLOYMENT": "0",
         "DATABASE_URL": "mysql://root:root@localhost/shopware"
+    },
+    "dotenv": {
+        "local": {
+            "APP_SECRET": "%generate(secret)%"
+        }
     },
     "gitignore": [
         ".env.local",
