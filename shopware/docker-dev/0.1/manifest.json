@@ -16,7 +16,10 @@
                 "    DATABASE_URL: mysql://root:root@database/shopware",
                 "    MAILER_DSN: smtp://mailer:1025",
                 "  volumes:",
-                "    - .:/var/www/html"
+                "    - .:/var/www/html",
+                "  depends_on:",
+                "    database:",
+                "      condition: service_healthy"
             ]
         }
     },
