@@ -3,11 +3,11 @@
 
 framework:
     session:
-        handler_id: "%env(CACHE_URL)%/2"
+        handler_id: "%env(SESSION_REDIS_URL)%/0?persistent=1"
     cache:
         app: cache.adapter.redis
         system: cache.adapter.redis
-        default_redis_provider: "%env(CACHE_URL)%/0"
+        default_redis_provider: "%env(CACHE_URL)%/0?persistent=1"
 
 shopware:
     api:

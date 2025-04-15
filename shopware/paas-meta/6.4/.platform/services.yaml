@@ -5,6 +5,11 @@ cacheredis:
     type: redis:7.0
     configuration:
         maxmemory_policy: volatile-lfu
+sessionredis:
+    type: redis-persistent:7.0
+    disk: 1024
+    configuration:
+        maxmemory_policy: allkeys-lru
 # comment if you want to disable rabbitmq
 rabbitmq:
     type: rabbitmq:3.8
