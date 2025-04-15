@@ -3,7 +3,7 @@
 
 framework:
     session:
-        handler_id: "%env(CACHE_URL)%/2"
+        handler_id: "%env(SESSION_REDIS_URL)%/0"
     cache:
         app: cache.adapter.redis
         system: cache.adapter.redis

@@ -16,9 +16,6 @@
             # NVM and Node.js versions to install
             NVM_VERSION: v0.39.0
             NODE_VERSION: v18
-            # Use different redis dbs for cache and sessions
-            REDIS_CACHE_DATABASE: 0
-            REDIS_SESSION_DATABASE: 2
             # Improve admin build speed
             DISABLE_ADMIN_COMPILATION_TYPECHECK: 1
             # Only build extension. Shopware assets are pre built in the tags
@@ -209,6 +206,7 @@
     relationships:
         database: "db:mysql"
         rediscache: "cacheredis:redis"
+        redissession: "sessionredis:redis"
         # comment to disable rabbitmq
         rabbitmqqueue: "rabbitmq:rabbitmq"
         # uncomment if you want to use opensearch/elasticsearch

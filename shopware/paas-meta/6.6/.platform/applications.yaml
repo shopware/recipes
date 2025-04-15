@@ -110,6 +110,7 @@
     relationships:
         database: "db:mysql"
         rediscache: "cacheredis:redis"
+        redissession: "sessionredis:redis"
         # comment to disable rabbitmq
         rabbitmqqueue: "rabbitmq:rabbitmq"
         # uncomment if you want to use opensearch/elasticsearch
