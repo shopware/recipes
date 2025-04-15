@@ -161,7 +161,7 @@
         queue:
             disk: 128
             commands:
-                start: APP_CACHE_DIR=/app/localCache bin/console messenger:consume async failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                start: APP_CACHE_DIR=/app/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
     crons:
         scheduler:
