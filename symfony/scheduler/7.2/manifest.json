@@ -1,3 +1,6 @@
 {
+    "copy-from-recipe": {
+        "src/": "%SRC_DIR%/"
+    },
     "aliases": ["schedule", "scheduling"]
 }
