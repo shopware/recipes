@@ -146,6 +146,9 @@
             "5.4",
             "6.4"
         ],
+        "symfony/scheduler": [
+            "7.2"
+        ],
         "symfony/translation": [
             "5.4"
         ],

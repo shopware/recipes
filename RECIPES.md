@@ -33,6 +33,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [symfony/messenger](https://packagist.org/packages/symfony/messenger) | [6.0](symfony/messenger/6.0) | `messenger` |
 | [symfony/monolog-bundle](https://packagist.org/packages/symfony/monolog-bundle) | [3.3](symfony/monolog-bundle/3.3) | `log`, `logger`, `logging`, `logs`, `monolog`, `monolog-bundle`, `monologbundle` |
 | [symfony/routing](https://packagist.org/packages/symfony/routing) | [6.4](symfony/routing/6.4) | `routing` |
+| [symfony/scheduler](https://packagist.org/packages/symfony/scheduler) | [7.2](symfony/scheduler/7.2) | `schedule`, `scheduler`, `scheduling` |
 | [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
 | [symfony/twig-bundle](https://packagist.org/packages/symfony/twig-bundle) | [5.4](symfony/twig-bundle/5.4) | `twig-bundle`, `twigbundle` |
 | [symfony/validator](https://packagist.org/packages/symfony/validator) | [5.3](symfony/validator/5.3) | `validation`, `validator` |

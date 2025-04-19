@@ -1,0 +1,13 @@
+{
+    "manifests": {
+        "symfony/scheduler": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "src/": "%SRC_DIR%/"
+                }
+            },
+            "files": [],
+            "ref": "88069c76a8133d37a373b1299fb3ab927f252c45"
+        }
+    }
+}
