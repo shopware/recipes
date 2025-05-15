@@ -87,6 +87,7 @@
                 "    - db-data:/var/lib/mysql:rw",
                 "  healthcheck:",
                 "    test: [ \"CMD\", \"mariadb-admin\" ,\"ping\", \"-h\", \"localhost\", \"-proot\" ]",
+                "    start_period: 10s",
                 "    start_interval: 3s",
                 "    interval: 5s",
                 "    timeout: 1s",
