@@ -53,7 +53,7 @@
     "env": {
         "APP_ENV": "prod",
         "APP_URL": "http:\/\/127.0.0.1:8000",
-        "APP_SECRET": "",
+        "APP_SECRET": "%generate(secret)%",
         "INSTANCE_ID": "%generate(secret)%",
         "BLUE_GREEN_DEPLOYMENT": "0",
         "DATABASE_URL": "mysql:\/\/root:root@localhost\/shopware",
@@ -65,11 +65,6 @@
         "SHOPWARE_ES_INDEXING_ENABLED": "0",
         "SHOPWARE_ES_INDEX_PREFIX": "sw",
         "SHOPWARE_ES_THROW_EXCEPTION": "1"
-    },
-    "dotenv": {
-        "local": {
-            "APP_SECRET": "%generate(secret)%"
-        }
     },
     "gitignore": [
         ".env.local",
