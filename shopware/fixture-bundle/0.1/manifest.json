@@ -1,0 +1,7 @@
+{
+    "bundles": {
+        "Shopware\\FixtureBundle\\FixtureBundle": [
+            "all"
+        ]
+    }
+}
