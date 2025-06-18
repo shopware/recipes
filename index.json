@@ -98,6 +98,9 @@
             "6.4",
             "6.6"
         ],
+        "shopware/fixture-bundle": [
+            "0.1"
+        ],
         "shopware/k8s-meta": [
             "1.0"
         ],

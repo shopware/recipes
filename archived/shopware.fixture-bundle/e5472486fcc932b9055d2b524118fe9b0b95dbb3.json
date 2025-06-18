@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "shopware/fixture-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Shopware\\FixtureBundle\\FixtureBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "e5472486fcc932b9055d2b524118fe9b0b95dbb3"
+        }
+    }
+}
