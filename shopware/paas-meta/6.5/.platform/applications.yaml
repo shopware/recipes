@@ -162,9 +162,13 @@
         queue:
             disk: 128
             commands:
-                start: APP_CACHE_DIR=/app/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+                pre_start: |
+                    export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
+                    rm -rf $APP_CACHE_DIR/var
+                    php $PLATFORM_APP_DIR/bin/console cache:clear
+                start: APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
     crons:
         scheduler:
             spec: '*/5 * * * *'
-            cmd: 'APP_CACHE_DIR=/app/localCache php bin/console scheduled-task:run --no-wait'
+            cmd: 'APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache php bin/console scheduled-task:run --no-wait'
