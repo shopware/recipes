@@ -163,7 +163,8 @@
             disk: 128
             commands:
                 pre_start: |
-                    rm -rf $PLATFORM_APP_DIR/localCache/var
+                    export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
+                    rm -rf $APP_CACHE_DIR/var
                     php $PLATFORM_APP_DIR/bin/console cache:clear
                 start: APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
