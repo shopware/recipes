@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/trunk/config-schema.json
+
+parameters:
+    env(K8S_FILESYSTEM_PRIVATE_BUCKET): ""
+    env(K8S_FILESYSTEM_PUBLIC_BUCKET): ""
+    env(K8S_FILESYSTEM_PUBLIC_URL): ""
+    env(K8S_FILESYSTEM_REGION): ""
+    env(K8S_FILESYSTEM_ENDPOINT): ""
+    # does not work yet, we need a factory or compiler pass for this
+    # env(K8S_CACHE_TYPE): "cache.adapter.redis_tag_aware"
+    env(K8S_CACHE_HOST): "localhost"
+    env(K8S_CACHE_PORT): "6379"
+    env(K8S_CACHE_INDEX): ""
+    env(K8S_ES_NUMBER_OF_REPLICAS): null
+    env(K8S_ES_NUMBER_OF_SHARDS): null
+
+shopware:
+    admin_worker:
+        enable_admin_worker: false
+        enable_notification_worker: false
+        enable_queue_stats_worker: false
+    deployment:
+        cluster_setup: true
+        runtime_extension_management: false
+    increment:
+        user_activity:
+            type: array
+        message_queue:
+            type: array
+    filesystem:
+        private:
+            type: "amazon-s3"
+            visibility: "private"
+            config:
+                bucket: "%env(K8S_FILESYSTEM_PRIVATE_BUCKET)%"
+                region: "%env(K8S_FILESYSTEM_REGION)%"
+                endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
+                use_path_style_endpoint: true
+        public: &public_bucket
+            type: "amazon-s3"
+            url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
+            visibility: "public"
+            config:
+                bucket: "%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%"
+                region: "%env(K8S_FILESYSTEM_REGION)%"
+                endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
+                use_path_style_endpoint: true
+        theme: *public_bucket
+        sitemap:
+            type: "amazon-s3"
+            url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
+            visibility: "public"
+            config:
+                bucket: "%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%"
+                region: "%env(K8S_FILESYSTEM_REGION)%"
+                endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
+        asset:
+            type: local
+            url: '%env(APP_URL)%'
+            config:
+                root: '%kernel.project_dir%/public'
+    cdn:
+        url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
+
+elasticsearch:
+    index_settings:
+        number_of_replicas: "%env(int:K8S_ES_NUMBER_OF_REPLICAS)%"
+        number_of_shards: "%env(int:K8S_ES_NUMBER_OF_SHARDS)%"
+
+
+framework:
+    cache:
+        app: cache.adapter.redis_tag_aware
+        default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
