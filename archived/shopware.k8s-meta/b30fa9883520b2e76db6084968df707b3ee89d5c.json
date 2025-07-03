@@ -1,0 +1,106 @@
+{
+    "manifests": {
+        "shopware/k8s-meta": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/"
+                }
+            },
+            "files": {
+                "config/packages/operator.yaml": {
+                    "contents": [
+                        "# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/trunk/config-schema.json\r",
+                        "\r",
+                        "parameters:\r",
+                        "    env(K8S_FILESYSTEM_PRIVATE_BUCKET): \"\"\r",
+                        "    env(K8S_FILESYSTEM_PUBLIC_BUCKET): \"\"\r",
+                        "    env(K8S_FILESYSTEM_PUBLIC_URL): \"\"\r",
+                        "    env(K8S_FILESYSTEM_REGION): \"\"\r",
+                        "    env(K8S_FILESYSTEM_ENDPOINT): \"\"\r",
+                        "    # does not work yet, we need a factory or compiler pass for this\r",
+                        "    # env(K8S_CACHE_TYPE): \"cache.adapter.redis_tag_aware\"\r",
+                        "    env(K8S_CACHE_HOST): \"localhost\"\r",
+                        "    env(K8S_CACHE_PORT): \"6379\"\r",
+                        "    env(K8S_CACHE_INDEX): \"\"\r",
+                        "    env(K8S_ES_NUMBER_OF_REPLICAS): null\r",
+                        "    env(K8S_ES_NUMBER_OF_SHARDS): null\r",
+                        "\r",
+                        "shopware:\r",
+                        "    admin_worker:\r",
+                        "        enable_admin_worker: false\r",
+                        "        enable_notification_worker: false\r",
+                        "        enable_queue_stats_worker: false\r",
+                        "    deployment:\r",
+                        "        cluster_setup: true\r",
+                        "        runtime_extension_management: false\r",
+                        "    increment:\r",
+                        "        user_activity:\r",
+                        "            type: array\r",
+                        "        message_queue:\r",
+                        "            type: array\r",
+                        "    filesystem:\r",
+                        "        private:\r",
+                        "            type: \"amazon-s3\"\r",
+                        "            visibility: \"private\"\r",
+                        "            config:\r",
+                        "                bucket: \"%env(K8S_FILESYSTEM_PRIVATE_BUCKET)%\"\r",
+                        "                region: \"%env(K8S_FILESYSTEM_REGION)%\"\r",
+                        "                endpoint: \"%env(K8S_FILESYSTEM_ENDPOINT)%\"\r",
+                        "                use_path_style_endpoint: true\r",
+                        "        public: &public_bucket\r",
+                        "            type: \"amazon-s3\"\r",
+                        "            url: \"%env(K8S_FILESYSTEM_PUBLIC_URL)%\"\r",
+                        "            visibility: \"public\"\r",
+                        "            config:\r",
+                        "                bucket: \"%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%\"\r",
+                        "                region: \"%env(K8S_FILESYSTEM_REGION)%\"\r",
+                        "                endpoint: \"%env(K8S_FILESYSTEM_ENDPOINT)%\"\r",
+                        "                use_path_style_endpoint: true\r",
+                        "        theme: *public_bucket\r",
+                        "        sitemap:\r",
+                        "            type: \"amazon-s3\"\r",
+                        "            url: \"%env(K8S_FILESYSTEM_PUBLIC_URL)%\"\r",
+                        "            visibility: \"public\"\r",
+                        "            config:\r",
+                        "                bucket: \"%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%\"\r",
+                        "                region: \"%env(K8S_FILESYSTEM_REGION)%\"\r",
+                        "                endpoint: \"%env(K8S_FILESYSTEM_ENDPOINT)%\"\r",
+                        "        asset:\r",
+                        "            type: local\r",
+                        "            url: '%env(APP_URL)%'\r",
+                        "            config:\r",
+                        "                root: '%kernel.project_dir%/public'\r",
+                        "    cdn:\r",
+                        "        url: \"%env(K8S_FILESYSTEM_PUBLIC_URL)%\"\r",
+                        "\r",
+                        "elasticsearch:\r",
+                        "    index_settings:\r",
+                        "        number_of_replicas: \"%env(int:K8S_ES_NUMBER_OF_REPLICAS)%\"\r",
+                        "        number_of_shards: \"%env(int:K8S_ES_NUMBER_OF_SHARDS)%\"\r",
+                        "\r",
+                        "\r",
+                        "framework:\r",
+                        "    cache:\r",
+                        "        app: cache.adapter.redis_tag_aware\r",
+                        "        default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'\r",
+                        ""
+                    ],
+                    "executable": false
+                },
+                "config/packages/trusted_env.yaml": {
+                    "contents": [
+                        "parameters:\r",
+                        "    env(TRUSTED_PROXIES): ''\r",
+                        "\r",
+                        "framework:\r",
+                        "    trusted_proxies: '%env(TRUSTED_PROXIES)%'\r",
+                        "    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']\r",
+                        ""
+                    ],
+                    "executable": false
+                }
+            },
+            "ref": "b30fa9883520b2e76db6084968df707b3ee89d5c"
+        }
+    }
+}
