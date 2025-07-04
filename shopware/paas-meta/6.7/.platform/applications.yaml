@@ -1,0 +1,171 @@
+-   name: app
+    type: php:8.3
+    build:
+        flavor: none
+    dependencies:
+        php:
+            composer/composer: "2.8"
+    variables:
+        env:
+            APP_ENV: prod
+            # Enable HTTP Cache to get cache-control headers
+            SHOPWARE_HTTP_CACHE_ENABLED: 1
+            NODE_VERSION: v22.17.0
+            SHOPWARE_CLI_VERSION: 0.6.17
+            # Elasticsearch, see https://developer.shopware.com/docs/guides/hosting/infrastructure/elasticsearch#activating-and-first-time-indexing
+            SHOPWARE_ES_ENABLED: 0
+            SHOPWARE_ES_INDEXING_ENABLED: 0
+            SHOPWARE_ES_INDEX_PREFIX: "sw6"
+            # Disables the Shopware web installer
+            SHOPWARE_SKIP_WEBINSTALLER: 1
+            # Performance optimization
+            COMPOSER_ROOT_VERSION: 1.0.0
+        php:
+            upload_max_filesize: 32M
+            post_max_size: 32M
+            memory_limit: 512M
+            "zend.assertions": -1
+            "opcache.enable_file_override": 1
+            "opcache.interned_strings_buffer": 20
+            "opcache.validate_timestamps": 0
+            "zend.detect_unicode": 0
+            realpath_cache_ttl: 3600
+            "opcache.memory_consumption": 128M
+            "opcache.max_accelerated_files": 20000
+    # Specify additional PHP extensions that should be loaded.
+    runtime:
+        extensions:
+            - ctype
+            - dom
+            - iconv
+            - mbstring
+            - fileinfo
+            - intl
+            - redis
+            - sodium
+            - amqp
+    # The hooks that will be performed when the package is deployed.
+    hooks:
+        build: |
+            set -e
+            echo "Installing Node ${NODE_VERSION} and shopware-cli ${SHOPWARE_CLI_VERSION}"
+
+            mkdir -p /tmp/tools
+
+            curl -qL -s -o node.tar.xz "https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz"
+            tar xf node.tar.xz -C /tmp/tools --strip-components=1
+            curl -qL -s -o shopware-cli.tar.gz https://github.com/shopware/shopware-cli/releases/download/${SHOPWARE_CLI_VERSION}/shopware-cli_Linux_x86_64.tar.gz
+            tar xf shopware-cli.tar.gz -C /tmp/tools shopware-cli
+            mv /tmp/tools/shopware-cli /tmp/tools/bin
+
+            rm node.tar.xz shopware-cli.tar.gz
+
+            export PATH="/tmp/tools/bin:$PATH"
+
+            export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
+            export SHOPWARE_SKIP_ASSET_INSTALL_CACHE_INVALIDATION=1
+
+            shopware-cli project ci .
+
+            # Moving files of the mounts to avoid warnings
+            mv $APP_CACHE_DIR ./RO-localCache
+            mv ./var ./RO-var
+
+        deploy: |
+            set -e
+
+            echo "Syncing files created during the build in the mounts"
+            rsync -av --delete "${PLATFORM_APP_DIR}/RO-localCache/" "${APP_CACHE_DIR}/"
+            rsync -av "${PLATFORM_APP_DIR}/RO-var/" "${PLATFORM_APP_DIR}/var/"
+
+            echo "Create Dompdf working directories and sync fonts from the vendor folder"
+            if [ ! -d "${PLATFORM_APP_DIR}/var/dompdf/tempDir" ]; then
+                mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/tempDir"
+            fi
+            if [ ! -d "${PLATFORM_APP_DIR}/var/dompdf/fontCache" ]; then
+                mkdir -p "${PLATFORM_APP_DIR}/var/dompdf/fontCache"
+            fi
+            rsync -av "${PLATFORM_APP_DIR}/vendor/dompdf/dompdf/lib/fonts" "${PLATFORM_APP_DIR}/var/dompdf/fontDir"
+
+            php vendor/bin/shopware-deployment-helper run --skip-asset-install --skip-theme-compile
+
+            if [ "$PLATFORM_ENVIRONMENT_TYPE" != production ]; then
+                echo "==================================================="
+                echo "UPDATE SALES CHANNEL DOMAIN IF ENVIRONMENT TYPE IS NOT PRODUCTION"
+                echo "==================================================="
+
+                export FRONTEND_URL=`echo $PLATFORM_ROUTES | base64 --decode | jq -r 'to_entries[] | select(.value.id=="shopware") | .key'`
+                export FRONTEND_DOMAIN=`php -r 'echo parse_url($_SERVER["FRONTEND_URL"], PHP_URL_HOST);'`
+                bin/console sales-channel:update:domain "$FRONTEND_DOMAIN"
+            fi
+        post_deploy: |
+            set -e
+
+            php bin/console theme:compile --sync
+
+    # The relationships of the application with services or other applications.
+    # The left-hand side is the name of the relationship as it will be exposed
+    # to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+    # side is in the form `<service name>:<endpoint name>`.
+    relationships:
+        database: "db:mysql"
+        rediscache: "cacheredis:redis"
+        redissession: "sessionredis:redis"
+        # comment to disable rabbitmq
+        rabbitmqqueue: "rabbitmq:rabbitmq"
+        # uncomment if you want to use opensearch/elasticsearch
+        # opensearch: "opensearch:opensearch"
+    # The size of the persistent disk of the application (in MB).
+    disk: 2048
+    # The mounts that will be performed when the package is deployed.
+    mounts:
+        "/files":
+            source: service
+            service: fileshare
+            source_path: "files"
+        "/public/media":
+            source: service
+            service: fileshare
+            source_path: "public/media"
+        "/public/thumbnail":
+            source: service
+            service: fileshare
+            source_path: "public/thumbnail"
+        "/public/theme":
+            source: service
+            service: fileshare
+            source_path: "public/theme"
+        "/public/sitemap":
+            source: service
+            service: fileshare
+            source_path: "public/sitemap"
+        "/var":
+            source: service
+            service: fileshare
+            source_path: "var"
+        "/localCache":
+            source: local
+            source_path: "localCache"
+
+    # The configuration of app when it is exposed to the web.
+    web:
+        locations:
+            "/":
+                # The public directory of the app, relative to its root.
+                root: "public"
+                # The front-controller script to send non-static requests to.
+                passthru: "/index.php"
+                expires: 24h
+                rules:
+                    \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
+                        expires: 4w
+    workers:
+        queue:
+            disk: 128
+            commands:
+                start: APP_CACHE_DIR=/app/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
+
+    crons:
+        scheduler:
+            spec: '*/5 * * * *'
+            cmd: 'APP_CACHE_DIR=/app/localCache php bin/console scheduled-task:run --no-wait'

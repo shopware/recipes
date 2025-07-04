@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/refs/heads/trunk/config-schema.json
+# This file contains all default configuration or PaaS
+framework:
+    session:
+        handler_id: "%env(SESSION_REDIS_URL)%/0?persistent=1"
+    cache:
+        app: cache.adapter.redis
+        system: cache.adapter.redis
+        default_redis_provider: "%env(CACHE_URL)%/0?persistent=1"
+shopware:
+    admin_worker:
+        enable_admin_worker: false
+        enable_queue_stats_worker: false
+    deployment:
+        cluster_setup: true
+    dompdf:
+        options:
+            tempDir: "%kernel.project_dir%/var/dompdf/tempDir"
+            fontDir: "%kernel.project_dir%/var/dompdf/fontDir"
+            fontCache: "%kernel.project_dir%/var/dompdf/fontCache"
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404, 405]
+            buffer_size: 50
+        nested:
+            type: stream
+            path: php://stderr
+            level: debug
+            formatter: monolog.formatter.json
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine"]
+elasticsearch:
+    index_settings:
+        number_of_replicas: null
+        number_of_shards: null
