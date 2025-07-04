@@ -23,7 +23,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/fixture-bundle](https://packagist.org/packages/shopware/fixture-bundle) | [0.1](shopware/fixture-bundle/0.1) |  |
 | [shopware/k8s-meta](https://packagist.org/packages/shopware/k8s-meta) | [2.0](shopware/k8s-meta/2.0) | `k8s` |
 | [shopware/opentelemetry](https://packagist.org/packages/shopware/opentelemetry) | [0.1](shopware/opentelemetry/0.1) |  |
-| [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.6](shopware/paas-meta/6.6) | `paas` |
+| [shopware/paas-meta](https://packagist.org/packages/shopware/paas-meta) | [6.7](shopware/paas-meta/6.7) | `paas` |
 | [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.7](shopware/platform/6.7) |  |
 | [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.7](shopware/storefront/6.7) |  |
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
