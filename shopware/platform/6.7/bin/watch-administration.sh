@@ -58,7 +58,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "administration" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            npm install --omit=dev --prefix "$path"
+            (cd "$path" && npm install --omit=dev)
         fi
     done
     cd "$OLDPWD" || exit

@@ -51,7 +51,7 @@ if [[ $(command -v jq) ]]; then
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
-            npm install --prefix "$path" --prefer-offline
+            (cd "$path" && npm install --prefer-offline)
         fi
     done
     cd "$OLDPWD" || exit
