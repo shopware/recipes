@@ -10,5 +10,4 @@ when@prod:
                 enabled: true
                 api_key: '%env(FASTLY_API_TOKEN)%'
                 service_id: '%env(FASTLY_SERVICE_ID)%'
-                # Uncomment to enable soft purge
-                # soft_purge: '1'
+                soft_purge: '1'
