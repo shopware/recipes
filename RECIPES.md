@@ -19,7 +19,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/docker](https://packagist.org/packages/shopware/docker) | [0.3](shopware/docker/0.3) |  |
 | [shopware/docker-dev](https://packagist.org/packages/shopware/docker-dev) | [0.1](shopware/docker-dev/0.1) |  |
 | [shopware/elasticsearch](https://packagist.org/packages/shopware/elasticsearch) | [6.7](shopware/elasticsearch/6.7) |  |
-| [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.6](shopware/fastly-meta/6.6) | `fastly` |
+| [shopware/fastly-meta](https://packagist.org/packages/shopware/fastly-meta) | [6.7](shopware/fastly-meta/6.7) | `fastly` |
 | [shopware/fixture-bundle](https://packagist.org/packages/shopware/fixture-bundle) | [0.1](shopware/fixture-bundle/0.1) |  |
 | [shopware/k8s-meta](https://packagist.org/packages/shopware/k8s-meta) | [2.0](shopware/k8s-meta/2.0) | `k8s` |
 | [shopware/opentelemetry](https://packagist.org/packages/shopware/opentelemetry) | [0.1](shopware/opentelemetry/0.1) |  |
