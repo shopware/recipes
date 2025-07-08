@@ -96,6 +96,7 @@
         ],
         "shopware/fastly-meta": [
             "6.4",
+            "6.5",
             "6.6"
         ],
         "shopware/fixture-bundle": [
