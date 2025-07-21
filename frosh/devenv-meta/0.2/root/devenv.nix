@@ -8,8 +8,10 @@
 
   languages.javascript = {
     enable = lib.mkDefault true;
-    package = lib.mkDefault pkgs.nodejs-18_x;
+    package = lib.mkDefault pkgs.nodejs_20;
   };
+
+  cachix.enable = false;
 
   languages.php = {
     enable = lib.mkDefault true;
