@@ -93,6 +93,8 @@
   #services.rabbitmq.managementPlugin.enable = true;
   #services.elasticsearch.enable = true;
 
+  cachix.enable = false;
+
   # Environment variables
   env.MAILER_DSN = lib.mkDefault "smtp://127.0.0.1:1025";
   env.DATABASE_URL = lib.mkDefault "mysql://shopware:shopware@127.0.0.1:3306/shopware";
