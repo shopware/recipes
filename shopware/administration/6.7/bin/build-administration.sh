@@ -66,6 +66,18 @@ if [[ $(command -v jq) ]]; then
             continue
         fi
 
+        # commercial has a package.json in the root dir and most modules require from it
+        if [[ $name = 'swag-commercial' ]]; then
+            basePath=$(echo "$config" | jq -r '.basePath')
+            package_json_path="${basePath}"
+            if [[ ! -r "${package_json_path}/package.json" ]]; then
+                package_json_path="${basePath}/../"
+            fi
+            if [[ -r "${package_json_path}/package.json" ]]; then
+                (cd "${package_json_path}" && npm ci --omit=dev --no-audit --prefer-offline)
+            fi
+        fi
+
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "administration" ]]; then
             echo "=> Installing npm dependencies for ${name}"
 
