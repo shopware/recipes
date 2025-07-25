@@ -53,6 +53,8 @@ if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
     cd "$PROJECT_ROOT" || exit
 
+    basePaths=()
+
     jq -c '.[]' "var/plugins.json" | while read -r config; do
         srcPath=$(echo "$config" | jq -r '(.basePath + .administration.path)')
 
@@ -66,16 +68,8 @@ if [[ $(command -v jq) ]]; then
             continue
         fi
 
-        # commercial has a package.json in the root dir and most modules require from it
-        if [[ $name = 'swag-commercial' ]]; then
-            basePath=$(echo "$config" | jq -r '.basePath')
-            package_json_path="${basePath}"
-            if [[ ! -r "${package_json_path}/package.json" ]]; then
-                package_json_path="${basePath}/../"
-            fi
-            if [[ -r "${package_json_path}/package.json" ]]; then
-                (cd "${package_json_path}" && npm ci --omit=dev --no-audit --prefer-offline)
-            fi
+        if [[ -n $srcPath && ! " ${basePaths[@]} " =~ " ${basePath} " ]]; then
+            basePaths+=("$basePath")
         fi
 
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "administration" ]]; then
@@ -84,6 +78,19 @@ if [[ $(command -v jq) ]]; then
             (cd "$path" && npm install --omit=dev --no-audit --prefer-offline)
         fi
     done
+
+    for basePath in "${basePaths[@]}"; do
+        if [[ -r "${basePath}/package.json" ]]; then
+            echo "=> Installing npm dependencies for ${basePath}"
+            (cd "${basePath}" && npm ci --omit=dev --no-audit --prefer-offline)
+        fi
+
+        if [[ -r "${basePath}/../package.json" ]]; then
+            echo "=> Installing npm dependencies for ${basePath}/.."
+            (cd "${basePath}/.." && npm ci --omit=dev --no-audit --prefer-offline)
+        fi
+    done
+
     cd "$OLDPWD" || exit
 else
     echo "Cannot check extensions for required npm installations as jq is not installed"
