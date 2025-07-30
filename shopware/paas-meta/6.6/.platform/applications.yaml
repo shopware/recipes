@@ -166,7 +166,7 @@
                 pre_start: |
                     export APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache
                     rm -rf $APP_CACHE_DIR/var
-                    php $PLATFORM_APP_DIR/bin/console cache:clear
+                    php $PLATFORM_APP_DIR/bin/console
                 start: APP_CACHE_DIR=$PLATFORM_APP_DIR/localCache bin/console messenger:consume async low_priority failed --memory-limit=$(cat /run/config.json | jq .info.limits.memory)M --time-limit=295
 
     crons:
