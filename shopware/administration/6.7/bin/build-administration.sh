@@ -55,8 +55,9 @@ if [[ $(command -v jq) ]]; then
 
     basePaths=()
 
-    jq -c '.[]' "var/plugins.json" | while read -r config; do
+    while read -r config; do
         srcPath=$(echo "$config" | jq -r '(.basePath + .administration.path)')
+        basePath=$(echo "$config" | jq -r '.basePath')
 
         # the package.json files are always one upper
         path=$(dirname "$srcPath")
@@ -77,7 +78,7 @@ if [[ $(command -v jq) ]]; then
 
             (cd "$path" && npm install --omit=dev --no-audit --prefer-offline)
         fi
-    done
+    done < <(jq -c '.[]' "var/plugins.json")
 
     for basePath in "${basePaths[@]}"; do
         if [[ -r "${basePath}/package.json" ]]; then
