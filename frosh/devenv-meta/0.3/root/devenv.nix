@@ -7,7 +7,6 @@
   ];
 
   dotenv.disableHint = true;
-  cachix.enable = false;
   devenv.warnOnNewVersion = false;
 
   languages.javascript = {
