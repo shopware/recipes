@@ -1,5 +1,7 @@
 {
     "aliases": {
+        "amqp-messenger": "symfony/amqp-messenger",
+        "amqpmessenger": "symfony/amqp-messenger",
         "code-quality": "frosh/code-quality-meta",
         "codequality": "frosh/code-quality-meta",
         "console": "symfony/console",
@@ -128,6 +130,9 @@
         ],
         "sroze/messenger-enqueue-transport": [
             "0.4"
+        ],
+        "symfony/amqp-messenger": [
+            "5.4"
         ],
         "symfony/console": [
             "5.4"

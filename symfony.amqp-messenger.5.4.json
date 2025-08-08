@@ -1,0 +1,31 @@
+{
+    "manifests": {
+        "symfony/amqp-messenger": {
+            "manifest": {
+                "docker-compose": {
+                    "docker-compose.yml": {
+                        "services": [
+                            "lavinmq:",
+                            "  image: cloudamqp/lavinmq",
+                            "  volumes:",
+                            "    - lavinmq-data:/var/lib/lavinmq:rw"
+                        ],
+                        "volumes": [
+                            "lavinmq-data:"
+                        ]
+                    },
+                    "docker-compose.override.yml": {
+                        "services": [
+                            "lavinmq:",
+                            "  ports:",
+                            "    - \"15672:15672\"",
+                            "    - \"5672:5672\""
+                        ]
+                    }
+                }
+            },
+            "files": [],
+            "ref": "7523c4867019bdcc3b333655e02211ce706a4868"
+        }
+    }
+}

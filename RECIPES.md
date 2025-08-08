@@ -27,6 +27,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [shopware/platform](https://packagist.org/packages/shopware/platform) | [6.7](shopware/platform/6.7) |  |
 | [shopware/storefront](https://packagist.org/packages/shopware/storefront) | [6.7](shopware/storefront/6.7) |  |
 | [sroze/messenger-enqueue-transport](https://packagist.org/packages/sroze/messenger-enqueue-transport) | [0.4](sroze/messenger-enqueue-transport/0.4) |  |
+| [symfony/amqp-messenger](https://packagist.org/packages/symfony/amqp-messenger) | [5.4](symfony/amqp-messenger/5.4) | `amqp-messenger`, `amqpmessenger` |
 | [symfony/console](https://packagist.org/packages/symfony/console) | [5.4](symfony/console/5.4) | `console` |
 | [symfony/debug-bundle](https://packagist.org/packages/symfony/debug-bundle) | [5.3](symfony/debug-bundle/5.3) | `debug-bundle`, `debugbundle` |
 | [symfony/framework-bundle](https://packagist.org/packages/symfony/framework-bundle) | [6.4](symfony/framework-bundle/6.4) | `framework-bundle`, `frameworkbundle` |
