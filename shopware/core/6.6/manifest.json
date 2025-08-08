@@ -71,7 +71,7 @@
         "docker-compose.yml": {
             "services": [
                 "database:",
-                "  image: mariadb:11.4",
+                "  image: mariadb:11.8",
                 "  environment:",
                 "    MARIADB_DATABASE: shopware",
                 "    MARIADB_ROOT_PASSWORD: root",
