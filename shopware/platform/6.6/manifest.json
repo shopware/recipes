@@ -89,7 +89,7 @@
         "docker-compose.yml": {
             "services": [
                 "database:",
-                "  image: mariadb:11.4",
+                "  image: mariadb:11.8",
                 "  environment:",
                 "    MARIADB_DATABASE: shopware",
                 "    MARIADB_ROOT_PASSWORD: root",
@@ -109,6 +109,7 @@
                 "  volumes:",
                 "    - opensearch-data:\/usr\/share\/opensearch\/data",
                 "  environment:",
+                "    OPENSEARCH_INITIAL_ADMIN_PASSWORD: 'c3o_ZPHo!'",
                 "    discovery.type: single-node",
                 "    plugins.security.disabled: 'true'"
             ],
