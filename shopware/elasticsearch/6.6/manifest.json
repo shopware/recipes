@@ -25,6 +25,7 @@
                 "  volumes:",
                 "    - opensearch-data:/usr/share/opensearch/data",
                 "  environment:",
+                "    OPENSEARCH_INITIAL_ADMIN_PASSWORD: 'c3o_ZPHo!'",
                 "    discovery.type: single-node",
                 "    plugins.security.disabled: 'true'"
             ],
