@@ -49,8 +49,9 @@ if [[ $(command -v jq) ]]; then
         if [[ ${!skippingEnvVarName:-""} ]]; then
             continue
         fi
+        
+        if [[ -n $srcPath && ! " ${basePaths[*]:-} " =~ " ${basePath} " ]]; then
 
-        if [[ -n $srcPath && ! " ${basePaths[@]} " =~ " ${basePath} " ]]; then
             basePaths+=("$basePath")
         fi
 
