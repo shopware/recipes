@@ -69,7 +69,7 @@ if [[ $(command -v jq) ]]; then
             continue
         fi
 
-        if [[ -n $srcPath && ! " ${basePaths[@]} " =~ " ${basePath} " ]]; then
+        if [[ -n $srcPath && ! " ${basePaths[*]:-} " =~ " ${basePath} " ]]; then
             basePaths+=("$basePath")
         fi
 
