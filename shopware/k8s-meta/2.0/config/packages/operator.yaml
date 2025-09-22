@@ -54,6 +54,7 @@ shopware:
                 bucket: "%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%"
                 region: "%env(K8S_FILESYSTEM_REGION)%"
                 endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
+                use_path_style_endpoint: true
         asset:
             type: local
             url: '%env(APP_URL)%'
