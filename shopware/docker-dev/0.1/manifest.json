@@ -1,4 +1,7 @@
 {
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
     "docker-compose": {
         "docker-compose.yml": {
             "services": [
