@@ -12,6 +12,7 @@
                 "    - 5173:5173",
                 "    - 5773:5773",
                 "  environment:",
+                "    APP_ENV: ${APP_ENV-dev}",
                 "    HOST: 0.0.0.0",
                 "    APP_URL: http://localhost:8000",
                 "    DATABASE_URL: mysql://root:root@database/shopware",
