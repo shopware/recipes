@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/refs/heads/trunk/config-schema.json
+
+shopware:
+  filesystem:
+    public: &s3_public
+      type: "amazon-s3"
+      url: "http://localhost:9000/shopware-public"
+      config:
+        bucket: shopware-public
+        endpoint: http://minio:9000
+        use_path_style_endpoint: true
+        region: us-east-1
+        credentials:
+          key: minioadmin
+          secret: minioadmin
+    theme: *s3_public
+    sitemap: *s3_public
+    private:
+      type: "amazon-s3"
+      config:
+        bucket: shopware-private
+        endpoint: http://minio:9000
+        use_path_style_endpoint: true
+        region: us-east-1
+        credentials:
+          key: minioadmin
+          secret: minioadmin
