@@ -73,3 +73,5 @@ framework:
     cache:
         app: cache.adapter.redis_tag_aware
         default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
+    mailer:
+        message_bus: 'messenger.default_bus'
