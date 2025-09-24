@@ -21,9 +21,8 @@
                 "    - .:/var/www/html",
                 "  depends_on:",
                 "    database:",
-                "      condition: service_healthy"
-            ],
-            "adminer:": [
+                "      condition: service_healthy",
+                "adminer:",
                 "  image: adminer",
                 "  stop_signal: SIGKILL",
                 "  depends_on: [ database ]",
@@ -31,6 +30,7 @@
                 "    ADMINER_DEFAULT_SERVER: database",
                 "  ports:",
                 "    - '9080:8080'"
+
             ]
         }
     },
