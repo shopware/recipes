@@ -36,7 +36,7 @@
     },
     "makefile": [
         "up:",
-        "\tdocker compose up -d",
+        "\t@touch .env.local\n\tdocker compose --env-file .env.local up -d",
         "stop:",
         "\tdocker compose stop",
         "down:",
