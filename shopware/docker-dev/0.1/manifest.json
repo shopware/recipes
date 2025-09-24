@@ -21,13 +21,22 @@
                 "    - .:/var/www/html",
                 "  depends_on:",
                 "    database:",
-                "      condition: service_healthy"
+                "      condition: service_healthy",
+                "adminer:",
+                "  image: adminer",
+                "  stop_signal: SIGKILL",
+                "  depends_on: [ database ]",
+                "  environment:",
+                "    ADMINER_DEFAULT_SERVER: database",
+                "  ports:",
+                "    - '9080:8080'"
+
             ]
         }
     },
     "makefile": [
         "up:",
-        "\tdocker compose up -d",
+        "\t@touch .env.local\n\tdocker compose --env-file .env.local up -d",
         "stop:",
         "\tdocker compose stop",
         "down:",
