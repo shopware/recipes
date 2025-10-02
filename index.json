@@ -26,6 +26,8 @@
         "monolog-bundle": "symfony/monolog-bundle",
         "monologbundle": "symfony/monolog-bundle",
         "paas": "shopware/paas-meta",
+        "property-info": "symfony/property-info",
+        "propertyinfo": "symfony/property-info",
         "routing": "symfony/routing",
         "schedule": "symfony/scheduler",
         "scheduler": "symfony/scheduler",
@@ -153,6 +155,9 @@
         ],
         "symfony/monolog-bundle": [
             "3.3"
+        ],
+        "symfony/property-info": [
+            "7.3"
         ],
         "symfony/routing": [
             "5.4",

@@ -34,6 +34,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [symfony/mailer](https://packagist.org/packages/symfony/mailer) | [4.3](symfony/mailer/4.3) | `mail`, `mailer` |
 | [symfony/messenger](https://packagist.org/packages/symfony/messenger) | [6.0](symfony/messenger/6.0) | `messenger` |
 | [symfony/monolog-bundle](https://packagist.org/packages/symfony/monolog-bundle) | [3.3](symfony/monolog-bundle/3.3) | `log`, `logger`, `logging`, `logs`, `monolog`, `monolog-bundle`, `monologbundle` |
+| [symfony/property-info](https://packagist.org/packages/symfony/property-info) | [7.3](symfony/property-info/7.3) | `property-info`, `propertyinfo` |
 | [symfony/routing](https://packagist.org/packages/symfony/routing) | [6.4](symfony/routing/6.4) | `routing` |
 | [symfony/scheduler](https://packagist.org/packages/symfony/scheduler) | [7.2](symfony/scheduler/7.2) | `schedule`, `scheduler`, `scheduling` |
 | [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
