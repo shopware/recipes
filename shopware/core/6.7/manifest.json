@@ -63,7 +63,7 @@
         "!/var/.htaccess",
         "/auth.json",
         "/install.lock",
-        "public/asset-manifest.json"
+        "/public/asset-manifest.json"
     ],
     "composer-scripts": {
         "assets:install": "symfony-cmd"
