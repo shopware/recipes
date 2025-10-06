@@ -46,15 +46,7 @@ shopware:
                 endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
                 use_path_style_endpoint: true
         theme: *public_bucket
-        sitemap:
-            type: "amazon-s3"
-            url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
-            visibility: "public"
-            config:
-                bucket: "%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%"
-                region: "%env(K8S_FILESYSTEM_REGION)%"
-                endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
-                use_path_style_endpoint: true
+        sitemap: *public_bucket
         asset:
             type: local
             url: '%env(APP_URL)%'
@@ -62,16 +54,27 @@ shopware:
                 root: '%kernel.project_dir%/public'
     cdn:
         url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
+    redis:
+        connections:
+            session:
+                dsn: '%env(REDIS_SESSION_DSN)%'
 
 elasticsearch:
     index_settings:
         number_of_replicas: "%env(int:K8S_ES_NUMBER_OF_REPLICAS)%"
         number_of_shards: "%env(int:K8S_ES_NUMBER_OF_SHARDS)%"
 
-
 framework:
+    session:
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
     cache:
         app: cache.adapter.redis_tag_aware
         default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
     mailer:
         message_bus: 'messenger.default_bus'
+
+services:
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@shopware.redis.connection.session'
+            - { prefix: 'sess_' }
