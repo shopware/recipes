@@ -13,6 +13,8 @@ parameters:
     env(K8S_CACHE_INDEX): ""
     env(K8S_ES_NUMBER_OF_REPLICAS): null
     env(K8S_ES_NUMBER_OF_SHARDS): null
+    env(REDIS_SESSION_DSN): "redis://%env(string:key:host:url:PHP_SESSION_SAVE_PATH)%:%env(string:key:port:url:PHP_SESSION_SAVE_PATH)%/%env(string:key:path:url:PHP_SESSION_SAVE_PATH)%"
+    env(REDIS_APP_DSN): "redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%"
 
 shopware:
     admin_worker:
@@ -65,11 +67,9 @@ elasticsearch:
         number_of_shards: "%env(int:K8S_ES_NUMBER_OF_SHARDS)%"
 
 framework:
-    session:
-        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
     cache:
         app: cache.adapter.redis_tag_aware
-        default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
+        default_redis_provider: '%env(REDIS_APP_DSN)%'
     mailer:
         message_bus: 'messenger.default_bus'
 
