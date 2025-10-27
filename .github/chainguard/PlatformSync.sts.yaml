@@ -1,0 +1,7 @@
+issuer: https://token.actions.githubusercontent.com
+subject_pattern: repo:shopware/recipes:refs/heads/main
+claim_pattern:
+  workflow_ref: shopware/recipes/.github/workflows/platform-sync.ya?ml@refs/heads/main
+
+permissions:
+  contents: write

@@ -15,10 +15,15 @@ jobs:
         concurrency: platform-sync-${{ github.ref }}
         name: Sync files for shopware/platform package
         steps:
+            - uses: octo-sts/action@main
+              id: octo-sts
+              with:
+                scope: shopware/recipes
+                identity: PlatformSync
             - name: Clone
               uses: actions/checkout@v4
               with:
-                token: ${{ secrets.CI_COMMIT_PAT }}
+                token: ${{ steps.octo-sts.outputs.token }}
 
             - name: Sync files
               run: php .github/sync-platform.php
