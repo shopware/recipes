@@ -9,6 +9,10 @@ on:
             - "shopware/core/**"
             - "shopware/storefront/**"
             - "shopware/elasticsearch/**"
+
+permissions:
+    id-token: write
+
 jobs:
     platform-sync:
         runs-on: ubuntu-latest
