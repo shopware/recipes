@@ -16,7 +16,7 @@
 
   languages.php = {
     enable = lib.mkDefault true;
-    version = lib.mkDefault "8.2";
+    version = lib.mkDefault "8.3";
 
     ini = ''
       memory_limit = 2G
