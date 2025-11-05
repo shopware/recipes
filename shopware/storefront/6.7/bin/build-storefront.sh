@@ -36,7 +36,7 @@ if [[ $(command -v jq) ]]; then
     cd "$PROJECT_ROOT" || exit
     basePaths=()
 
-    while read -r config; do
+    jq -c '.[]' "var/plugins.json" | while read -r config; do
         srcPath=$(echo "$config" | jq -r '(.basePath + .storefront.path)')
         basePath=$(echo "$config" | jq -r '.basePath')
 
@@ -60,7 +60,7 @@ if [[ $(command -v jq) ]]; then
 
             (cd "$path" && npm install --prefer-offline)
         fi
-    done < <(jq -c '.[]' "var/plugins.json")
+    done
 
     for basePath in "${basePaths[@]}"; do
         if [[ -r "${basePath}/package.json" ]]; then
