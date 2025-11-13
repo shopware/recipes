@@ -1,0 +1,26 @@
+{
+    "aliases": {
+        "fastly": "shopware/fastly-meta"
+    },
+    "recipes": {
+        "shopware/fastly-meta": [
+            "6.4",
+            "6.5",
+            "6.6",
+            "6.7",
+            "6.8"
+        ]
+    },
+    "recipe-conflicts": [],
+    "versions": [],
+    "branch": "main",
+    "is_contrib": true,
+    "_links": {
+        "repository": "github.com/shopware/recipes",
+        "origin_template": "{package}:{version}@github.com/shopware/recipes:main",
+        "recipe_template": "https://raw.githubusercontent.com/shopware/recipes/flex/pull-219/{package_dotted}.{version}.json",
+        "recipe_template_relative": "{package_dotted}.{version}.json",
+        "archived_recipes_template": "https://raw.githubusercontent.com/shopware/recipes/flex/pull-219/archived/{package_dotted}/{ref}.json",
+        "archived_recipes_template_relative": "archived/{package_dotted}/{ref}.json"
+    }
+}
