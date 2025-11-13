@@ -54,15 +54,16 @@ if (req.http.Authenticate || req.http.Authorization) {
     set req.http.x-pass = "1";
 }
 
-# Always pass these paths directly to php without caching
+# Micro-optimization: Always pass these paths directly to php without caching
+# to prevent hashing and cache lookup overhead
 # Note: virtual URLs might bypass this rule (e.g. /en/checkout)
-if (req.url.path ~ "^/(checkout|account|admin|api|csrf)(/.*)?$") {
+if (req.url.path ~ "^/(checkout|account|admin|api)(/.*)?$") {
     set req.http.x-pass = "1";
 }
 
-# set cache-hash cookie value to header for hashing 1Code has comments. Press enter to view.
+# set cache-hash cookie value to header for hashing based on vary header
 # if header is provided directly the header will take precedence
-if (!req.http.sw-cache-hash) {
+if (std.strlen(req.http.sw-cache-hash) == 0) {
     set req.http.sw-cache-hash = req.http.cookie:sw-cache-hash;
 }
 
