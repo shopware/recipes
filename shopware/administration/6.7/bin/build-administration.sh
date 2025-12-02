@@ -81,9 +81,9 @@ if [[ $(command -v jq) ]]; then
     done
 
     for basePath in "${basePaths[@]:-}"; do
-if [[ -z $basePath ]]; then
-    continue
-fi
+        if [[ -z $basePath ]]; then
+            continue
+        fi
         if [[ -r "${basePath}/package.json" ]]; then
             echo "=> Installing npm dependencies for ${basePath}"
             (cd "${basePath}" && npm ci --omit=dev --no-audit --prefer-offline)
