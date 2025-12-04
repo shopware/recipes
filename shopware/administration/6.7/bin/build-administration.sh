@@ -52,10 +52,9 @@ fi
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
     cd "$PROJECT_ROOT" || exit
-
     basePaths=()
 
-    jq -c '.[]' "var/plugins.json" | while read -r config; do
+    while read -r config; do
         srcPath=$(echo "$config" | jq -r '(.basePath + .administration.path)')
         basePath=$(echo "$config" | jq -r '.basePath')
 
@@ -78,7 +77,7 @@ if [[ $(command -v jq) ]]; then
 
             (cd "$path" && npm install --omit=dev --no-audit --prefer-offline)
         fi
-    done
+    done < <(jq -c '.[]' "var/plugins.json")
 
     for basePath in "${basePaths[@]:-}"; do
         if [[ -z $basePath ]]; then
