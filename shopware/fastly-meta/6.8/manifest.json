@@ -1,0 +1,10 @@
+{
+    "aliases": ["fastly"],
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "FASTLY_API_TOKEN": "EXAMPLE_TOKEN",
+        "FASTLY_SERVICE_ID": "EXAMPLE_SERVICE"
+    }
+}
