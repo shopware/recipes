@@ -3,6 +3,15 @@ if (req.http.x-pass) {
   return (pass);
 }
 
+# Reducing hit-for-miss duration for dynamically uncacheable responses
+if (beresp.http.sw-dynamic-cache-bypass == "1") {
+  # Mark as "Hit-For-Miss" for the next n seconds
+  set beresp.ttl = 1s;
+  set beresp.cacheable = false;
+  unset beresp.http.sw-dynamic-cache-bypass;
+  return (deliver);
+}
+
 # remove set cookie headers to make responses cachable
 if (beresp.http.cache-control ~ "public") {
   unset beresp.http.set-cookie;

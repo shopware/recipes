@@ -67,14 +67,6 @@ if (std.strlen(req.http.sw-cache-hash) == 0) {
     set req.http.sw-cache-hash = req.http.cookie:sw-cache-hash;
 }
 
-# immediately pass when hash indicates that the content should not be cached
-# note that cache-hash = "not-cacheable" is used to indicate an application state in which the cache should be passed
-# we can not use cache-control headers in that case, as reverse proxies expect to always get the same cache-control headers based on the route
-# dynamically changing the cache-control header is not supported
-if (req.http.sw-cache-hash == "not-cacheable") {
-    set req.http.x-pass = "1";
-}
-
 # Excludes requests from caching which contain the "affiliateCode" query parameter.
 # Otherwise requests which are already cached but now
 # contain the "affiliateCode" query parameter are loaded from cache.
