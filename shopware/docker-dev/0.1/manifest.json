@@ -18,6 +18,8 @@
                 "    HOST: 0.0.0.0",
                 "    DATABASE_URL: mysql://root:root@database/shopware",
                 "    MAILER_DSN: smtp://mailer:1025",
+                "    TRUSTED_PROXIES: REMOTE_ADDR",
+                "    SYMFONY_TRUSTED_PROXIES: REMOTE_ADDR",
                 "  volumes:",
                 "    - .:/var/www/html",
                 "  depends_on:",
