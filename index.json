@@ -13,7 +13,6 @@
         "fastly": "shopware/fastly-meta",
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
-        "gitpod": "frosh/gitpod-meta",
         "k8s": "shopware/k8s-meta",
         "log": "symfony/monolog-bundle",
         "logger": "symfony/monolog-bundle",
@@ -62,9 +61,6 @@
             "0.1",
             "0.2",
             "0.3"
-        ],
-        "frosh/gitpod-meta": [
-            "6.4"
         ],
         "nyholm/psr7": [
             "1.0"
