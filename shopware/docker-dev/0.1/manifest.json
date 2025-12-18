@@ -15,6 +15,7 @@
                 "    - .env.local",
                 "  environment:",
                 "    APP_ENV: ${APP_ENV-dev}",
+                "    MAILER_DSN: smtp://mailer:1025",
                 "  volumes:",
                 "    - .:/var/www/html",
                 "  depends_on:",
