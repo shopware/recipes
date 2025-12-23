@@ -13,7 +13,7 @@
         "default_redis_port": "6379",
         "env(CACHE_URL)": "redis://localhost",
         "env(MESSENGER_TRANSPORT_DSN_PREFIX)": "doctrine://default?auto_setup=false&queue_name=",
-        "env(MESSENGER_TRANSPORT_DSN)": "%env(MESSENGER_TRANSPORT_DSN_PREFIX)%messages%",
-        "env(MESSENGER_TRANSPORT_LOW_PRIORITY_DSN)": "%env(MESSENGER_TRANSPORT_DSN_PREFIX)%low_priority%"
+        "env(MESSENGER_TRANSPORT_DSN)": "%env(MESSENGER_TRANSPORT_DSN_PREFIX)%messages",
+        "env(MESSENGER_TRANSPORT_LOW_PRIORITY_DSN)": "%env(MESSENGER_TRANSPORT_DSN_PREFIX)%low_priority"
     }
 }
