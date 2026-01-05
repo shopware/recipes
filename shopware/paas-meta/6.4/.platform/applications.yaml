@@ -4,7 +4,7 @@
         flavor: composer
     dependencies:
         php:
-            composer/composer: "2.5.*"
+            composer/composer: "^2.9.3"
     variables:
         env:
             # Tell Shopware to always install in production-mode.
