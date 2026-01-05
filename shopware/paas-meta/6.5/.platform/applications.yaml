@@ -4,7 +4,7 @@
         flavor: none
     dependencies:
         php:
-            composer/composer: "2.8"
+            composer/composer: "^2"
     variables:
         env:
             APP_ENV: prod
