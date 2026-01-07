@@ -21,16 +21,6 @@
                     "contents": [
                         "# Remove the exact PHP Version from the response for more security (e.g. 404 pages)",
                         "unset resp.http.x-powered-by;",
-                        "",
-                        "# We use fastly.ff.visits_this_service to avoid running this logic on shield nodes. We only need to",
-                        "# run it on edge nodes",
-                        "if (fastly.ff.visits_this_service == 0 && resp.http.sw-invalidation-states) {",
-                        "  # invalidation headers are only for internal use",
-                        "  unset resp.http.sw-invalidation-states;",
-                        "",
-                        "  ## we don't want the client to cache",
-                        "  set resp.http.Cache-Control = \"no-cache, private\";",
-                        "}",
                         ""
                     ],
                     "executable": false
@@ -69,33 +59,6 @@
                         "        return(pass);",
                         "}",
                         ""
-                    ],
-                    "executable": false
-                },
-                "config/fastly/hash/default.vcl": {
-                    "contents": [
-                        "# Consider Shopware http cache cookies",
-                        "if (req.http.sw-cache-hash) {",
-                        "  set req.hash += req.http.sw-cache-hash;",
-                        "} elseif (req.http.cookie:sw-currency) {",
-                        "  set req.hash += req.http.cookie:sw-currency;",
-                        "}"
-                    ],
-                    "executable": false
-                },
-                "config/fastly/hit/default.vcl": {
-                    "contents": [
-                        "if (req.http.cookie:sw-states) {",
-                        "   set req.http.states = req.http.cookie:sw-states;",
-                        "",
-                        "   if (req.http.states ~ \"logged-in\" && obj.http.sw-invalidation-states ~ \"logged-in\" ) {",
-                        "      return (pass);",
-                        "   }",
-                        "",
-                        "   if (req.http.states ~ \"cart-filled\" && obj.http.sw-invalidation-states ~ \"cart-filled\" ) {",
-                        "      return (pass);",
-                        "   }",
-                        "}"
                     ],
                     "executable": false
                 },
@@ -230,7 +193,7 @@
                     "executable": false
                 }
             },
-            "ref": "6251de8ae94d2dc2adb98b057f2f17ade140a564"
+            "ref": "57cb7969ef664ca93f9d5fc5de9c3f9c0183d046"
         }
     }
 }
