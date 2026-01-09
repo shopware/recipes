@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/trunk/config-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/shopware/shopware/6.6.x/config-schema.json
 
 parameters:
     env(K8S_FILESYSTEM_PRIVATE_BUCKET): ""
@@ -13,6 +13,8 @@ parameters:
     env(K8S_CACHE_INDEX): ""
     env(K8S_ES_NUMBER_OF_REPLICAS): null
     env(K8S_ES_NUMBER_OF_SHARDS): null
+    env(REDIS_SESSION_DSN): "redis://%env(string:key:host:url:PHP_SESSION_SAVE_PATH)%:%env(string:key:port:url:PHP_SESSION_SAVE_PATH)%/%env(string:key:path:url:PHP_SESSION_SAVE_PATH)%"
+    env(REDIS_APP_DSN): "redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%"
 
 shopware:
     api:
@@ -54,14 +56,7 @@ shopware:
                 endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
                 use_path_style_endpoint: true
         theme: *public_bucket
-        sitemap:
-            type: "amazon-s3"
-            url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
-            visibility: "public"
-            config:
-                bucket: "%env(K8S_FILESYSTEM_PUBLIC_BUCKET)%"
-                region: "%env(K8S_FILESYSTEM_REGION)%"
-                endpoint: "%env(K8S_FILESYSTEM_ENDPOINT)%"
+        sitemap: *public_bucket
         asset:
             type: local
             url: '%env(APP_URL)%'
@@ -77,6 +72,21 @@ elasticsearch:
 
 
 framework:
+    session:
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
     cache:
         app: cache.adapter.redis_tag_aware
-        default_redis_provider: 'redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%'
+        default_redis_provider: '%env(REDIS_APP_DSN)%'
+    mailer:
+        message_bus: 'messenger.default_bus'
+
+services:
+    Redis:
+        class: Redis
+        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
+        arguments:
+            - '%env(REDIS_SESSION_DSN)%'
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+            - { prefix: 'sess_' }
