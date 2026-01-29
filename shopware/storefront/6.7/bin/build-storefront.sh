@@ -34,9 +34,10 @@ fi
 if [[ $(command -v jq) ]]; then
     OLDPWD=$(pwd)
     cd "$PROJECT_ROOT" || exit
-    basePaths=()
+    basePathsFile=$(mktemp)
+    trap 'rm -f "$basePathsFile"' EXIT
 
-    while read -r config; do
+    jq -c '.[]' "var/plugins.json" | while read -r config; do
         srcPath=$(echo "$config" | jq -r '(.basePath + .storefront.path)')
         basePath=$(echo "$config" | jq -r '.basePath')
 
@@ -50,9 +51,8 @@ if [[ $(command -v jq) ]]; then
             continue
         fi
 
-        if [[ -n $srcPath && ! " ${basePaths[*]:-} " =~ " ${basePath} " ]]; then
-
-            basePaths+=("$basePath")
+        if [[ -n $srcPath ]] && ! grep -qxF "$basePath" "$basePathsFile" 2>/dev/null; then
+            echo "$basePath" >> "$basePathsFile"
         fi
 
         if [[ -f "$path/package.json" && ! -d "$path/node_modules" && $name != "storefront" ]]; then
@@ -60,9 +60,9 @@ if [[ $(command -v jq) ]]; then
 
             (cd "$path" && npm install --prefer-offline)
         fi
-    done < <(jq -c '.[]' "var/plugins.json")
+    done
 
-    for basePath in "${basePaths[@]:-}"; do
+    while IFS= read -r basePath || [[ -n "$basePath" ]]; do
         if [[ -z $basePath ]]; then
             continue
         fi
@@ -75,7 +75,7 @@ if [[ $(command -v jq) ]]; then
             echo "=> Installing npm dependencies for ${basePath}/.."
             (cd "${basePath}/.." && npm ci --omit=dev --no-audit --prefer-offline)
         fi
-    done
+    done < "$basePathsFile"
 
     cd "$OLDPWD" || exit
 else
