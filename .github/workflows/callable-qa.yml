@@ -147,6 +147,10 @@ jobs:
                     | cut -d: -f1-2 \
                     | sed 's/\(.*\):\([0-9]*\)$/\\n::error file=\1,line=\2::Symfony commands should not be wrapped in a Makefile/' || true)
                 if [[ "" != "$ERRORS" ]]; then echo -e "$ERRORS\n"; exit 1; fi
+            - name: Shellcheck
+              if: "always() && steps.checkout.outcome == 'success'"
+              run: |
+                find * -name '*.sh' -print0 | xargs -0 shellcheck -x -e SC1091 -e SC2086
     create-project:
         needs: run-checks
         name: Run updated recipes
