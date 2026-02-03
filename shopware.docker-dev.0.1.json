@@ -1,0 +1,67 @@
+{
+    "manifests": {
+        "shopware/docker-dev": {
+            "manifest": {
+                "docker-compose": {
+                    "docker-compose.yml": {
+                        "services": [
+                            "web:",
+                            "  image: ghcr.io/shopware/docker-dev:php8.3-node22-caddy",
+                            "  ports:",
+                            "    - 8000:8000",
+                            "    - 8080:8080",
+                            "    - 9999:9999",
+                            "    - 9998:9998",
+                            "    - 5173:5173",
+                            "    - 5773:5773",
+                            "  env_file:",
+                            "    - .env.local",
+                            "  environment:",
+                            "    APP_ENV: ${APP_ENV-dev}",
+                            "    HOST: 0.0.0.0",
+                            "    DATABASE_URL: mysql://root:root@database/shopware",
+                            "    MAILER_DSN: smtp://mailer:1025",
+                            "    TRUSTED_PROXIES: REMOTE_ADDR",
+                            "    SYMFONY_TRUSTED_PROXIES: REMOTE_ADDR",
+                            "  volumes:",
+                            "    - .:/var/www/html",
+                            "  depends_on:",
+                            "    database:",
+                            "      condition: service_healthy",
+                            "adminer:",
+                            "  image: adminer",
+                            "  stop_signal: SIGKILL",
+                            "  depends_on: [ database ]",
+                            "  environment:",
+                            "    ADMINER_DEFAULT_SERVER: database",
+                            "  ports:",
+                            "    - '9080:8080'"
+                        ]
+                    }
+                },
+                "makefile": [
+                    "up:",
+                    "\t@touch .env.local\n\tdocker compose up -d",
+                    "stop:",
+                    "\tdocker compose stop",
+                    "down:",
+                    "\tdocker compose down",
+                    "shell:",
+                    "\tdocker compose exec web bash",
+                    "watch-storefront:",
+                    "\tdocker compose exec -e PROXY_URL=http://localhost:9998 web ./bin/watch-storefront.sh",
+                    "watch-admin:",
+                    "\tdocker compose exec web ./bin/watch-administration.sh",
+                    "build-storefront:",
+                    "\tdocker compose exec web ./bin/build-storefront.sh",
+                    "build-administration:",
+                    "\tdocker compose exec web ./bin/build-administration.sh",
+                    "setup:",
+                    "\tdocker compose exec web composer install\n\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database --force"
+                ]
+            },
+            "files": [],
+            "ref": "3a8d3e04610c6a99101e79ad1d3b1e77f858a15e"
+        }
+    }
+}
