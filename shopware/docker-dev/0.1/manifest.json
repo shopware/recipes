@@ -55,6 +55,6 @@
         "build-administration:",
         "\tdocker compose exec web ./bin/build-administration.sh",
         "setup:",
-        "\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database --force"
+        "\tdocker compose exec web composer install\n\tdocker compose exec web bin/console system:install --basic-setup --create-database --drop-database --force"
     ]
 }
