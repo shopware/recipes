@@ -19,7 +19,7 @@ jobs:
         concurrency: platform-sync-${{ github.ref }}
         name: Sync files for shopware/platform package
         steps:
-            - uses: shopware/octo-sts-action@main
+            - uses: octo-sts/action@main
               id: octo-sts
               with:
                 scope: shopware/recipes
