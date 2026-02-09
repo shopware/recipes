@@ -1,3 +1,5 @@
+# This file will be overwritten on any Shopware Update. For adjustments edit the .htaccess file inside the public folder
+
 DirectoryIndex index.html index.php
 
 <IfModule mod_negotiation.c>
