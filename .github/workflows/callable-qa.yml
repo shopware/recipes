@@ -150,7 +150,7 @@ jobs:
             - name: Shellcheck
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
-                find * -name '*.sh' -print0 | xargs -0 shellcheck -x -e SC1091 -e SC2086
+                find * -name '*.sh' -print0 | xargs -0 -r shellcheck -x -e SC1091 -e SC2086
     create-project:
         needs: run-checks
         name: Run updated recipes
