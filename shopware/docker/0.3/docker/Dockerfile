@@ -13,6 +13,8 @@ ARG SHOPWARE_PACKAGES_TOKEN
 ADD . /src
 WORKDIR /src
 
+ENV SHOPWARE_CACHE_ID=docker
+
 RUN --mount=type=secret,id=composer_auth,dst=/src/auth.json \
     --mount=type=cache,target=/root/.composer \
     --mount=type=cache,target=/root/.npm \
