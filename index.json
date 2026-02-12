@@ -14,6 +14,7 @@
         "framework-bundle": "symfony/framework-bundle",
         "frameworkbundle": "symfony/framework-bundle",
         "k8s": "shopware/k8s-meta",
+        "lock": "symfony/lock",
         "log": "symfony/monolog-bundle",
         "logger": "symfony/monolog-bundle",
         "logging": "symfony/monolog-bundle",
