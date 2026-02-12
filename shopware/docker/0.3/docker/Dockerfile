@@ -24,4 +24,6 @@ RUN --mount=type=secret,id=composer_auth,dst=/src/auth.json \
 
 FROM base-image
 
+ENV SHOPWARE_DISABLE_UPDATE_CHECK=1
+
 COPY --from=build --chown=82 --link /src /var/www/html
