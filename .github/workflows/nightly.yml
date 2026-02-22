@@ -164,8 +164,6 @@ jobs:
                     test -e src/Controller/.gitignore
                     # no session setup like symfony/recipes
                     test ! -e config/packages/framework.yaml
-                    # vendor folder is excluded in .gitignore as framework-bundle does
-                    grep -e vendor .gitignore
                     # scheduler provider should not exist as it would've been provided by symfony/recipes
                     test ! -e src/Schedule.php
                     # translations directory should not exist as it would've been provided by symfony/recipes
