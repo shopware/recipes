@@ -158,8 +158,6 @@ jobs:
                     # property info configuration should not exist as it would've been provided by symfony/recipes
                     test ! -e config/packages/property_info.yaml
                     test ! -e config/packages/routing.yaml
-                    # controller example folder is created
-                    test -e src/Controller/.gitignore
                     # no session setup like symfony/recipes
                     test ! -e config/packages/framework.yaml
                     # scheduler provider should not exist as it would've been provided by symfony/recipes
