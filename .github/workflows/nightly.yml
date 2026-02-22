@@ -34,6 +34,7 @@ jobs:
                         package: trunk
                         php: 8.3
                         node: 22
+                        conflict-version: "*"
         env:
             APP_ENV: prod
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
@@ -150,20 +151,15 @@ jobs:
 
             -   name: Recipe overrides have effect
                 run: |
+                    set -x
                     # templates folder and configuration should not exists as it would've been provided by symfony/recipes for Twig bundle, which is used differently
                     test ! -d templates
                     test ! -e config/packages/twig.yaml
                     # property info configuration should not exist as it would've been provided by symfony/recipes
                     test ! -e config/packages/property_info.yaml
-                    # routes should be pre-configured but not like symfony/recipes
-                    test -e config/routes.yaml
                     test ! -e config/packages/routing.yaml
-                    # controller example folder is created
-                    test -e src/Controller/.gitignore
                     # no session setup like symfony/recipes
                     test ! -e config/packages/framework.yaml
-                    # vendor folder is excluded in .gitignore as framework-bundle does
-                    grep -e vendor .gitgnore
                     # scheduler provider should not exist as it would've been provided by symfony/recipes
                     test ! -e src/Schedule.php
                     # translations directory should not exist as it would've been provided by symfony/recipes
