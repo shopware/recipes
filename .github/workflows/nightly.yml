@@ -34,6 +34,7 @@ jobs:
                         package: trunk
                         php: 8.3
                         node: 22
+                        conflict-version: "*"
         env:
             APP_ENV: prod
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
