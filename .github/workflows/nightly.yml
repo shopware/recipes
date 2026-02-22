@@ -25,11 +25,15 @@ jobs:
                         php: 8.1
                         node: 18
                         conflict-version: ~0.1.0
-                    -   name: trunk
+                    -   name: 6.6.x
                         package: 6.6.x-dev
-                        php: 8.2
+                        php: 8.3
                         node: 20
                         conflict-version: ~0.5.0
+                    -   name: trunk
+                        package: trunk
+                        php: 8.3
+                        node: 22
         env:
             APP_ENV: prod
             DATABASE_URL: mysql://root:root@127.0.0.1:3306/root
@@ -143,6 +147,31 @@ jobs:
 
             -   name: Install Composer
                 run: composer install
+
+            -   name: Recipe overrides have effect
+                run: |
+                    # templates folder and configuration should not exists as it would've been provided by symfony/recipes for Twig bundle, which is used differently
+                    test ! -d templates
+                    test ! -e config/packages/twig.yaml
+                    # property info configuration should not exist as it would've been provided by symfony/recipes
+                    test ! -e config/packages/property_info.yaml
+                    # routes should be pre-configured but not like symfony/recipes
+                    test -e config/routes.yaml
+                    test ! -e config/packages/routing.yaml
+                    # controller example folder is created
+                    test -e src/Controller/.gitignore
+                    # no session setup like symfony/recipes
+                    test ! -e config/packages/framework.yaml
+                    # vendor folder is excluded in .gitignore as framework-bundle does
+                    grep -e vendor .gitgnore
+                    # scheduler provider should not exist as it would've been provided by symfony/recipes
+                    test ! -e src/Schedule.php
+                    # translations directory should not exist as it would've been provided by symfony/recipes
+                    test ! -d translations
+                    # translations are not configuredas it would've been provided by symfony/recipes
+                    test ! -e config/packages/translation.yaml
+                    # validations are not configuredas it would've been provided by symfony/recipes
+                    test ! -e config/packages/validator.yaml
 
             -   name: Install Shopware
                 run: ./bin/console system:install --basic-setup --create-database
