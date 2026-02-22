@@ -142,7 +142,8 @@
         ],
         "symfony/framework-bundle": [
             "5.4",
-            "6.4"
+            "6.4",
+            "7.4"
         ],
         "symfony/mailer": [
             "4.3"
@@ -159,7 +160,8 @@
         ],
         "symfony/routing": [
             "5.4",
-            "6.4"
+            "6.4",
+            "7.4"
         ],
         "symfony/scheduler": [
             "7.2"
