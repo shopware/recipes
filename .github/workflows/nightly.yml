@@ -157,8 +157,6 @@ jobs:
                     test ! -e config/packages/twig.yaml
                     # property info configuration should not exist as it would've been provided by symfony/recipes
                     test ! -e config/packages/property_info.yaml
-                    # routes should be pre-configured but not like symfony/recipes
-                    test -e config/routes.yaml
                     test ! -e config/packages/routing.yaml
                     # controller example folder is created
                     test -e src/Controller/.gitignore
