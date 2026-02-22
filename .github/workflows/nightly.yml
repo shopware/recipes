@@ -151,6 +151,7 @@ jobs:
 
             -   name: Recipe overrides have effect
                 run: |
+                    set -x
                     # templates folder and configuration should not exists as it would've been provided by symfony/recipes for Twig bundle, which is used differently
                     test ! -d templates
                     test ! -e config/packages/twig.yaml
