@@ -14,7 +14,6 @@
                 "  env_file:",
                 "    - .env.local",
                 "  environment:",
-                "    APP_ENV: ${APP_ENV-dev}",
                 "    HOST: 0.0.0.0",
                 "    DATABASE_URL: mysql://root:root@database/shopware",
                 "    MAILER_DSN: smtp://mailer:1025",
