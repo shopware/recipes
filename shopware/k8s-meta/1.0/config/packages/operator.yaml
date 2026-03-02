@@ -16,6 +16,8 @@ parameters:
     env(PHP_SESSION_SAVE_PATH): "tcp://127.0.0.1:6379"
     env(K8S_REDIS_SESSION_DSN): "redis://%env(string:key:host:url:PHP_SESSION_SAVE_PATH)%:%env(string:key:port:url:PHP_SESSION_SAVE_PATH)%/%env(string:key:path:url:PHP_SESSION_SAVE_PATH)%"
     env(K8S_REDIS_APP_DSN): "redis://%env(K8S_CACHE_HOST)%:%env(K8S_CACHE_PORT)%/%env(K8S_CACHE_INDEX)%"
+    env(MESSENGER_TRANSPORT_DSN): "redis://127.0.0.1:6379/messages/symfony/?auto_setup=true&serializer=1&stream_max_entries=0&dbindex=0"
+    env(MESSENGER_CONSUMER_NAME): "shopware-worker"
 
 shopware:
     api:
@@ -73,6 +75,12 @@ elasticsearch:
 
 
 framework:
+    messenger:
+        transports:
+            async:
+                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
+                options:
+                    consumer: '%env(MESSENGER_CONSUMER_NAME)%'
     session:
         handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
     cache:
