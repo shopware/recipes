@@ -19,13 +19,13 @@ jobs:
         concurrency: platform-sync-${{ github.ref }}
         name: Sync files for shopware/platform package
         steps:
-            - uses: octo-sts/action@main
+            - uses: octo-sts/action@v1.0.0
               id: octo-sts
               with:
                 scope: shopware/recipes
                 identity: PlatformSync
             - name: Clone
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
               with:
                 token: ${{ steps.octo-sts.outputs.token }}
 
@@ -36,6 +36,6 @@ jobs:
               run: git add .
 
             - name: Update shopware/platform package
-              uses: stefanzweifel/git-auto-commit-action@v4
+              uses: stefanzweifel/git-auto-commit-action@v7
               with:
                 commit_message: 'chore: update shopware/platform package'
