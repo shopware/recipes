@@ -67,6 +67,10 @@ shopware:
                 root: '%kernel.project_dir%/public'
     cdn:
         url: "%env(K8S_FILESYSTEM_PUBLIC_URL)%"
+    usage_data:
+        collection_enabled: false
+        gateway:
+            dispatch_enabled: false
 
 elasticsearch:
     index_settings:

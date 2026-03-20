@@ -63,6 +63,10 @@ shopware:
         connections:
             session:
                 dsn: '%env(K8S_REDIS_SESSION_DSN)%'
+    usage_data:
+        collection_enabled: false
+        gateway:
+            dispatch_enabled: false
 
 elasticsearch:
     index_settings:
