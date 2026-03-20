@@ -1,0 +1,6 @@
+{
+    "bundles": {
+        "Symfony\\UX\\TwigComponent\\TwigComponentBundle": ["all"]
+    },
+    "aliases": ["twig-component", "twig-components"]
+}

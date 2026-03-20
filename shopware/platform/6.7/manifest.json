@@ -42,6 +42,9 @@
         ],
         "Shopware\\Elasticsearch\\Elasticsearch": [
             "all"
+        ],
+        "Symfony\\UX\\TwigComponent\\TwigComponentBundle": [
+            "all"
         ]
     },
     "container": {
