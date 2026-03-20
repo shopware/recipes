@@ -33,6 +33,9 @@
         ],
         "Shopware\\Core\\Service\\Service": [
             "all"
+        ],
+        "Symfony\\UX\\TwigComponent\\TwigComponentBundle": [
+            "all"
         ]
     },
     "container": {
