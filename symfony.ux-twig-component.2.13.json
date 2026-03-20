@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "symfony/ux-twig-component": {
+            "manifest": {
+                "bundles": {
+                    "Symfony\\UX\\TwigComponent\\TwigComponentBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "52a1848fd64f44ea41b1cdf80cb5a573cc1632b3"
+        }
+    }
+}
