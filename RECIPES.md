@@ -38,4 +38,5 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [symfony/scheduler](https://packagist.org/packages/symfony/scheduler) | [7.2](symfony/scheduler/7.2) | `schedule`, `scheduler`, `scheduling` |
 | [symfony/translation](https://packagist.org/packages/symfony/translation) | [5.4](symfony/translation/5.4) | `translation` |
 | [symfony/twig-bundle](https://packagist.org/packages/symfony/twig-bundle) | [5.4](symfony/twig-bundle/5.4) | `twig-bundle`, `twigbundle` |
+| [symfony/ux-twig-component](https://packagist.org/packages/symfony/ux-twig-component) | [2.13](symfony/ux-twig-component/2.13) | `twig-component`, `twig-components`, `twigcomponent`, `twigcomponents`, `ux-twig-component`, `uxtwigcomponent` |
 | [symfony/validator](https://packagist.org/packages/symfony/validator) | [5.3](symfony/validator/5.3) | `validation`, `validator` |

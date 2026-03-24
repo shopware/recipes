@@ -34,7 +34,13 @@
         "scheduling": "symfony/scheduler",
         "translation": "symfony/translation",
         "twig-bundle": "symfony/twig-bundle",
+        "twig-component": "symfony/ux-twig-component",
+        "twig-components": "symfony/ux-twig-component",
         "twigbundle": "symfony/twig-bundle",
+        "twigcomponent": "symfony/ux-twig-component",
+        "twigcomponents": "symfony/ux-twig-component",
+        "ux-twig-component": "symfony/ux-twig-component",
+        "uxtwigcomponent": "symfony/ux-twig-component",
         "validation": "symfony/validator",
         "validator": "symfony/validator"
     },
@@ -171,6 +177,9 @@
         ],
         "symfony/twig-bundle": [
             "5.4"
+        ],
+        "symfony/ux-twig-component": [
+            "2.13"
         ],
         "symfony/validator": [
             "5.3"
