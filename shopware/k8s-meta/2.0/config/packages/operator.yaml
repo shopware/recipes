@@ -74,6 +74,8 @@ elasticsearch:
         number_of_shards: "%env(int:K8S_ES_NUMBER_OF_SHARDS)%"
 
 framework:
+    session:
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
     messenger:
         transports:
             async:
@@ -87,7 +89,12 @@ framework:
         message_bus: 'messenger.default_bus'
 
 services:
+    Redis:
+        class: Redis
+        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
+        arguments:
+            - '%env(K8S_REDIS_SESSION_DSN)%'
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:
-            - '@shopware.redis.connection.session'
+            - '@Redis'
             - { prefix: 'sess_' }
