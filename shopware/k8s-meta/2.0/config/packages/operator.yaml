@@ -96,5 +96,5 @@ services:
             - '%env(K8S_REDIS_SESSION_DSN)%'
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:
-            - '@shopware.redis.connection.session'
+            - '@Redis'
             - { prefix: 'sess_' }
