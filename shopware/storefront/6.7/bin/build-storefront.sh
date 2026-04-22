@@ -128,6 +128,7 @@ if [[ -z ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]]; then
 
             compile_channel "$first_channel"
             if [[ -n "$rest_channels" ]]; then
+                # shellcheck disable=SC2016
                 echo "$rest_channels" \
                     | xargs -P"$workers" -I{} bash -c 'compile_channel "$1" --keep-assets' _ {}
             fi
