@@ -27,6 +27,16 @@ if [[ ${CI:-""} ]]; then
     fi
 fi
 
+keep_cache=0
+parallel=0
+for arg in "$@"; do
+    case "$arg" in
+        --keep-cache) keep_cache=1 ;;
+        --parallel)   parallel=1 ;;
+    esac
+done
+[[ ${SHOPWARE_THEME_COMPILE_PARALLEL:-""} ]] && parallel=1
+
 # build storefront
 [[ ${SHOPWARE_SKIP_BUNDLE_DUMP:-""} ]] || "${BIN_TOOL}" bundle:dump
 [[ ${SHOPWARE_SKIP_FEATURE_DUMP:-""} ]] || "${BIN_TOOL}" feature:dump
@@ -87,10 +97,7 @@ node "${STOREFRONT_ROOT}"/Resources/app/storefront/copy-to-vendor.js
 npm --prefix "${STOREFRONT_ROOT}"/Resources/app/storefront run production
 [[ ${SHOPWARE_SKIP_ASSET_COPY:-""} ]] ||"${BIN_TOOL}" assets:install
 if [[ -z ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]]; then
-    if ! command -v jq >/dev/null 2>&1; then
-        # No jq available, compile sequentially
-        "${BIN_TOOL}" theme:compile --active-only --sync
-    else
+    if [[ $parallel -eq 1 ]] && command -v jq >/dev/null 2>&1; then
         # Parallelize theme:compile across sales channels.
         # First channel compiles with assets (writes theme/<themeId>/ serially to avoid races).
         # Remaining channels run in parallel with --keep-assets (CSS only, no shared write path).
@@ -104,7 +111,7 @@ if [[ -z ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]]; then
             rest_channels=$(echo "$channels" | tail -n +2)
             rest_count=$(echo -n "$rest_channels" | grep -c . 2>/dev/null || true)
             cpu_count=$(sysctl -n hw.logicalcpu 2>/dev/null || nproc 2>/dev/null || echo 4)
-            workers="${THEME_COMPILE_WORKERS:-$(( rest_count < cpu_count ? rest_count : cpu_count ))}"
+            workers="${SHOPWARE_THEME_COMPILE_WORKERS:-$(( rest_count < cpu_count ? rest_count : cpu_count ))}"
             [[ $workers -lt 1 ]] && workers=1
 
             compile_channel() {
@@ -133,9 +140,11 @@ if [[ -z ${SHOPWARE_SKIP_THEME_COMPILE:-""} ]]; then
                     | xargs -P"$workers" -I{} bash -c 'compile_channel "$1" --keep-assets' _ {}
             fi
         fi
+    else
+        "${BIN_TOOL}" theme:compile --active-only --sync
     fi
 fi
 
-if ! [ "${1:-default}" = "--keep-cache" ]; then
+if [[ $keep_cache -eq 0 ]]; then
     "${BIN_TOOL}" cache:clear
 fi
