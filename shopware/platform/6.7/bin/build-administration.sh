@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
 
+echo "[DEPRECATION] bin/build-administration.sh is deprecated as of Shopware 6.8 and will be removed in a future version."
+echo "[DEPRECATION] Please use shopware-cli instead: shopware-cli project admin-build"
+echo "[DEPRECATION] See https://developer.shopware.com/docs/products/cli/ for installation and usage."
+
 unset CDPATH
 CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
