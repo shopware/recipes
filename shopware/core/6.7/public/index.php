@@ -2,6 +2,7 @@
 
 use Shopware\Core\DevOps\Environment\EnvironmentHelper;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\ComposerPluginLoader;
+use Shopware\Core\Installer\Helper\InstallerRedirectHelper;
 use Shopware\Core\Installer\InstallerKernel;
 use Shopware\Core\Framework\Adapter\Kernel\KernelFactory;
 
@@ -21,7 +22,14 @@ return function (array $context) {
         $baseURL = rtrim($baseURL, '/');
 
         if (strpos($_SERVER['REQUEST_URI'], '/installer') === false) {
-            header('Location: ' . $baseURL . '/installer');
+            // InstallerRedirectHelper was introduced in 6.7.5.0; older 6.7 patch releases
+            // ship no such class, so forward the sanitised query only when it is available.
+            $query = match (true) {
+                class_exists(InstallerRedirectHelper::class) => (new InstallerRedirectHelper($_SERVER))->buildQueryString(),
+                default => '',
+            };
+
+            header('Location: ' . $baseURL . '/installer' . $query);
             exit;
         }
     }
