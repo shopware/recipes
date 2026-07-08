@@ -13,3 +13,5 @@ jobs:
         with:
             branch: main
             contrib: true
+        secrets:
+            token: ${{ secrets.BOT_TOKEN }}
