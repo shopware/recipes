@@ -24,6 +24,7 @@ set +o allexport
 set -euo pipefail
 
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_SKIP_DOWNLOAD=true
 export DISABLE_ADMIN_COMPILATION_TYPECHECK=true
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 

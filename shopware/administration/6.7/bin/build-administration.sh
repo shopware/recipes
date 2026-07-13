@@ -26,6 +26,7 @@ set -euo pipefail
 
 export APP_URL
 export PROJECT_ROOT
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_SKIP_DOWNLOAD=true
 
 if [[ -e "${PROJECT_ROOT}/vendor/shopware/platform" ]]; then

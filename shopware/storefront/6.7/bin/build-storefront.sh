@@ -5,6 +5,7 @@ CWD="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 
 set -euo pipefail
 
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 export PUPPETEER_SKIP_DOWNLOAD=true
 export PROJECT_ROOT="${PROJECT_ROOT:-"$(dirname "$CWD")"}"
 export NPM_CONFIG_FUND=false
