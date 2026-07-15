@@ -1,3 +1,10 @@
+# Static assets don't need any cookie. Stripping them ensures a stable cache
+# key when assets are served from the same domain as the storefront, so the
+# hash does not vary based on sw-cache-hash or sw-currency.
+if (req.url.path ~ "^/(media|thumbnail|theme|bundles)/") {
+  unset req.http.Cookie;
+}
+
 # Don't allow clients to force a pass
 if (req.restarts == 0) {
   unset req.http.x-pass;
