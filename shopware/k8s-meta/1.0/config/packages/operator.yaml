@@ -11,8 +11,8 @@ parameters:
     env(K8S_CACHE_HOST): "localhost"
     env(K8S_CACHE_PORT): "6379"
     env(K8S_CACHE_INDEX): ""
-    env(K8S_ES_ADMIN_NUMBER_OF_SHARDS): 1
-    env(K8S_ES_ADMIN_NUMBER_OF_REPLICAS): 1
+    env(K8S_ES_ADMIN_NUMBER_OF_SHARDS): "1"
+    env(K8S_ES_ADMIN_NUMBER_OF_REPLICAS): "1"
     env(K8S_ES_NUMBER_OF_REPLICAS): null
     env(K8S_ES_NUMBER_OF_SHARDS): null
     env(PHP_SESSION_SAVE_PATH): "tcp://127.0.0.1:6379"
