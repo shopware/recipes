@@ -25,10 +25,16 @@ shopware:
     api:
         jwt_key:
             use_app_secret: true
+    auto_update:
+        enabled: false
+    store:
+        frw: false
     admin_worker:
         enable_admin_worker: false
         enable_notification_worker: false
         enable_queue_stats_worker: false
+    mail:
+        update_mail_variables_on_send: false
     deployment:
         cluster_setup: true
         runtime_extension_management: false
