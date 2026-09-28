@@ -24,18 +24,21 @@ parameters:
     env(FASTLY_SERVICE_ID): "myServiceID"
     env(HTTP_CACHE_CONTROL_STALE_WHILE_REVALIDATE): "300"
     env(HTTP_CACHE_CONTROL_STALE_IF_ERROR): "3600"
+    env(REVERSE_PROXY_ENABLED): "true"
+    env(FASTLY_REVERSE_PROXY_ENABLED): "true"
+    env(SOFT_PURGE_ENABLED): "1"
 
 shopware:
     http_cache:
         stale_while_revalidate: "%env(HTTP_CACHE_CONTROL_STALE_WHILE_REVALIDATE)%"
         stale_if_error: "%env(HTTP_CACHE_CONTROL_STALE_IF_ERROR)%"
         reverse_proxy:
-            enabled: true
+            enabled: "%env(REVERSE_PROXY_ENABLED)%"
             fastly:
-                enabled: true
+                enabled: "%env(FASTLY_REVERSE_PROXY_ENABLED)%"
                 api_key: "%env(FASTLY_API_TOKEN)%"
                 service_id: "%env(FASTLY_SERVICE_ID)%"  
-                soft_purge: '1'
+                soft_purge: "%env(SOFT_PURGE_ENABLED)%"
     admin_worker:
         enable_admin_worker: false
         enable_notification_worker: false
