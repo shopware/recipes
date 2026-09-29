@@ -27,7 +27,7 @@ parameters:
     env(FASTLY_REVERSE_PROXY_ENABLED): "true"
     env(SOFT_PURGE_ENABLED): "1"
     env(USE_VARNISH_XKEY): "true"
-    env(VARNSIH_HOST): "varnish-host"
+    env(VARNISH_HOST): "varnish-host"
 
 shopware:
     http_cache:
@@ -35,12 +35,12 @@ shopware:
         stale_if_error: "%env(HTTP_CACHE_CONTROL_STALE_IF_ERROR)%"
         reverse_proxy:
             enabled: true
-            use_varnish_xkey: "%env(USE_VARNISH_XKEY)%"
+            use_varnish_xkey: "%env(bool:USE_VARNISH_XKEY)%"
             hosts:
-                - "%env(VARNSIH_HOST)%"
+                - "%env(VARNISH_HOST)%"
             # When Fastly reverse proxy is enabled the varnish configuration is ignored
             fastly:
-                enabled: "%env(FASTLY_REVERSE_PROXY_ENABLED)%"
+                enabled: "%env(bool:FASTLY_REVERSE_PROXY_ENABLED)%"
                 api_key: "%env(FASTLY_API_TOKEN)%"
                 service_id: "%env(FASTLY_SERVICE_ID)%"  
                 soft_purge: "%env(SOFT_PURGE_ENABLED)%"
