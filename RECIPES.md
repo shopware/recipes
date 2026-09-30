@@ -9,7 +9,7 @@ Additional recipes can be found on the [Main Recipes Repository](https://github.
 | [enqueue/enqueue-bundle](https://packagist.org/packages/enqueue/enqueue-bundle) | [0.10](../../../tree/main/enqueue/enqueue-bundle/0.10) |  |
 | [enqueue/redis](https://packagist.org/packages/enqueue/redis) | [0.10](../../../tree/main/enqueue/redis/0.10) |  |
 | [frosh/code-quality-meta](https://packagist.org/packages/frosh/code-quality-meta) | [0.5](../../../tree/main/frosh/code-quality-meta/0.5) | `code-quality`, `codequality` |
-| [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.3](../../../tree/main/frosh/devenv-meta/0.3) | `devenv` |
+| [frosh/devenv-meta](https://packagist.org/packages/frosh/devenv-meta) | [0.4](../../../tree/main/frosh/devenv-meta/0.4) | `devenv` |
 | [nyholm/psr7](https://packagist.org/packages/nyholm/psr7) | [1.0](../../../tree/main/nyholm/psr7/1.0) |  |
 | [open-telemetry/opentelemetry-logger-monolog](https://packagist.org/packages/open-telemetry/opentelemetry-logger-monolog) | [1.0](../../../tree/main/open-telemetry/opentelemetry-logger-monolog/1.0) |  |
 | [pentatrion/vite-bundle](https://packagist.org/packages/pentatrion/vite-bundle) | [6.5](../../../tree/main/pentatrion/vite-bundle/6.5) |  |
