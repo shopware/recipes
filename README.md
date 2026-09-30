@@ -52,6 +52,7 @@ This repository is hosting Symfony Flex Recipes for Shopware 6. If you are new t
 | `nyholm/psr7` | PSR-7 HTTP message configuration |
 | `open-telemetry/opentelemetry-logger-monolog` | OpenTelemetry Monolog handler for production logging |
 | `pentatrion/vite-bundle` | Vite asset bundler integration |
+| `frosh/devenv-meta` | [devenv](https://devenv.sh) development environment with PHP, Node, Caddy, MySQL, Redis, Adminer, and Mailpit |
 
 ## Contributing
 

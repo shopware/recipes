@@ -1,0 +1,5 @@
+allowUnfree: true
+strict_ports: true
+inputs:
+    nixpkgs:
+        url: github:NixOS/nixpkgs/nixpkgs-unstable
