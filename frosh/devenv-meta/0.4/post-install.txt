@@ -1,0 +1,12 @@
+  * <fg=blue>Setup</> devenv:
+
+    1. Install the Nix package manager - <comment>https://nixos.org/download.html#download-nix</>
+    2. Install devenv 2.4 or newer - <comment>https://devenv.sh/getting-started/</>
+
+  * <fg=blue>Run</> devenv:
+
+    1. <comment>devenv shell</> activates your developer environment
+    2. <comment>devenv up</> starts processes
+    3. <comment>bin/console system:install --basic-setup</> installs Shopware
+
+  * <fg=blue>Read</> the documentation at <comment>https://devenv.sh/getting-started/</>
