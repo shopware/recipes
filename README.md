@@ -2,6 +2,12 @@
 
 This repository is hosting Symfony Flex Recipes for Shopware 6. If you are new to Symfony Flex, please read the [blog post](https://www.shopware.com/en/news/shopware-goes-symfony-flex/).
 
+## Static asset Content Security Policy
+
+The Fastly recipes apply `Content-Security-Policy: script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'` to every response under `/media/`, `/thumbnail/`, `/theme/` and `/bundles/`, including cache hits and errors. Bundled HTML applications in these paths cannot execute scripts, submit forms or embed documents. Responses outside these paths retain their existing policy. Existing installations must update and deploy their Fastly snippets to receive this policy.
+
+Run the local delivery checks with `docker run --rm --entrypoint sh -v "$PWD":/source:ro -w /source ghcr.io/shopware/varnish:6.7 tests/fastly-static-assets.sh`. The test adapts Fastly-specific variables for Varnish; Fastly service validation is still required before activating the snippets.
+
 ## Available Recipes
 
 ### Shopware
