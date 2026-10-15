@@ -12,27 +12,26 @@ on:
             find_yaml:
                 required: false
                 type: string
-        secrets:
-            token:
-                required: true
 jobs:
+    # Processes untrusted PR content, so it must never hold a write token or secrets.
+    # Anything it produces is handed to the publish job as data only.
     run-checks:
         name: Run checks
         runs-on: ubuntu-24.04
+        permissions:
+            contents: read
+            pull-requests: read
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               id: checkout
               with:
                 fetch-depth: 0
                 ref: 'refs/pull/${{ github.event.number }}/merge'
-                # Required since actions/checkout refuses fork PRs under pull_request_target.
-                # The PR is only read as data: all executed tools are fetched fresh below.
+                persist-credentials: false
                 allow-unsafe-pr-checkout: true
             - name: Install tools
               run: |
-                git config --global user.email ""
-                git config --global user.name "github-action[bot]"
                 cd .github
                 rm -rf recipes-checker.zip recipes-checker-main
                 wget -q -O recipes-checker.zip https://codeload.github.com/shopwareLabs/recipes-checker/zip/refs/heads/main
@@ -46,33 +45,29 @@ jobs:
             - name: Remove non-patched packages
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
-                .github/recipes-checker-main/run list-unpatched-packages $GITHUB_EVENT_PATH ${{ secrets.token }} | xargs -r -n10 rm -rf
+                .github/recipes-checker-main/run list-unpatched-packages "$GITHUB_EVENT_PATH" "$GITHUB_TOKEN" | xargs -r -n10 rm -rf
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
             - name: Generate Flex testing endpoint
               if: "always() && steps.checkout.outcome == 'success' && github.base_ref == inputs.branch"
               run: |
-                mkdir .github/flex-endpoint
-                git ls-tree HEAD */*/* | php .github/recipes-checker-main/run generate:flex-endpoint ${{ github.repository }} ${{ inputs.branch }} flex/pull-${{ github.event.number }} .github/flex-endpoint ${{ inputs.contrib && '--contrib' || '' }}
-                git stash
-                git switch -c pr
-                git switch --orphan flex/pull-${{ github.event.number }}
-                git reset --hard -q
-                mv .github/flex-endpoint/*.json .
-                git add *.json
-                git commit -m 'Create Flex endpoint' || true
-                git push origin -f flex/pull-${{ github.event.number }}
-                git switch pr
-                git stash pop -q
+                mkdir -p "$RUNNER_TEMP/qa/flex-endpoint"
+                git ls-tree HEAD */*/* | php .github/recipes-checker-main/run generate:flex-endpoint ${{ github.repository }} ${{ inputs.branch }} flex/pull-${{ github.event.number }} "$RUNNER_TEMP/qa/flex-endpoint" ${{ inputs.contrib && '--contrib' || '' }}
             - name: Compute diff between recipe versions
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
+                mkdir -p "$RUNNER_TEMP/qa"
                 find * -mindepth 1 -maxdepth 1 -type d | sort \
                     | .github/recipes-checker-main/run diff-recipe-versions 'https://raw.githubusercontent.com/${{ github.repository }}/flex/pull-${{ github.event.number }}/index.json' \
-                    > .github/diff-recipe-versions.md
-            - name: Post diff between recipe versions
+                    > "$RUNNER_TEMP/qa/diff-recipe-versions.md"
+            - name: Upload Flex endpoint and diff
               if: "always() && steps.checkout.outcome == 'success'"
-              uses: marocchino/sticky-pull-request-comment@v2
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
               with:
-                path: .github/diff-recipe-versions.md
+                name: qa-results
+                path: ${{ runner.temp }}/qa
+                if-no-files-found: ignore
+                retention-days: 1
             - name: No symlinks
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
@@ -155,10 +150,53 @@ jobs:
               if: "always() && steps.checkout.outcome == 'success'"
               run: |
                 find * -name '*.sh' -print0 | xargs -0 -r shellcheck -x -e SC1091 -e SC2086
-    create-project:
+    # Never checks out PR content and never executes the artifact: only pushes the generated
+    # JSON to flex/pull-<number> (branch name from the event, not the artifact) and posts the diff.
+    publish:
         needs: run-checks
+        if: "always() && needs.run-checks.result != 'skipped'"
+        name: Publish Flex endpoint
+        runs-on: ubuntu-24.04
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - name: Download Flex endpoint and diff
+              id: download
+              continue-on-error: true
+              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+              with:
+                name: qa-results
+                path: qa
+            - name: Push Flex testing endpoint
+              if: "steps.download.outcome == 'success' && github.base_ref == inputs.branch"
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
+                FLEX_BRANCH: flex/pull-${{ github.event.number }}
+              run: |
+                SRC="$GITHUB_WORKSPACE/qa/flex-endpoint"
+                [[ -f "$SRC/index.json" && ! -L "$SRC/index.json" ]] || { echo "::warning::No Flex endpoint generated"; exit 0; }
+                mkdir "$RUNNER_TEMP/flex" && cd "$RUNNER_TEMP/flex"
+                git init -q -b "$FLEX_BRANCH"
+                git config user.email ""
+                git config user.name "github-action[bot]"
+                find "$SRC" -maxdepth 1 -type f -name '*.json' -exec cp {} . \;
+                git add -- *.json
+                git commit -q -m 'Create Flex endpoint' || true
+                AUTH=$(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w0)
+                git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" \
+                    push -f "https://github.com/${{ github.repository }}.git" "HEAD:refs/heads/$FLEX_BRANCH"
+            - name: Post diff between recipe versions
+              if: "steps.download.outcome == 'success' && hashFiles('qa/diff-recipe-versions.md') != ''"
+              uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+              with:
+                path: qa/diff-recipe-versions.md
+    # Installs the PR's recipes, which may run arbitrary composer scripts, so it gets no token at all.
+    create-project:
+        needs: [run-checks, publish]
         name: Run updated recipes
         runs-on: ubuntu-24.04
+        permissions: {}
         steps:
             - name: Export configuration
               continue-on-error: true
@@ -169,7 +207,7 @@ jobs:
                 [[ "" != "$PACKAGES" ]]
             - name: Setup PHP 8.2
               if: "always() && steps.config.outcome == 'success'"
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
               with:
                 coverage: "none"
                 php-version: "8.2"
