@@ -153,7 +153,14 @@
                 passthru: "/index.php"
                 expires: 24h
                 rules:
-                    \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:
+                    '(?i)\.svg$':
+                        expires: 4w
+                        headers:
+                            Content-Security-Policy: "script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+                    '(?i)^/(media|thumbnail)/.*\.html$':
+                        headers:
+                            Content-Security-Policy: "script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+                    \.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico)$:
                         expires: 4w
     workers:
         queue:
