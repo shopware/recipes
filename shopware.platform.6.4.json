@@ -812,6 +812,10 @@
                         "    RewriteCond %{ENV:REDIRECT_STATUS} ^$",
                         "    RewriteRule ^index\\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]",
                         "",
+                        "    # Restrict stored HTML without affecting responses rendered by the application.",
+                        "    RewriteCond %{REQUEST_FILENAME} -f",
+                        "    RewriteRule ^(?:media|thumbnail)/.*\\.(?i:html)$ - [E=SHOPWARE_STATIC_HTML:1]",
+                        "",
                         "    # If the requested filename exists, simply serve it.",
                         "    # We only want to let Apache serve files and not directories.",
                         "    RewriteCond %{REQUEST_FILENAME} -f",
@@ -828,8 +832,10 @@
                         "</IfModule>",
                         "",
                         "<IfModule mod_headers.c>",
+                        "    Header set Content-Security-Policy \"script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'\" env=SHOPWARE_STATIC_HTML",
+                        "",
                         "    <FilesMatch \"\\.(?i:svg)$\">",
-                        "        Header set Content-Security-Policy \"script-src 'none'\"",
+                        "        Header set Content-Security-Policy \"script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'\"",
                         "    </FilesMatch>",
                         "</IfModule>",
                         "",
@@ -1114,7 +1120,7 @@
                     "executable": false
                 }
             },
-            "ref": "0d0e084ae62c94baa1f13d9e76e78e48f34d579e"
+            "ref": "07e705153f242c07c94a632f57a36a5dd8583f9e"
         }
     }
 }
