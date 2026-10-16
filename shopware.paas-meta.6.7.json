@@ -183,7 +183,14 @@
                         "                passthru: \"/index.php\"\r",
                         "                expires: 24h\r",
                         "                rules:\r",
-                        "                    \\.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico|svg?|cast|mp4|json|yaml|svg?|ttf)$:\r",
+                        "                    '(?i)\\.svg$':\r",
+                        "                        expires: 4w\r",
+                        "                        headers:\r",
+                        "                            Content-Security-Policy: \"script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'\"\r",
+                        "                    '(?i)^/(media|thumbnail)/.*\\.html$':\r",
+                        "                        headers:\r",
+                        "                            Content-Security-Policy: \"script-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'\"\r",
+                        "                    \\.(css|js|gif|jpe?g|png|ttf|eot|woff2?|otf|cast|mp4|json|yaml|ico)$:\r",
                         "                        expires: 4w\r",
                         "    workers:\r",
                         "        queue:\r",
@@ -316,7 +323,7 @@
                     "executable": false
                 }
             },
-            "ref": "29a00365b386eb858d80218e725b4d144eac2623"
+            "ref": "5f2295c3b497d8bc6e78180850613dfe0e6c3f12"
         }
     }
 }
